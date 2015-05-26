@@ -1,9 +1,12 @@
-var express = require('express');
-var User = require('./user-route');
 var route = require('./routes');
 var UserModel = require('../../models/user-model');
 var Q = require('q');
-var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+
+var __bind = function(fn, me){
+    return function(){
+        return fn.apply(me, arguments);
+    };
+};
 
 var UserRoute = (function(){
 
@@ -15,10 +18,10 @@ var UserRoute = (function(){
     }
 
     UserRoute.prototype.getUser = function(request, response){
-        var user_id = request.params.employee_id;
+        var user_id = request.params.user_id;
         this.model.findById(user_id, function(error, data) {
             if(error){
-                response.json(error.statusCode, null);
+                response.json('500', error.message);
             }
             else{
                 response.json('200', data);
@@ -32,7 +35,7 @@ var UserRoute = (function(){
         //query.sort(sortBy);
         query.exec(function(error, data) {
             if (error) {
-                response.json(error.statusCode, null);
+                response.json('500', error.message);
             } else {
                 response.json('200', data);
             }
@@ -41,13 +44,11 @@ var UserRoute = (function(){
 
     UserRoute.prototype.saveUser = function(request, response){
         var newUser;
-        //var deferred = Q.defer();
         newUser = request.body;
-        //console.log(request.body);
         if(newUser !== undefined) {
             this.model.create(newUser, function (error, data) {
                 if (error) {
-                    response.json(error.statusCode, null);
+                    response.json('500', error.message);
                 } else {
                     response.json('200', data);
                 }

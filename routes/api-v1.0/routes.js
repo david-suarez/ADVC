@@ -26,8 +26,8 @@ exports.UserRoute = USERS_ROUTE + '/:user_id';
 
 var PLAYER_ROUTE = API + BASE_PLAYER_ROUTE;
 
-exports.Player_Route = PLAYER_ROUTE;
-
+exports.Player_Route = PLAYER_ROUTE + '/:player_id';
+exports.Players_Route = PLAYER_ROUTE;
 /*
  Api for Teams
  @example define routes for teams

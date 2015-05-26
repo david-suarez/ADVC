@@ -15,7 +15,7 @@ var BASE_KARDEX_ROUTE = '/kardex';
 var USERS_ROUTE = API + BASE_USER_ROUTE;
 
 exports.UsersRoute = USERS_ROUTE;
-exports.UserRoute = USERS_ROUTE + '/:employee_id';
+exports.UserRoute = USERS_ROUTE + '/:user_id';
 
 /*
  Api for Players
@@ -37,7 +37,8 @@ exports.Player_Route = PLAYER_ROUTE;
 
 var TEAM_ROUTE = API + BASE_TEAM_ROUTE;
 
-exports.Team_Route = TEAM_ROUTE;
+exports.TeamsRoute = TEAM_ROUTE;
+exports.TeamRoute = TEAM_ROUTE + '/:team_id';
 
 /*
  Api for Clubs

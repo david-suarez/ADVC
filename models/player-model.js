@@ -35,8 +35,7 @@ var PlayerSchema = new Schema({
         'type': String,
         'default': "",
         'required': true
-    },
-    'admin': Boolean
+    }
 });
 
 var PlayerModel = mongoose.model('Player', PlayerSchema);

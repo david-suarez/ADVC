@@ -30,11 +30,7 @@ var PlayerRoute = (function() {
     PlayerRoute.prototype.getPlayers = function(request, response){
         var filter = request.body;
         var query = this.model.find(filter);
-        //query.sort(sortBy);
         query.exec(function(error, data) {
-            //console.log(data[0].name);
-            //console.log(data[0].lastname);
-            //console.log(data[0].address);
             if (error) {
                 response.json('500', error.message);
             } else {
@@ -45,10 +41,7 @@ var PlayerRoute = (function() {
 
     PlayerRoute.prototype.savePlayer = function(request, response){
         var newPlayer;
-        //var deferred = Q.defer();
         newPlayer = request.body;
-        //console.log(request.body);
-        //if(newUser !== undefined) {
         this.model.create(newPlayer, function (error, data) {
             if (error) {
                 console.log(error);
@@ -57,9 +50,6 @@ var PlayerRoute = (function() {
                 response.json('200', data);
             }
         });
-        //} else {
-        //    response.json('400', {'message': 'Bad Request'});
-        //}
     };
     return PlayerRoute;
 })();
@@ -69,8 +59,5 @@ module.exports = function(app) {
     playerRoute = new PlayerRoute(app);
     app.get(route.Player_Route, playerRoute.getPlayer);
     app.get(route.Players_Route, playerRoute.getPlayers);
-    //app.put(route.UserRoute, userRoute.updateUser);
     app.post(route.Players_Route, playerRoute.savePlayer);
-    //app.post(route.UserUploadImageRoute, userRoute.uploadUserImage);
-    //app["delete"](route.UserRoute, userRoute.removeUser);
 };

@@ -34,6 +34,8 @@ var UserRoute = (function(){
         var query = this.model.find(filter);
         //query.sort(sortBy);
         query.exec(function(error, data) {
+            console.log(data[0].name);
+            console.log(data[0].lastname);
             if (error) {
                 response.json('500', error.message);
             } else {

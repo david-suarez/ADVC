@@ -42,7 +42,7 @@ var TeamRoute = (function(){
 
     TeamRoute.prototype.saveTeam = function(request, response) {
         var newTeam;
-        newTeam = request.body;
+        newTeam = request.body.team;
         if(newTeam !== undefined) {
             this.model.create(newTeam, function (error, data) {
                 if (error) {

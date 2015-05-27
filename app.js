@@ -10,10 +10,11 @@ var mongoose = require('mongoose');
 var app = express();
 
 mongoose.connect('mongodb://localhost/advc-db');
-routes(app, mongoose);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended': true}));
+
+routes(app, mongoose);
 
 var port = process.env.PORT || '3000';
 

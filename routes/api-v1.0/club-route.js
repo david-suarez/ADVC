@@ -4,7 +4,6 @@
 var express = require('express');
 var route = require('./routes');
 var ClubModel = require('../../models/club-model');
-var Q = require('q');
 var __bind =function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
 
 var ClubRoute = (function (){
@@ -46,7 +45,7 @@ var ClubRoute = (function (){
         //var deferred = Q.defer();
         newClub = request.body;
         //console.log(request.body);
-        //if(newClub !== undefined) {
+        if(newClub !== undefined) {
             this.model.create(newClub, function (error, data) {
                 if (error) {
                     response.json(error.statusCode, null);
@@ -54,9 +53,9 @@ var ClubRoute = (function (){
                     response.json('200', data);
                 }
             });
-        //} else {
+        } else {
           //  response.json('400', {'message': 'Bad Request'});
-        //}
+        }
     };
     return ClubRoute;
 })();

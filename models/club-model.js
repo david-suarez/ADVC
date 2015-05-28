@@ -21,8 +21,4 @@ var ClubSchema = new Schema({
 });
 
 var ClubModel = mongoose.model('Club', ClubSchema);
-module.exports = ClubModel;
-
-
-
-
+module.exports = ClubModel

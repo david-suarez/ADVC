@@ -1,10 +1,13 @@
 /**
  * Created by Baby_Moico on 25/05/2015.
  */
-var express = require('express');
 var route = require('./routes');
 var ClubModel = require('../../models/club-model');
-var __bind =function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+var __bind =function(fn, me){
+    return function(){
+        return fn.apply(me, arguments);
+    };
+};
 
 var ClubRoute = (function (){
 
@@ -30,7 +33,6 @@ var ClubRoute = (function (){
     ClubRoute.prototype.getClubs = function(request, response){
         var filter = request.body;
         var query = this.model.find(filter);
-        //query.sort(sortBy);
         query.exec(function(error, data) {
             if (error) {
                 response.json(error.statusCode, null);
@@ -42,9 +44,7 @@ var ClubRoute = (function (){
 
     ClubRoute.prototype.saveClub = function(request, response){
         var newClub;
-        //var deferred = Q.defer();
-        newClub = request.body;
-        //console.log(request.body);
+        newClub = request.body.club;
         if(newClub !== undefined) {
             this.model.create(newClub, function (error, data) {
                 if (error) {
@@ -54,7 +54,7 @@ var ClubRoute = (function (){
                 }
             });
         } else {
-          //  response.json('400', {'message': 'Bad Request'});
+            response.json('400', {'message': 'Bad Request'});
         }
     };
     return ClubRoute;

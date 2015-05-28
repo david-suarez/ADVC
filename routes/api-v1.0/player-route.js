@@ -41,15 +41,19 @@ var PlayerRoute = (function() {
 
     PlayerRoute.prototype.savePlayer = function(request, response){
         var newPlayer;
-        newPlayer = request.body;
-        this.model.create(newPlayer, function (error, data) {
-            if (error) {
-                console.log(error);
-                response.json('500', error.message);
-            } else {
-                response.json('200', data);
-            }
-        });
+        newPlayer = request.body.player;
+        if(newPlayer !== undefined) {
+            this.model.create(newPlayer, function (error, data) {
+                if (error) {
+                    console.log(error);
+                    response.json('500', error.message);
+                } else {
+                    response.json('200', data);
+                }
+            });
+        } else {
+            response.json('400', {'message': 'Bad Request'});
+        }
     };
     return PlayerRoute;
 })();

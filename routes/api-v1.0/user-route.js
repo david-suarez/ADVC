@@ -1,7 +1,6 @@
 var route = require('./routes');
 var UserModel = require('../../models/user-model');
 var Q = require('q');
-
 var __bind = function(fn, me){
     return function(){
         return fn.apply(me, arguments);

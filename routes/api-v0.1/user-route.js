@@ -58,6 +58,22 @@ var UserRoute = (function(){
             response.json('400', {'message': 'Bad Request'});
         }
     };
+
+    UserRoute.prototype.removeUser = function(request, response) {
+        var user_id = request.params.user_id;
+        console.log(user_id);
+        console.log(this);
+        console.log(this.model);
+        UserModel.remove({_id: user_id}, function(err, doc){
+           if (err){
+               response.json(500, err.message);
+           } else {
+               response.json(200, doc);
+           }
+
+        });
+    };
+
     return UserRoute;
 })();
 
@@ -69,5 +85,5 @@ module.exports = function(app) {
     //app.put(route.UserRoute, userRoute.updateUser);
     app.post(route.UsersRoute, userRoute.saveUser);
     //app.post(route.UserUploadImageRoute, userRoute.uploadUserImage);
-    //app["delete"](route.UserRoute, userRoute.removeUser);
+    app.delete(route.UserRoute, userRoute.removeUser);
 };

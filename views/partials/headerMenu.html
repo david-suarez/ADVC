@@ -1,0 +1,53 @@
+<nav class="menu" ng-controller="menuCtrl">
+
+    <!-- Logo -->
+    <div class="logo"></div>
+
+    <!-- Drop down menu options -->
+    <!--<div id="div-display-menu" class="btn-group" allow="Menu.Read">-->
+    <div id="div-display-menu" class="btn-group">
+
+        <button id="div-display-menu-button-dropdown-menu"
+                type="button"
+                class="btn dropdown-toggle lg-dropdown-toggle"
+                data-toggle="dropdown">
+            <div class="{{selectedItem.src}} menu-icon"></div>
+            <div class="text">{{ selectedItem.name}}</div>
+            <div class="icon-dropdown dropdown-icon"></div>
+        </button>
+        <!--ng-if="item.access.indexOf(roleOfCurrentUser) >= 0"-->
+        <ul id="div-display-menu-ul-menu" class="dropdown-menu" role="menu">
+            <li id="li-item-menu-{{$index}}"
+                ng-repeat="item in items"
+                allow="{{item.allow}}">
+                <a id="a-ref-menu-{{$index}}" ng-href="#{{item.href}}">{{item.name}}</a>
+            </li>
+        </ul>
+
+    </div>
+
+    <!-- Right menu container -->
+    <div class="right-menu">
+
+        <div class="login-logout-box">
+
+            <div id="div-login-app" ng-if="userIsAuthenticated == false">
+                <a id="div-login-app-a-login"
+                   ng-href="{{autenticate.href}}"
+                   translate>
+                    {{autenticate.login}}
+                </a>
+            </div>
+
+            <div id="div-logout-app" ng-if="userIsAuthenticated == true">
+                <a id="div-logout-app-a-logout"
+                   ng-click="goToLogoutPage()">
+                    {{autenticate.logout}}
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>

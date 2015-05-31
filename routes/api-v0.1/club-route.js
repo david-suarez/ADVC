@@ -17,7 +17,6 @@ var ClubRoute = (function (){
         this.saveClub = __bind(this.saveClub,this);
         this.deleteClub = __bind(this.deleteClub,this);
         this.updateClub = __bind(this.updateClub, this);
-        this.model = ClubModel;
     }
 
     ClubRoute.prototype.getClub = function(request, response){

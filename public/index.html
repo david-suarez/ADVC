@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="APPASOC">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>ANGULAR</title>
+    <script type="text/javascript" src="libs/angular.min.js"></script>
+</head>
+<body ng-controller="controladorPrincipal">
+
+
+    <div id="nuevo-usuario">
+        <form>
+        Nombre <input type="text" ng-model="user.name"> <br>
+        Apellido <input type="text" ng-model="user.lastname"><br>
+        Password <input type="text" ng-model="user.password"><br>
+        <button type="submit" ng-click="crearUsuario()">Registar</button>
+        </form>
+    </div>
+    <h2>LISTA DE USUARIOS</h2>
+    <li ng-repeat = "user in users">
+        {{user.name}} {{user.lastname}}<a href="#" ng-click="eliminarUsuario(user._id)">Eliminar</a>
+    </li>
+
+</body>
+    <script type="text/javascript" src="angular/app_angular.js"></script>
+</html>

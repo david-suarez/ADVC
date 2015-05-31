@@ -13,12 +13,12 @@ var UserRoute = (function(){
         this.getUser = __bind(this.getUser, this);
         this.getUsers = __bind(this.getUsers, this);
         this.saveUser = __bind(this.saveUser, this);
-        this.model = UserModel;
+
     }
 
     UserRoute.prototype.getUser = function(request, response){
         var user_id = request.params.user_id;
-        this.model.findById(user_id, function(error, data) {
+        UserModel.findById(user_id, function(error, data) {
             if(error){
                 response.json('500', error.message);
             }
@@ -30,11 +30,9 @@ var UserRoute = (function(){
 
     UserRoute.prototype.getUsers = function(request, response){
         var filter = request.body;
-        var query = this.model.find(filter);
+        var query = UserModel.find(filter);
         //query.sort(sortBy);
         query.exec(function(error, data) {
-            console.log(data[0].name);
-            console.log(data[0].lastname);
             if (error) {
                 response.json('500', error.message);
             } else {
@@ -47,7 +45,7 @@ var UserRoute = (function(){
         var newUser;
         newUser = request.body.user;
         if(newUser !== undefined) {
-            this.model.create(newUser, function (error, data) {
+            UserModel.create(newUser, function (error, data) {
                 if (error) {
                     response.json('500', error.message);
                 } else {
@@ -65,13 +63,40 @@ var UserRoute = (function(){
         console.log(this);
         console.log(this.model);
         UserModel.remove({_id: user_id}, function(err, doc){
-           if (err){
-               response.json(500, err.message);
-           } else {
-               response.json(200, doc);
-           }
+            if (err){
+                response.json(500, err.message);
+            } else {
+                response.json(200, {user_id: user_id});
+            }
 
         });
+    };
+
+    UserRoute.prototype.updateUser = function (request, response){
+        var user_id = request.params.user_id;
+        var newDataUser = request.body.newDataUser;
+        if(user_id !== undefined && newDataUser !== undefined){
+            UserModel.findById(user_id, function(error, user) {
+                if(error){
+                    response.json('500', err.message);
+                }
+                else{
+                    for(var key in newDataUser){
+                        if(user[key]){
+                            user[key] = newDataUser[key];
+                        }
+                    }
+                    user.save(function(err, userUpdated){
+                        if(err){
+                            response.json('500', err.message);
+                        }
+                        else{
+                            response.json('200', userUpdated);
+                        }
+                    })
+                }
+            });
+        }
     };
 
     return UserRoute;
@@ -82,8 +107,7 @@ module.exports = function(app) {
     userRoute = new UserRoute(app);
     app.get(route.UsersRoute, userRoute.getUsers);
     app.get(route.UserRoute, userRoute.getUser);
-    //app.put(route.UserRoute, userRoute.updateUser);
+    app.put(route.UserRoute, userRoute.updateUser);
     app.post(route.UsersRoute, userRoute.saveUser);
-    //app.post(route.UserUploadImageRoute, userRoute.uploadUserImage);
     app.delete(route.UserRoute, userRoute.removeUser);
 };

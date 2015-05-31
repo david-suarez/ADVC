@@ -21,8 +21,8 @@ app.set('views', path.join(__dirname,'views'));
 app.engine('.html', require('ejs').__express);
 app.set('view engine', 'html');
 
-
 app.use(morgan('dev'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended': true}));
 

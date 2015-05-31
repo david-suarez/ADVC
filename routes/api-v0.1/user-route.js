@@ -59,9 +59,6 @@ var UserRoute = (function(){
 
     UserRoute.prototype.removeUser = function(request, response) {
         var user_id = request.params.user_id;
-        console.log(user_id);
-        console.log(this);
-        console.log(this.model);
         UserModel.remove({_id: user_id}, function(err, doc){
             if (err){
                 response.json(500, err.message);

@@ -19,7 +19,7 @@ var CvSchema = new Schema({
         "type":String,
         "default":""
     },
-    "city":{
+    "sede":{
         "type":String,
         "default":""
     },
@@ -47,7 +47,7 @@ var PlayerSchema = new Schema({
         'default': "",
         'required': true
     },
-    'city': {
+    'city_of_birth': {
         'type': String,
         'default': "",
         'required': true

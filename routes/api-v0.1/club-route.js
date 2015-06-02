@@ -26,7 +26,7 @@ var ClubRoute = (function (){
                 response.json(error.statusCode, null);
             }
             else{
-                response.json('200', data);
+                response.json(200, data);
             }
         });
     };
@@ -38,7 +38,7 @@ var ClubRoute = (function (){
             if (error) {
                 response.json(error.statusCode, null);
             } else {
-                response.json('200', data);
+                response.json(200, data);
             }
         });
     };
@@ -51,11 +51,11 @@ var ClubRoute = (function (){
                 if (error) {
                     response.json(error.statusCode, null);
                 } else {
-                    response.json('200', data);
+                    response.json(201, data);
                 }
             });
         } else {
-            response.json('400', {'message': 'Bad Request'});
+            response.json(400, {'message': 'Bad Request'});
         }
     };
 
@@ -77,7 +77,7 @@ var ClubRoute = (function (){
     if(club_id !== undefined && newDataClub !== undefined){
         ClubModel.findById(club_id, function(error, club) {
             if(error){
-                response.json('500', err.message);
+                response.json(500, err.message);
             }
             else{
                 for(var key in newDataClub){
@@ -87,10 +87,10 @@ var ClubRoute = (function (){
                 }
                 club.save(function(err, clubUpdated){
                     if(err){
-                        response.json('500', err.message);
+                        response.json(500, err.message);
                     }
                     else{
-                        response.json('200', clubUpdated);
+                        response.json(200, clubUpdated);
                     }
                 })
             }

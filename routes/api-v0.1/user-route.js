@@ -20,10 +20,10 @@ var UserRoute = (function(){
         var user_id = request.params.user_id;
         UserModel.findById(user_id, function(error, data) {
             if(error){
-                response.json('500', error.message);
+                response.json(500, error.message);
             }
             else{
-                response.json('200', data);
+                response.json(200, data);
             }
         });
     };
@@ -34,9 +34,9 @@ var UserRoute = (function(){
         //query.sort(sortBy);
         query.exec(function(error, data) {
             if (error) {
-                response.json('500', error.message);
+                response.json(500, error.message);
             } else {
-                response.json('200', data);
+                response.json(200, data);
             }
         });
     };
@@ -47,13 +47,13 @@ var UserRoute = (function(){
         if(newUser !== undefined) {
             UserModel.create(newUser, function (error, data) {
                 if (error) {
-                    response.json('500', error.message);
+                    response.json(500, error.message);
                 } else {
-                    response.json('200', data);
+                    response.json(201, data);
                 }
             });
         } else {
-            response.json('400', {'message': 'Bad Request'});
+            response.json(400, {'message': 'Bad Request'});
         }
     };
 
@@ -78,7 +78,7 @@ var UserRoute = (function(){
         if(user_id !== undefined && newDataUser !== undefined){
             UserModel.findById(user_id, function(error, user) {
                 if(error){
-                    response.json('500', err.message);
+                    response.json(500, err.message);
                 }
                 else{
                     for(var key in newDataUser){
@@ -88,10 +88,10 @@ var UserRoute = (function(){
                     }
                     user.save(function(err, userUpdated){
                         if(err){
-                            response.json('500', err.message);
+                            response.json(500, err.message);
                         }
                         else{
-                            response.json('200', userUpdated);
+                            response.json(200, userUpdated);
                         }
                     })
                 }

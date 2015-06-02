@@ -63,9 +63,9 @@ var ClubRoute = (function (){
         var club_id = request.params.club_id;
         ClubModel.remove({_id: club_id}, function(err, doc){
            if(err){
-               response.send({error: err});
+               response.send(500, err.message);
             } else {
-               response.send(doc);
+               response.send(200, {club_id: club_id});
            }
 
         });
@@ -108,5 +108,5 @@ module.exports = function(app) {
     app.get(route.ClubRoute, clubRoute.getClub);
     app.put(route.ClubRoute, clubRoute.updateClub);
     app.post(route.ClubsRoute, clubRoute.saveClub);
-    app["delete"](route.ClubRoute, clubRoute.removeClub);
+    app.delete(route.ClubRoute, clubRoute.removeClub);
 };

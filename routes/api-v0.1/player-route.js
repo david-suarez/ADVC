@@ -20,10 +20,10 @@ var PlayerRoute = (function() {
         var player_id = request.params.player_id;
         PlayerModel.findById(player_id, function(error, data) {
             if(error){
-                response.json('500', error.message);
+                response.json(500, error.message);
             }
             else{
-                response.json('200', data);
+                response.json(200, data);
             }
         });
     };
@@ -33,9 +33,9 @@ var PlayerRoute = (function() {
         var query = PlayerModel.find(filter);
         query.exec(function(error, data) {
             if (error) {
-                response.json('500', error.message);
+                response.json(500, error.message);
             } else {
-                response.json('200', data);
+                response.json(200, data);
             }
         });
     };
@@ -47,13 +47,13 @@ var PlayerRoute = (function() {
             PlayerModel.create(newPlayer, function (error, data) {
                 if (error) {
                     console.log(error);
-                    response.json('500', error.message);
+                    response.json(500, error.message);
                 } else {
-                    response.json('200', data);
+                    response.json(201, data);
                 }
             });
         } else {
-            response.json('400', {'message': 'Bad Request'});
+            response.json(400, {'message': 'Bad Request'});
         }
     };
 
@@ -74,7 +74,7 @@ var PlayerRoute = (function() {
         if(player_id !== undefined && newDataPlayer !== undefined) {
             PlayerModel.findById(player_id, function(error, player) {
                 if(error){
-                    response.json('500', error.message);
+                    response.json(500, error.message);
                 }
                 else{
                     for (var key in newDataPlayer) {
@@ -85,16 +85,16 @@ var PlayerRoute = (function() {
                     }
                     player.save(function(err, playerUpdated){
                         if(err){
-                            response.json('500', err.message);
+                            response.json(500, err.message);
                         }
                         else {
-                            response.json('200', playerUpdated);
+                            response.json(200, playerUpdated);
                         }
                     });
                 }
             });
         } else {
-            response.json('400', {'message': 'Bad Request'});
+            response.json(400, {'message': 'Bad Request'});
         }
     };
 

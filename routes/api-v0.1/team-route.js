@@ -21,10 +21,10 @@ var TeamRoute = (function(){
         var team_id = request.params.team_id;
         TeamModel.findById(team_id, function(error, data) {
             if(error){
-                response.json('500', error.message);
+                response.json(500, error.message);
             }
             else{
-                response.json('200', data);
+                response.json(200, data);
             }
         });
     };
@@ -34,9 +34,9 @@ var TeamRoute = (function(){
         var query = TeamModel.find(filter);
         query.exec(function(error, data) {
             if (error) {
-                response.json('500', error.message);
+                response.json(500, error.message);
             } else {
-                response.json('200', data);
+                response.json(200, data);
             }
         });
     };
@@ -47,13 +47,13 @@ var TeamRoute = (function(){
         if(newTeam !== undefined) {
              TeamModel.create(newTeam, function (error, data) {
                 if (error) {
-                    response.json('500', error.message);
+                    response.json(500, error.message);
                 } else {
-                    response.json('200', data);
+                    response.json(201, data);
                 }
             });
         } else {
-            response.json('400', {'message': 'Bad Request'});
+            response.json(400, {'message': 'Bad Request'});
         }
     };
 
@@ -74,7 +74,7 @@ var TeamRoute = (function(){
         if(team_id !== undefined && newDataTeam !== undefined) {
              TeamModel.findById(team_id, function(error, team) {
                 if(error){
-                    response.json('500', error.message);
+                    response.json(500, error.message);
                 }
                 else{
                     for (var key in newDataTeam) {
@@ -85,16 +85,16 @@ var TeamRoute = (function(){
                     }
                     team.save(function(err, teamUpdated){
                         if(err){
-                            response.json('500', err.message);
+                            response.json(500, err.message);
                         }
                         else {
-                            response.json('200', teamUpdated);
+                            response.json(200, teamUpdated);
                         }
                     });
                 }
             });
         } else {
-            response.json('400', {'message': 'Bad Request'});
+            response.json(400, {'message': 'Bad Request'});
         }
     };
     return TeamRoute;

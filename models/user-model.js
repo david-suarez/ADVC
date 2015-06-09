@@ -5,15 +5,18 @@ var Schema = mongoose.Schema;
 var UserSchema = new Schema({
     'name': {
         'type': String,
-        'default': ""
+        'default': "",
+        'required': true
     },
     'lastname':{
         'type': String,
-        'default': ""
+        'default': "",
+        'required': true
     },
     'password': {
         'type': String,
-        'default': ""
+        'default': "",
+        'required': true
     },
     'admin': Boolean
 });

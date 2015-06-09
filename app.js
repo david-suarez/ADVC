@@ -8,6 +8,7 @@ var path = require ('path');
 var bodyParser = require('body-parser');
 var routes = require('./routes');
 var mongoose = require('mongoose');
+var morgan = require('morgan');
 
 var app = express();
 

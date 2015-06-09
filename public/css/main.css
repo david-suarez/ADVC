@@ -1,0 +1,175 @@
+html,
+body {
+    min-width: 1024px;
+    height: 100%;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    margin: 0;
+    top: 0;
+    left: 0;
+}
+body {
+    font-size: 13px;
+    font-family: 'RobotoMedium';
+}
+/*
+  Vertical align texts
+  Usage:
+    <div style="height:100px;"> // Parent div must define height
+
+      <div class="align table"> // Align
+        <div class="align table-cell">
+          Some content to be vertically centred
+        </div>
+      </div>
+
+    </div>
+
+*/
+.align.table,
+.align.table-phoenix {
+    display: table;
+    height: 100%;
+}
+.align.table-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.left-menu-container {
+    width: 260px;
+    height: 100%;
+    overflow-x: hidden;
+    background-color: #f0f0f0;
+    border-right: 1px solid #ccc;
+    float: left;
+    display: block;
+    padding-bottom: 50px;
+}
+.left-menu-container .create-clearance-fix {
+    border-radius: 40px !important;
+}
+.left-menu-container .form-padding {
+    padding: 10px 20px 20px 20px;
+}
+.left-menu-container .create-clearance-header {
+    background-color: #444;
+    padding: 15px 0 10px 20px;
+    width: 100%;
+    border-radius: 40px 40px 0 0;
+}
+.left-menu-container .create-clearance-header .title {
+    color: #fff;
+    font-size: 18px;
+}
+.left-menu-container .create-clearance-header .close-card {
+    width: 20px;
+    height: 20px;
+    opacity: 0.5;
+    float: right;
+    margin: -20px 17px 0 0;
+    color: #fff;
+    -webkit-transition: opacity 0.3s ease-in-out;
+    -moz-transition: opacity 0.3s ease-in-out;
+    -o-transition: opacity 0.3s ease-in-out;
+}
+.left-menu-container .create-clearance-header .close-card:hover {
+    opacity: 1;
+}
+.left-menu-container .title-label {
+    color: #444;
+}
+.left-menu-container .title-label-margin {
+    margin-bottom: 2px !important;
+}
+.left-menu-container ::-webkit-scrollbar {
+    width: 10px !important;
+}
+.left-menu-container ::-webkit-scrollbar * {
+    background: transparent !important;
+}
+.left-menu-container ::-webkit-scrollbar-thumb {
+    border-right: 2px solid #eee !important;
+}
+.left-menu-container .left-menu-body {
+    padding: 0 20px 0 20px;
+    width: 260px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.left-menu-container .add-button {
+    border-radius: 3px !important;
+    font-size: 13px !important;
+    background-color: #0082ff;
+    width: 100%;
+}
+.left-menu-container .title-group {
+    line-height: normal !important;
+    margin: 0 0 0 20px;
+}
+.left-menu-container .group-name {
+    float: none;
+}
+.left-menu-container .group-number-members {
+    margin: -65px 17px 0 0;
+    position: relative;
+}
+.left-menu-container #cancelCreate {
+    margin: -5px -5px 0 0;
+    opacity: 0.5;
+    -webkit-transition: opacity 0.3s ease-in-out;
+    -moz-transition: opacity 0.3s ease-in-out;
+    -o-transition: opacity 0.3s ease-in-out;
+}
+.left-menu-container #cancelCreate:hover {
+    opacity: 1;
+}
+
+.main-content-container {
+    background-color: #C3C3C3;
+    height: 100%;
+    overflow: hidden;
+}
+.main-content-container .position-people {
+    position: absolute;
+}
+.main-content-container .card {
+    border-radius: 3px;
+    box-shadow: #444 1px 1px 3px;
+    overflow: hidden;
+    background-color: #fff;
+    font-family: OpenSans;
+    color: #333;
+}
+.main-content-container .card.people {
+    float: left;
+    margin: 10px;
+    height: 80px;
+    width: 220px;
+}
+.main-content-container .card.people .pic {
+    width: 70px;
+    height: 100%;
+    float: left;
+}
+.main-content-container .card.people .name {
+    font-size: 15px;
+    height: 100%;
+    overflow: hidden;
+}
+.table {
+    height: 100%;
+    display: table;
+}
+.cell {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 0 10px 0 15px;
+}
+
+.container-board-players {
+    height: 900px !important;
+    padding-bottom: 200px !important;
+}

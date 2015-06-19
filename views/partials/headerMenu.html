@@ -19,13 +19,15 @@
                 <a role="menuitem" tabindex="-1"  ng-href="#{{item.href}}">{{item.name}}</a>
             </li>
         </ul>
+
+        <div id="div-login-button">
+            <button type="button" class="btn btn-primary" ng-click="loginSystem()">Iniciar Sesion</button>
+        </div>
     </div>
 
     <!-- Right menu container -->
     <div class="right-menu">
-
         <div class="login-logout-box">
-
             <div id="div-login-app" ng-if="userIsAuthenticated == false">
                 <a id="div-login-app-a-login"
                    ng-href="{{autenticate.href}}"

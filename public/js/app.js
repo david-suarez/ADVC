@@ -22,6 +22,11 @@ advcApp.config(["$routeProvider",
                 templateUrl: 'partials/boardView',
                 controller: "boardCtrl"
             }
+        ).when('/login',
+            {
+                templateUrl : 'partials/login_view.html',
+                controller : 'menuCtrl'
+            }
         ).otherwise(
             {
                 redirectTo: "/index"

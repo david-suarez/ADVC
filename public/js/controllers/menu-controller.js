@@ -1,5 +1,5 @@
-advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams',
-    function($scope, $http, $routeParams){
+advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', 'loginService',
+    function($scope, $http, $routeParams, loginService){
         $scope.items = [
             {
                 name: 'Principal',
@@ -15,5 +15,15 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams',
             }
         ];
         $scope.selectedItem = {name: 'Hola Mundo'};
+
+        $scope.User = {};
+        $scope.loginSystem = function(){
+            //console.log("200");
+            var resp = loginService.entrySystem($scope.User).then(function(response){
+                if(response.success){
+                    $location.path('/login');
+                };
+            });
+        };
     }
 ]);

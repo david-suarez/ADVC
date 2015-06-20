@@ -1,4 +1,4 @@
-advcApp.service('loginService', function($q, $http){
+advcApp.service('loginService', ['$q', '$http', function($q, $http){
     return{
         entrySystem : function(user){
             var dfd = $q.defer();
@@ -8,4 +8,4 @@ advcApp.service('loginService', function($q, $http){
             return dfd.promise;
         }
     };
-});
+}]);

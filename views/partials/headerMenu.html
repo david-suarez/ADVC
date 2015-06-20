@@ -5,8 +5,8 @@
 
     <!-- Drop down menu options -->
     <!--<div id="div-display-menu" class="btn-group" allow="Menu.Read">-->
-    <div id="div-display-menu" class="dropdown">
-        <button class="btn dropdown-toggle"
+    <div id="div-display-menu" class="dropdown btn-group">
+        <button class="btn  btn-primary btn-block dropdown-toggle"
                 type="button"
                 id="menu1"
                 data-toggle="dropdown">
@@ -16,21 +16,22 @@
             <li role="presentation"
                 ng-repeat="item in items"
                 allow="{{item.allow}}">
-                <a role="menuitem" tabindex="-1"  ng-href="#{{item.href}}">{{item.name}}</a>
+                <a role="menuitem" tabindex="-1"  ng-href="#{{item.href}}" ng-click="changeSelectedItem($index)">{{item.name}}</a>
             </li>
         </ul>
 
-        <div id="div-login-button">
-            <button type="button" class="btn btn-primary" ng-click="loginSystem()">Iniciar Sesion</button>
-        </div>
+        <!--<div id="div-login-button">-->
+            <!--<div type="button" class="btn btn-primary"><a href="#/login">{{buttonLogin}}</a></div>-->
+        <!--</div>-->
     </div>
+
 
     <!-- Right menu container -->
     <div class="right-menu">
         <div class="login-logout-box">
             <div id="div-login-app" ng-if="userIsAuthenticated == false">
                 <a id="div-login-app-a-login"
-                   ng-href="{{autenticate.href}}"
+                   ng-href="#{{autenticate.href}}"
                    translate>
                     {{autenticate.login}}
                 </a>
@@ -42,9 +43,7 @@
                     {{autenticate.logout}}
                 </a>
             </div>
-
         </div>
-
     </div>
 
 </nav>

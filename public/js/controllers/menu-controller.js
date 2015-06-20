@@ -14,16 +14,17 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', '$location', 
                 allow: "Menu.MainBoard.Execute"
             }
         ];
-        $scope.selectedItem = {name: 'Hola Mundo'};
-
-        $scope.User = {};
-        $scope.loginSystem = function(){
-            //console.log("200");
-            var resp = loginService.entrySystem($scope.User).then(function(response){
-                if(response.success){
-                    $location.path('/login');
-                };
-            });
+        $scope.userIsAuthenticated = false;
+        $scope.selectedItem = $scope.items[0];
+        $scope.autenticate = {
+            login: 'Iniciar Sesion',
+            logout: 'Cerrar Sesion',
+            href: '/login'
         };
+        $scope.User = {};
+
+        $scope.changeSelectedItem = function(index){
+            $scope.selectedItem = $scope.items[index];
+        }
     }
 ]);

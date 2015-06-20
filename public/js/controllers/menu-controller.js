@@ -1,5 +1,5 @@
-advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', 'loginService',
-    function($scope, $http, $routeParams, loginService){
+advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', '$location', 'loginService',
+    function($scope, $http, $routeParams, $location, loginService ){
         $scope.items = [
             {
                 name: 'Principal',

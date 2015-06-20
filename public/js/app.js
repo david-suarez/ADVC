@@ -25,7 +25,7 @@ advcApp.config(["$routeProvider",
         ).when('/login',
             {
                 templateUrl : 'partials/login_view.html',
-                controller : 'menuCtrl'
+                controller : 'loginCtrl'
             }
         ).otherwise(
             {

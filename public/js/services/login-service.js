@@ -1,11 +1,11 @@
 advcApp.service('loginService', function($q, $http){
     return{
         entrySystem : function(user){
-            //var dfd = $q.defer();
+            var dfd = $q.defer();
             $http.post('/login', user).success(function(response){
-                console.log(response);
+                dfd.resolve(response);
             });
-            //return dfd.promise;
+            return dfd.promise;
         }
     };
 });

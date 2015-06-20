@@ -5,6 +5,7 @@ var BASE_PLAYER_ROUTE = '/players';
 var BASE_TEAM_ROUTE = '/teams';
 var BASE_CLUB_ROUTE = '/clubs';
 var BASE_KARDEX_ROUTE = '/kardex';
+var BASE_NEWS_ROUTE = '/news';
 
 /*
  Api for Users
@@ -51,6 +52,7 @@ var CLUB_ROUTE = API + BASE_CLUB_ROUTE;
 
 exports.ClubsRoute = CLUB_ROUTE;
 exports.ClubRoute = CLUB_ROUTE + '/:club_id';
+
 /*
  Api for Kardex
  @example define routes for kardex
@@ -61,3 +63,16 @@ exports.ClubRoute = CLUB_ROUTE + '/:club_id';
 var KADEX_ROUTE = API + BASE_KARDEX_ROUTE;
 
 exports.Kardex_Route = KADEX_ROUTE;
+
+/*
+ Api for Kardex
+ @example define routes for kardex
+ /api/v0.1/kardex
+ /api/v0.1/kardex/:kadex_id
+*/
+
+var NEWS_ROUTE = API + BASE_NEWS_ROUTE;
+
+exports.NewsRoute = NEWS_ROUTE;
+exports.NewRoute = NEWS_ROUTE + '/:news_id';
+exports.NewUploadImageRoute = NEWS_ROUTE + '/fileupload';

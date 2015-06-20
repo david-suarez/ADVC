@@ -11,15 +11,19 @@
     <div class="left-menu-container">
         <div class="left-menu-body">
             <div class="panel_content">
+                <div class="{{pub.class}} item"
+                     template="{{pub.template}}" card
+                     ng-repeat="pub in publications">
+                </div>
             </div>
         </div>
 
     </div>
     <div class="main-content-container">
         <div class="container-board-players">
-            <div class="{{card.class}} item"
-                 template="{{card.template}}"
-                 ng-repeat="card in cards"
+            <div class="{{pub.class}} item"
+                 template="{{pub.template}}"
+                 ng-repeat="pub in mainPublications"
                  card>
             </div>
         </div>

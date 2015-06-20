@@ -19,7 +19,7 @@ advcApp.config(["$routeProvider",
             }
         ).when("/mainBoard",
             {
-                template: 'partials/boardView',
+                templateUrl: 'partials/boardView',
                 controller: "boardCtrl"
             }
         ).otherwise(

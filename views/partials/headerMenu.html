@@ -5,25 +5,20 @@
 
     <!-- Drop down menu options -->
     <!--<div id="div-display-menu" class="btn-group" allow="Menu.Read">-->
-    <div id="div-display-menu" class="btn-group">
-
-        <button id="div-display-menu-button-dropdown-menu"
+    <div id="div-display-menu" class="dropdown">
+        <button class="btn dropdown-toggle"
                 type="button"
-                class="btn dropdown-toggle lg-dropdown-toggle"
+                id="menu1"
                 data-toggle="dropdown">
-            <div class="{{selectedItem.src}} menu-icon"></div>
             <div class="text">{{ selectedItem.name}}</div>
-            <div class="icon-dropdown dropdown-icon"></div>
-        </button>
-        <!--ng-if="item.access.indexOf(roleOfCurrentUser) >= 0"-->
-        <ul id="div-display-menu-ul-menu" class="dropdown-menu" role="menu">
-            <li id="li-item-menu-{{$index}}"
+            <span class="caret"></span></button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+            <li role="presentation"
                 ng-repeat="item in items"
                 allow="{{item.allow}}">
-                <a id="a-ref-menu-{{$index}}" ng-href="#{{item.href}}">{{item.name}}</a>
+                <a role="menuitem" tabindex="-1"  ng-href="#{{item.href}}">{{item.name}}</a>
             </li>
         </ul>
-
     </div>
 
     <!-- Right menu container -->

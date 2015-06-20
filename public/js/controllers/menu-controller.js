@@ -4,6 +4,12 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams',
             {
                 name: 'Principal',
                 srcIcon: 'icon-main',
+                href: '/cualquiercosa',
+                allow: "Menu.MainBoard.Execute"
+            },
+            {
+                name: 'Main - board',
+                srcIcon: 'icon-main',
                 href: '/mainBoard',
                 allow: "Menu.MainBoard.Execute"
             }

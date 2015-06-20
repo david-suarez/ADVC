@@ -1,0 +1,64 @@
+.container-board-players {
+    overflow: auto;
+    /*position absolute*/
+    top: 55px;
+    bottom: 0;
+    -ms-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100%;
+}
+.container-whit-margin {
+    margin-top: 110px;
+}
+.container-board {
+    margin-left: auto;
+    margin-right: auto;
+    /*width 57%*/
+    min-width: 960px;
+}
+.container {
+    width: 60%;
+}
+.generic-card {
+    width: auto;
+    height: auto;
+    background-color: #fff;
+    box-shadow: 0px 1px 3px rgba(0,0,0,0.3);
+    line-height: 100%;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+}
+.container-board-header {
+    width: 100%;
+    height: 100px;
+    background-color: #555;
+    border-bottom: 1px solid #fff;
+}
+.container-plugin-board {
+    width: 100%;
+    height: auto;
+    background-color: #555;
+    border-bottom: 1px solid #fff;
+}
+.header-board {
+    cursor: pointer;
+}
+.header-board > .selected {
+    color: #fff !important;
+    font-family: OpenSans-semibold;
+    border-bottom: solid #0082ff 2.5px;
+    padding-bottom: 1.5px;
+}
+.links-modules {
+    margin-top: -24px;
+    height: 20px;
+    font-family: OpenSans;
+    font-size: 15px;
+    position: fixed;
+    margin-left: 500px;
+    width: 200px;
+}

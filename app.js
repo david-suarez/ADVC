@@ -6,11 +6,19 @@ var express = require('express');
 var morgan = require('morgan');
 var path = require ('path');
 var bodyParser = require('body-parser');
+var multer = require('multer');
+var cloudinary = require('cloudinary');
 var routes = require('./routes');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
 
 var app = express();
+
+cloudinary.config({
+    cloud_name: 'davidsoftbda',
+    api_key: '735747433837115',
+    secret_key: 'vm59m4wRPoithgOXOz0mj6hytjc'
+})
 
 mongoose.connect('mongodb://localhost/advc-db');
 
@@ -25,6 +33,8 @@ app.use(morgan('dev'));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({'extended': true}));
+
+app.use(multer({'dest': './uploads'}));
 
 routes(app, mongoose);
 

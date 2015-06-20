@@ -1,1 +1,31 @@
-<div> Hola a todos </div>
+<div ng-controller="mainCtrl">
+    <!--<div ng-if="haveProfile" class="container-board-header">-->
+        <!--<div class="{{profile.class}} "-->
+             <!--template="{{profile.template}}"-->
+             <!--header-profile-->
+                <!-->
+            <!--&lt;!&ndash; todo the directive validate should not be here is a work around for-->
+            <!--call this directives in the all boards and cards &ndash;&gt;-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="left-menu-container">
+        <div class="left-menu-body">
+            <div class="panel_content">
+                <div class="{{pub.class}} item"
+                     template="{{pub.template}}" card
+                     ng-repeat="pub in publications">
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="main-content-container">
+        <div class="container-board-players">
+            <div class="{{pub.class}} item"
+                 template="{{pub.template}}"
+                 ng-repeat="pub in mainPublications"
+                 card>
+            </div>
+        </div>
+    </div>
+</div>

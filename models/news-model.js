@@ -1,24 +1,26 @@
-/**
- * Created by Baby_Moico on 25/05/2015.
- */
 "use strict";
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var ClubSchema = new Schema({
-    'name':{
+var NewsSchema = new Schema({
+    'description':{
         'type': String,
         'default': ""
     },
-    'foundation':{
+    'category':{
         'type':Date,
         'default':""
     },
-    'delegate':{
+    'image':{
+        'type':String,
+        'default':""
+    },
+    'file':{
         'type':String,
         'default':""
     }
 });
 
-var ClubModel = mongoose.model('Club', ClubSchema);
-module.exports = ClubModel;
+var NewsModel = mongoose.model('Club', NewsSchema);
+module.exports = NewsModel;
+

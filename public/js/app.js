@@ -14,11 +14,12 @@ advcApp.config(["$routeProvider",
         $routeProvider
         .when("/index",
             {
-                templateUrl:'partials/index'
+                templateUrl:'partials/index',
+                controller:'mainCtrl'
             }
         ).when("/mainBoard",
             {
-                template: 'partials/boardView',
+                templateUrl: 'partials/boardView',
                 controller: "boardCtrl"
             }
         ).otherwise(

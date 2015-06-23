@@ -1,31 +1,96 @@
 <div ng-controller="mainCtrl">
-    <!--<div ng-if="haveProfile" class="container-board-header">-->
-        <!--<div class="{{profile.class}} "-->
-             <!--template="{{profile.template}}"-->
-             <!--header-profile-->
-                <!-->
-            <!--&lt;!&ndash; todo the directive validate should not be here is a work around for-->
-            <!--call this directives in the all boards and cards &ndash;&gt;-->
-        <!--</div>-->
-    <!--</div>-->
+
+    <!-- Left menu -->
     <div class="left-menu-container">
+
+        <!-- Left menu - Body -->
         <div class="left-menu-body">
             <div class="panel_content">
-                <div class="{{pub.class}} item"
-                     template="{{pub.template}}" card
-                     ng-repeat="pub in publications">
+
+                <div class="advc-rounded-card-w220-h80 highlight-parent float-left space-top-10px">
+
+                    <div class="advc-highlight-mouse-over-rounded-card-animated" ng-click="openCreateDialog()"></div>
+                    <div class="highlighted-rounded-container">
+                        <div class="left-body advc-font-semibold advc-color-b   custom-lablel-size">
+                            <div class="advc-vertical-align-container" >
+                                <div class="advc-valign-middle ">
+                                    <div class="custom-text-overflow" ng-class="{'task-words':clearance.onProgress[clearance.type]}">
+                                        Crear publicación
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Available publications -->
+                <div  class="advc-rounded-card-w220-h200 highlight-parent float-left space-top-10px"
+                      ng-if="publication.type != 'main'"
+                      ng-repeat="publication in publications">
+
+                    <div class="advc-highlight-mouse-over-rounded-animated"
+                         over-clearance = "{{publication.isOver}}"></div>
+                    <div class="highlighted-rounded-container">
+
+                        <div class="left-body advc-font-semibold advc-color-b custom-lablel-size">
+                            <div class="advc-vertical-align-container" >
+                                <div class="advc-valign-middle ">
+                                    <div class="custom-text-overflow">
+                                        {{publication.name}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
+
     <div class="main-content-container">
         <div class="container-board-players">
-            <div class="{{pub.class}} item"
-                 template="{{pub.template}}"
-                 ng-repeat="pub in mainPublications"
+
+            <div class="advc-rounded-card-pub-comp-h400 highlight-parent float-left"
+                 ng-if="pub.type == 'main'"
+                 ng-repeat="pub in publications"
                  card>
+                <div class="advc-highlight-mouse-over-rounded-main-pub-animated"
+                     over-clearance = "{{pub.isOver}}"></div>
+                <div class="highlighted-rounded-container">
+                    <div class="left-body advc-font-semibold advc-color-b custom-lablel-size">
+                        <div class="advc-vertical-align-container" >
+                            <div class="advc-valign-middle ">
+                                <div class="custom-text-overflow">
+                                    {{pub.name}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
+
+    <modal title="Formulario de creación de publicaciones" visible="showModal">
+        <form role="form">
+            <div class="form-group">
+                <label for="title">Titulo</label>
+                <input type="text" class="form-control" id="title" placeholder="Ingrese el titulo" />
+            </div>
+            <div class="form-group">
+                <label for="description">Descripción</label>
+                <textarea class="form-control" id="description" style="max-width: 100%;" placeholder="Ingrese una descripción" />
+            </div>
+            <div class="form-group">
+                <label for="link">Link externo</label>
+                <input type="text" class="form-control" id="link"/>
+            </div>
+            <div class="form-group">
+                <label for="file">Archivo o Imagen</label>
+                <input type="file" class="form-control" id="file"/>
+            </div>
+            <button type="submit" class="btn btn-lg btn-principal">Guardar</button>
+        </form>
+    </modal>
 </div>
+

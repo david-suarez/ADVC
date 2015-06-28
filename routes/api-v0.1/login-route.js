@@ -23,7 +23,13 @@ var LoginRoute = (function(){
             if (error) {
                 response.json('500', error.message);
             } else {
-                response.json('200',{success:true});
+                if (user != undefined)
+                {
+                    response.json('200',{success:true});
+                }
+                else {
+                    response.json('404',{success:false});
+                }
             }
         });
     };

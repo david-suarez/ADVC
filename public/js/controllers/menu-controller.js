@@ -14,7 +14,7 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', '$location', 
                 allow: "Menu.MainBoard.Execute"
             }
         ];
-        $scope.userIsAuthenticated = false;
+        $scope.userIsAuthenticated = loginService.getUserAthenticated();
         $scope.selectedItem = $scope.items[0];
         $scope.autenticate = {
             login: 'Iniciar Sesion',

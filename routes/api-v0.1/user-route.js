@@ -36,7 +36,7 @@ var UserRoute = (function(){
             if (error) {
                 response.json(500, error.message);
             } else {
-                response.json(200, data);
+                response.json(200, {data: data});
             }
         });
     };
@@ -44,8 +44,6 @@ var UserRoute = (function(){
     UserRoute.prototype.saveUser = function(request, response){
         var newUser;
         newUser = request.body.user;
-        console.log(newUser);
-        console.log(request.body);
         if(newUser !== undefined) {
             UserModel.create(newUser, function (error, data) {
                 if (error) {

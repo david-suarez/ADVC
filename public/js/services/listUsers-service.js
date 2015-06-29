@@ -1,18 +1,11 @@
-advcApp.service('listUsersSrv', function($q,$http) {
-    return {
-        createUser: function (user) {
-            //console.log(user);
-            var dfd = $q.defer();
-            var newUser = {
-                user: user
-            };
-            $http.post('/api/v0.1/users', newUser).success(function (response) {
-                //console.log(response);
-                dfd.resolve(response);
-            });
-            return dfd.promise;
-
+advcApp.factory('listUsersSrv', ['$resource', function($resource){
+    return $resource('/api/v0.1/users/:userId',
+        { userId: '@userId' },
+        {
+            'get': { method: 'GET' },
+            'save': { method: 'POST' },
+            'update': { method: 'PUT' },
+            'delete': { method: 'DELETE' }
         }
-    }
-
-});
+    );
+}]);

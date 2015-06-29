@@ -36,7 +36,7 @@ var UserRoute = (function(){
             if (error) {
                 response.json(500, error.message);
             } else {
-                response.json(200, data);
+                response.json(200, {data: data});
             }
         });
     };

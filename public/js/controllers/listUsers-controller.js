@@ -1,33 +1,44 @@
-advcApp.controller('listUsersCtrl', ['$scope', '$http', '$routeParams', '$location', 'listUsersSrv',
-
-    function($scope, $http, $routeParams, $location, listUsersSrv) {
+advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
+    '$location', 'listUsersSrv',
+    function($scope, $routeParams, $location, listUsersSrv) {
         $scope.Users = {};
         $scope.newUser = {};
         $scope.showModal = false;
-        $http.get('/api/v0.1/users').success(function(datos){
-            $scope.Users= datos;
-            //console.log(datos);
-            }).error(function(datos){
-            console.log("Ocurrio un error en el servidor"+datos);
-            });
+
+        listUsersSrv.get({},
+            function(result){
+                $scope.Users = result.data;
+            },
+            function(error){
+                console.log(error);
+            }
+        );
+
         $scope.formCreateUser = function () {
             $scope.showModal = !$scope.showModal;
-        },
-        $scope.createUser = function () {
-            //console.log($scope.newUser.password);
-            if($scope.newUser.password==$scope.newUser.confirmPassword){
-                listUsersSrv.createUser($scope.newUser).then(function (response) {
-                    //console.log(response);
-                    $scope.showModal = !$scope.showModal;
-                    $scope.newUser = {};
-                    //$location.path("/listUser");
+        };
 
-                });
+        $scope.createUser = function () {
+            if($scope.newUser.password === $scope.newUser.confirmPassword){
+                var newUser = {
+                    user: $scope.newUser
+                };
+                listUsersSrv.save(newUser,
+                    function (data) {
+                        $scope.Users.push(data);
+                        $scope.showModal = !$scope.showModal;
+                        $scope.newUser = {};
+                    },
+                    function(error){
+                        console.log(error);
+                    }
+                );
             }else{
-                alert("Contraseñas no coinciden")
+                alert("ContraseÃ±as no coinciden")
             }
 
-        },
+        };
+
         $scope.cancelUser=function(){
             $scope.showModal = !$scope.showModal;
             $scope.newUser = {};

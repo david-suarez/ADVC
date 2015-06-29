@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<div ng-controller="listUsersCtrl">
+    <modal  title="Formulario de creacion de Usuarios" visible="showModal">
+        <form class="form-horizontal">
+            <label>Nombres</label>
+            <label for="inputName" class="sr-only">Nombres</label>
+            <input type="text" id="inputName" class="form-control" placeholder="Nombres" required="" autofocus="" ng-model="newUser.name">
+            <label>Apellidos</label>
+            <label for="inputLastName" class="sr-only">Apellidos</label>
+            <input type="text" id="inputLastName" class="form-control" placeholder="Apellidos" required="" autofocus="" ng-model="newUser.lastname">
+            <label>Nombre de Usuario</label>
+            <label for="inputUser" class="sr-only">Usuario</label>
+            <input type="text" id="inputUser" class="form-control" placeholder="Usuario" required="" autofocus="" ng-model="newUser.user_name">
+            <label>Contrase&ntilde;a</label>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" ng-model="newUser.password">
+            <label>Confirmar Contrase&ntilde;a</label>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Password" required="" ng-model="newUser.confirmPassword">
+            <br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="createUser()">Crear Usuario</button>
+            <button class="btn btn-lg btn-info btn-block" type="submit" ng-click="cancelUser()">Cancelar</button>
+        </form>
+    </modal>
+    <div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="formCreateUser()">Crear Usuario</button></div>
+    <div class="col-md-12">
+
+            <h2 class="form-signin-heading">Lista de Usuarios</h2>
+        <div ng-repeat="user in Users" class="row">
+            <li>{{$index + 1}}.- {{user.name}} {{user.lastname}}</li>
+        </div>
+    </div>
+</div>

@@ -22,6 +22,11 @@ advcApp.config(["$routeProvider",
                 templateUrl: 'partials/boardView',
                 controller: "boardCtrl"
             }
+        ).when("/listUser",
+            {
+                templateUrl: 'partials/listUser',
+                controller: "listUsersCtrl"
+            }
         ).when('/login',
             {
                 templateUrl : 'partials/login_view.html',

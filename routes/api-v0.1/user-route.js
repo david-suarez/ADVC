@@ -48,7 +48,10 @@ var UserRoute = (function(){
         console.log(request.body);
         if(newUser !== undefined) {
             UserModel.create(newUser, function (error, data) {
+                console.log('-----------------------');
+                console.log(newUser);
                 if (error) {
+                    console.log(data+"y"+error);
                     response.json(500, error.message);
                 } else {
                     response.json(201, data);

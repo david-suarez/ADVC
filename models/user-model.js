@@ -17,11 +17,17 @@ var UserSchema = new Schema({
         'default': "",
         'required': true
     },
+    'user_name': {
+        'type': String,
+        'default': "",
+        'required': true
+    },
     'password': {
         'type': String,
         'default': "",
         'required': true
     },
+
     'admin': Boolean
 });
 

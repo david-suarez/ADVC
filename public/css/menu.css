@@ -22,10 +22,10 @@
     margin-left: 10px;
 }
 .menu .dropdown-toggle {
-    background-color: #0082ff;
+    background-color: #337ab7;
     min-width: 120px;
     height: 30px;
-    padding: 5px 0 0 0;
+    padding: 2px 0 0 10px;
     border-radius: 2px;
     margin: 60px 0 0 0;
 }
@@ -54,6 +54,10 @@
 .menu .right-menu a {
     cursor: pointer;
 }
+.menu .right-menu .loggedName {
+    margin-top: -20px;
+    color: white;
+}
 .menu .right-menu .language-choices {
     font-size: 10px;
     height: 20px;
@@ -69,6 +73,7 @@
     font-size: 14px;
     bottom: 0;
     height: 30px;
+    margin-top: 60px;
     line-height: 22px;
 }
 .menu .popover.bottom {

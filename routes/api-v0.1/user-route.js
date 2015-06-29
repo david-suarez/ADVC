@@ -44,6 +44,8 @@ var UserRoute = (function(){
     UserRoute.prototype.saveUser = function(request, response){
         var newUser;
         newUser = request.body.user;
+        console.log(newUser);
+        console.log(request.body);
         if(newUser !== undefined) {
             UserModel.create(newUser, function (error, data) {
                 if (error) {

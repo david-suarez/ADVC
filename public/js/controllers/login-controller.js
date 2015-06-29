@@ -4,7 +4,6 @@ advcApp.controller('loginCtrl', [
         $scope.User = {};
         $scope.isAnyError = false;
         $scope.loginSystem = function(){
-            //console.log($scope.User);
             loginService.save($scope.User,
                 function(response){
                     if(response.success){
@@ -38,5 +37,8 @@ advcApp.controller('loginCtrl', [
             );
         };
 
+        $scope.cancelLogIn = function(){
+            $location.path('/index');
+        };
     }
 ]);

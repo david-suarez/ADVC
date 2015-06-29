@@ -1,27 +1,25 @@
 <nav ng-controller="loginCtrl">
-<div class="col-md-4">
-</div>
-<div class="col-md-4">
-    <form class="form-signin">
-        <h2 class="form-signin-heading">Ingresar al Sistema</h2>
-        <label for="inputEmail" class="sr-only">Usuario</label>
-        <input type="text" id="inputEmail" class="form-control" placeholder="Usuario" required="" autofocus="" ng-model="User.user_name">
-        <br>
-        <label for="inputPassword" class="sr-only">Contraseña</label>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" ng-model="User.password">
-        <br>
-        <!--<button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="loginSystem()">Ingresar</button>-->
-        <!--<br>-->
-        <div class="col-md-6">
-            <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="loginSystem()">Ingresar</button>
-        </div>
-        <div class="col-md-6">
-            <button class="btn btn-lg  btn-block" type="submit" ng-click="cancelLogIn()">Cancelar</button>
-        </div>
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <form class="form-signin">
+            <h2 class="form-signin-heading">Ingresar al Sistema</h2>
+            <label for="inputEmail" class="sr-only">Usuario</label>
+            <input type="text" id="inputEmail" class="form-control" placeholder="Usuario" required="" autofocus="" ng-model="User.user_name">
+            <br>
+            <label for="inputPassword" class="sr-only">Contraseï¿½a</label>
+                <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="" ng-model="User.password">
+            <br>
+            <div class="col-md-6">
+                <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="loginSystem()">Ingresar</button>
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-lg  btn-block" type="submit" ng-click="cancelLogIn()">Cancelar</button>
+            </div>
 
-    </form>
-</div>
+        </form>
+    </div>
 
-<div class="col-md-4">
-</div>
+    <div class="col-md-4">
+    </div>
 </nav>

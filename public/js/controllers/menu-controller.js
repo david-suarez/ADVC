@@ -48,6 +48,6 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', '$location',
 
         $scope.changeSelectedItem = function(index){
             $scope.selectedItem = $scope.items[index];
-        }
+        };
     }
 ]);

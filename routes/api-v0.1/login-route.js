@@ -25,7 +25,7 @@ var LoginRoute = (function(){
             } else {
                 if (user != undefined)
                 {
-                    response.json('200',{success:true});
+                    response.json('200',{success:true, user: user});
                 }
                 else {
                     response.json('404',{success:false});

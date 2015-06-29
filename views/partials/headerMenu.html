@@ -38,6 +38,7 @@
             </div>
 
             <div id="div-logout-app" ng-if="userIsAuthenticated == true">
+                <div class="loggedName"> {{loggedUser}} </div>
                 <a id="div-logout-app-a-logout"
                    ng-click="goToLogoutPage()">
                     {{autenticate.logout}}

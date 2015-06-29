@@ -1,16 +1,42 @@
-advcApp.controller('loginCtrl', ['$scope', '$location', 'loginService', '$rootScope',
-    function($scope, $location, loginService,$rootScope){
-    $scope.User = {};
-    $scope.loginSystem = function(){
-        //console.log($scope.User);
-        var resp = loginService.entrySystem($scope.User).then(function(response){
-            if(response.success){
-                $location.path('/index');
-            }
-            else
-            {
-            };
-        });
-    };
+advcApp.controller('loginCtrl', [
+    '$scope', '$location', '$rootScope', 'loginService', 'SessionService',
+    function($scope, $location, $rootScope, loginService, SessionService){
+        $scope.User = {};
+        $scope.isAnyError = false;
+        $scope.loginSystem = function(){
+            //console.log($scope.User);
+            loginService.save($scope.User,
+                function(response){
+                    if(response.success){
+                        var user = response.user;
+                        SessionService.set('logged', true);
+                        SessionService.set(
+                            'user', user.name + ' ' + user.lastname);
+                        SessionService.set('idUser', user._id);
+                        $rootScope.$emit('userAuthenticated', true);
+                        $location.path('/index');
+                    }
+                    else
+                    {
+                        alert('El usuario o la contraseña son incorrectos. ' +
+                            'Por favor intente de nuevo con credenciales ' +
+                            'válidos.');
+                    }
+                },
+                function(error){
+                    $scope.isAnyError = true;
+                    $scope.status = 'The server is not listening';
+                    alert('El usuario o la contraseña son incorrectos. ' +
+                        'Por favor intente de nuevo con credenciales ' +
+                        'válidos.');
+                    $scope.User = {
+                        user_name: '',
+                        password: ''
+                    };
+                    $location.path('/login');
+                }
+            );
+        };
 
-}]);
+    }
+]);

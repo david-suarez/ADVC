@@ -12,8 +12,28 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams',
                 srcIcon: 'icon-main',
                 href: '/mainBoard',
                 allow: "Menu.MainBoard.Execute"
+            },
+            {
+                name: 'Usuario',
+                href: '/listUser'
             }
         ];
         $scope.selectedItem = {name: 'Hola Mundo'};
+
+        $scope.configItems =[
+            {
+                name: 'Crear Usuario',
+                href: '/createUser'
+            },
+            {
+                name: 'Editar Usuario',
+                href: '/editUser'
+            }
+        ]
+        $scope.configSelectedItem = $scope.configItems[0];
+
+        $scope.changeSelectedConfig = function(index){
+            $scope.configSelectedItem = $scope.configItems[index];
+        };
     }
 ]);

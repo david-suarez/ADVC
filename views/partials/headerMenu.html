@@ -5,7 +5,7 @@
 
     <!-- Drop down menu options -->
     <!--<div id="div-display-menu" class="btn-group" allow="Menu.Read">-->
-    <div id="div-display-menu" class="dropdown btn-group">
+    <div id="div-display-menu" class="dropdown">
         <button class="btn dropdown-toggle"
                 type="button"
                 id="menu1"
@@ -17,24 +17,6 @@
                 ng-repeat="item in items"
                 allow="{{item.allow}}">
                 <a role="menuitem" tabindex="-1"  ng-href="#{{item.href}}">{{item.name}}</a>
-            </li>
-        </ul>
-
-
-
-    </div>
-
-    <div class="dropdown btn-group">
-        <button class="btn dropdown-toggle"
-                type="button"
-                id="configuration"
-                data-toggle="dropdown">
-            <div class="text">{{configSelectedItem.name}}</div>
-            <span class="caret"></span></button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="configuration">
-            <li role="presentation"
-                ng-repeat="configItem in configItems">
-                <a role="menuitemcheckbox" tabindex="-1" ng-href="#{{configItem.href}}" ng-click="changeSelectedConfig($index)">{{configItem.name}}</a>
             </li>
         </ul>
     </div>

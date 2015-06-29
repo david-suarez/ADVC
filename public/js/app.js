@@ -22,16 +22,6 @@ advcApp.config(["$routeProvider",
                 templateUrl: 'partials/boardView',
                 controller: "boardCtrl"
             }
-        ).when("/createUser",
-            {
-                templateUrl: 'partials/createUser',
-                controller: "userConfigCtrl"
-            }
-        ).when("/listUser",
-            {
-                templateUrl: 'partials/listUser',
-                controller: "listUsersCtrl"
-            }
         ).otherwise(
             {
                 redirectTo: "/index"

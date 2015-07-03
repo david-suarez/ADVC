@@ -1,10 +1,11 @@
 'use strict';
-var advcApp = angular.module(
+var advcApp;
+advcApp = angular.module(
     "advcApp",
     [
-        "ngRoute",
-        "ngResource",
-        "ui.bootstrap"
+        'ngRoute',
+        'ngResource',
+        'ui.bootstrap'
     ]
 );
 

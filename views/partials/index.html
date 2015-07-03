@@ -35,7 +35,7 @@
                             <div class="advc-vertical-align-container" >
                                 <div class="advc-valign-middle ">
                                     <div class="custom-text-overflow">
-                                        {{publication.name}}
+                                        {{publication.title}}
                                     </div>
                                 </div>
                             </div>
@@ -60,7 +60,7 @@
                         <div class="advc-vertical-align-container" >
                             <div class="advc-valign-middle ">
                                 <div class="custom-text-overflow">
-                                    {{pub.name}}
+                                    {{pub.title}}
                                 </div>
                             </div>
                         </div>
@@ -72,24 +72,40 @@
     </div>
 
     <modal title="Formulario de creación de publicaciones" visible="showModal">
-        <form role="form">
+        <form role="form" enctype="multipart/form-data">
             <div class="form-group">
-                <label for="title">Titulo</label>
-                <input type="text" class="form-control" id="title" placeholder="Ingrese el titulo" />
+                <label>Titulo</label>
+                <input type="text" class="form-control" ng-model="newPublication.title" placeholder="Ingrese el titulo" required="true"/>
             </div>
             <div class="form-group">
-                <label for="description">Descripción</label>
-                <textarea class="form-control" id="description" style="max-width: 100%;" placeholder="Ingrese una descripción" />
+                <label>Descripción</label>
+                <textarea class="form-control" ng-model="newPublication.description" style="max-width: 100%;" placeholder="Ingrese una descripción" required="true"/>
             </div>
             <div class="form-group">
-                <label for="link">Link externo</label>
-                <input type="text" class="form-control" id="link"/>
+                <label>Link externo</label>
+                <input type="text" class="form-control" ng-model="newPublication.reference"/>
             </div>
             <div class="form-group">
-                <label for="file">Archivo o Imagen</label>
-                <input type="file" class="form-control" id="file"/>
+                <label>Tipo de publicacion</label>
+                <select  ng-model="newPublication.type"  ng-options="type.name for type in publicationTypes" required="true">
+                    <!--<option value=""> Tipo de Publicacion </option>-->
+                </select>
             </div>
-            <button type="submit" class="btn btn-lg btn-principal">Guardar</button>
+
+            <div class="form-group">
+                <label>Archivo o Imagen</label>
+                <input type="file"
+                       id="fileElement"
+                       name="fileElement"
+                       accept="image/jpeg, image/png, application/pdf"
+                       ng-model="fileName"
+                       upload-file
+                        >
+            </div>
+            <button type="submit" class="btn btn-info"
+                    ng-click="savePublication()">
+                Guardar
+            </button>
         </form>
     </modal>
 </div>

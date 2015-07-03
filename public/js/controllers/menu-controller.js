@@ -23,7 +23,7 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', '$location',
                 allow: "Menu.MainBoard.Execute"
             },
             {
-                name: 'Usuario',
+                name: 'Usuarios',
                 href: '/listUser'
             }
         ];

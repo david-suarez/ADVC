@@ -25,6 +25,10 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', '$location',
             {
                 name: 'Usuarios',
                 href: '/listUser'
+            },
+            {
+                name: 'Clubs',
+                href: '/listClubs'
             }
         ];
         $rootScope.$on('userAuthenticated', function(event, booleanData) {

@@ -30,7 +30,7 @@ var PlayerRoute = (function() {
 
     PlayerRoute.prototype.getPlayers = function(request, response){
         var filter = request.body;
-        var query = PlayerModel.find(filter);
+        var query = PlayerModel.find(filter)
         query.exec(function(error, data) {
             if (error) {
                 response.json(500, error.message);
@@ -43,10 +43,12 @@ var PlayerRoute = (function() {
     PlayerRoute.prototype.savePlayer = function(request, response){
         var newPlayer;
         newPlayer = request.body.player;
+        console.log(newPlayer);
         if(newPlayer !== undefined) {
+
             PlayerModel.create(newPlayer, function (error, data) {
                 if (error) {
-                    console.log(error);
+                    console.log(data);
                     response.json(500, error.message);
                 } else {
                     response.json(201, data);

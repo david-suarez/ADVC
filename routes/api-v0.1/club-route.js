@@ -33,12 +33,12 @@ var ClubRoute = (function (){
 
     ClubRoute.prototype.getClubs = function(request, response){
         var filter = request.body;
-        var query = ClubModel.find(filter);
+        var query = ClubModel.find(filter).populate('delegate');
         query.exec(function(error, data) {
             if (error) {
-                response.json(error.statusCode, null);
+                response.json(500, error.message);
             } else {
-                response.json(200, data);
+                response.json(200,  {data: data});
             }
         });
     };
@@ -46,6 +46,8 @@ var ClubRoute = (function (){
     ClubRoute.prototype.saveClub = function(request, response){
         var newClub;
         newClub = request.body.club;
+        console.log("--------------------------------");
+        console.log(newClub);
         if(newClub !== undefined) {
             ClubModel.create(newClub, function (error, data) {
                 if (error) {

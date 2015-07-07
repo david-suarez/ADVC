@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<div ng-controller="listClubsCtrl">
+    <!---Formulario modal para creacion de clubs -->
+    <modal  title="Formulario de clubs" visible="showModal">
+        <form role="form" id="bootstrapSelectForm">
+            <div class="form-group">
+                <label>Nombre</label>
+                <label for="inputName" class="sr-only">Nombre</label>
+                <input type="text" id="inputName" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Nombre"
+                       required="True" autofocus="1" ng-model="newClub.name">
+                <!--span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span-->
+            </div>
+            <div class="form-group" id='datetimepicker1'>
+                <label>Fundacion</label>
+                <label for="inputDate" class="sr-only">Nombre</label>
+                <input type="date" id="inputDate" class="form-control" datepicker-popup is-open="opened" min-date="minDate" max-date="'2015-06-22'"
+                       datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-model="newClub.foundation">
+            </div>
+            <!--/div-->
+            <div class="form-group">
+                <label>Delegado</label>
+                <label  for="inputDelegate" class="sr-only">Delegado</label>
+                <select id="inputDelegate" ng-model="newClub.delegate" ng-options="user.fullName for user in Users"></select>
+
+            </div>
+            <br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="createClub()">Crear club</button>
+            <button class="btn btn-lg btn-info btn-block" type="submit" ng-click="closeModal()">Cancelar</button>
+        </form>
+    </modal>
+
+    <!---Formulario modal para edicion de clubs -->
+    <modal  title="Formulario de edici&oacute;n de clubs" visible="showModal2">
+        <form role="form" id="bootstrapSelectForm2">
+            <div class="form-group">
+                <label>Nombre</label>
+                <label for="inputEditName" class="sr-only">Nombre</label>
+                <input type="text" id="inputEditName" class="form-control" ng-class="{'has-error':!isEditNameValid}" placeholder="Nombre"
+                       required="True" autofocus="1" ng-model="editClub.name">
+                <!--span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span-->
+            </div>
+            <div class="form-group" id='datetimepicker2'>
+                <label>Fundacion</label>
+                <label for="inputEditDate" class="sr-only">Nombre</label>
+                <input type="date" id="inputEditDate" class="form-control" datepicker-popup is-open="opened" min-date="minDate" max-date="'2015-06-22'"
+                       datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" ng-model="editClub.foundation">
+            </div>
+            <!--/div-->
+            <div class="form-group">
+                <label>Delegado</label>
+                <label  for="inputEditDelegate" class="sr-only">Delegado</label>
+                <select id="inputEditDelegate" ng-model="editClub.delegate" ng-options="user.fullName for user in Users"></select>
+
+            </div>
+            <br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="editClub()">Editar club</button>
+            <button class="btn btn-lg btn-info btn-block" type="submit" ng-click="closeModal()">Cancelar</button>
+        </form>
+    </modal>
+    <div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="formCreateClub()">Crear club</button></div>
+    <div class="col-md-12">
+
+    <h2 class="form-signin-heading">Lista de clubs</h2>
+    <div class="row">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Nombre Club</th>
+                <th>Fundacion</th>
+                <th>Delegado</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+            </thead>
+            <tbody ng-repeat="club in Clubs">
+            <tr>
+                <td>{{club.name}}</td>
+                <td>{{club.foundation}}</td>
+                <td>{{club.delegate.name}} {{club.delegate.lastname}}</td>
+                <td><button type="button" class="btn btn-warning" ng-click="formEditClub(club)">Editar</button></td>
+                <td><button type="button" class="btn btn-danger" ng-click="formDeleteClub(club)">Eliminar</button></td>
+            </tr>
+            </tbody>
+        </table>
+        <!--li>{{$index + 1}}.- {{club.name}} - {{club.delegate}}</li-->
+    </div>
+
+    </div>
+</div>

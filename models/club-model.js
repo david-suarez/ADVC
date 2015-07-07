@@ -14,10 +14,10 @@ var ClubSchema = new Schema({
         'type':Date,
         'default':""
     },
-    'delegate':{
-        'type':String,
-        'default':""
-    }
+    'delegate': {
+            'type': mongoose.Schema.Types.ObjectId,
+            'ref': 'User'
+        }
 });
 
 var ClubModel = mongoose.model('Club', ClubSchema);

@@ -31,7 +31,7 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
             var lastName = $scope.newUser.lastname;
             var userName = $scope.newUser.user_name;
             var pass = $scope.newUser.password;
-            var passRegEx = /(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{8,10})/;
+            var passRegEx = /(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{5,20})/;
             var nameRegEx = /^([a-z ñáéíóú]{2,60})$/i;
             var lastNameRegEx = /^([a-z ñáéíóú]{2,60})$/i;
             var userNameRegEx = /^[a-zA-Z0-9_]{3,16}$/;
@@ -71,7 +71,9 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
                     listUsersSrv.save(newUser,
                         function (data) {
                             $scope.Users.push(data);
-                            $scope.showModal = !$scope.showModal;
+                            $('#create-user').modal('hide'); //hide modal
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
                             $scope.newUser = {};
                         },
                         function(error){

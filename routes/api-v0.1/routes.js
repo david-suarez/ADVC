@@ -78,5 +78,5 @@ exports.Kardex_Route = KADEX_ROUTE;
 var PUB_ROUTE = API + BASE_PUB_ROUTE;
 
 exports.PubsRoute = PUB_ROUTE;
-exports.PubRoute = PUB_ROUTE + '/:publication_id';
+exports.PubRoute = PUB_ROUTE + '/:publicationId';
 exports.PubUploadFile = PUB_ROUTE + '/fileupload';

@@ -12,10 +12,8 @@ advcApp.directive('uploadFile', function() {
                             files = element.prop("files");
                             scope.$apply(scope.newPublication.file = [files][0]);
                             image = window.URL.createObjectURL(changeEvent.target.files[0]);
-                            return $("#newImage").attr("src", image);
+                            return $("#newFile").attr("src", image);
                         }
-                    } else {
-                        $("#fileElement").val('');
                     }
                 }
             });

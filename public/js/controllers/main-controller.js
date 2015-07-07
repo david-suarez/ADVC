@@ -1,39 +1,52 @@
 advcApp.controller('mainCtrl', [
-    '$scope', '$routeParams', 'publicationSrv', 'fileUploadSrv',
-    function($scope, $routeParams, publicationSrv, fileUploadSrv){
+    '$scope', '$routeParams', '$rootScope','publicationSrv', 'fileUploadSrv',
+    'SessionService',
+    function($scope, $routeParams, $rootScope, publicationSrv, fileUploadSrv,
+             SessionService){
 
         var createIsReady = false;
+        $scope.userCanCreatePub = false;
+        if(SessionService.get('logged')) {
+            $scope.userCanCreatePub = true;
+        }
+
+        $rootScope.$on('userAuthenticated', function(event, booleanData) {
+            $scope.userCanCreatePub = booleanData;
+        });
 
         $scope.isExpanded = true;
-        $scope.showModal = false;
-        $scope.publicationTypes = [
-            {
-                id: 'main',
-                name: 'Publicacion Principal'
-            },
-            {
-                id: 'secondary',
-                name: 'Publicacion Secundaria'
-            }
-        ];
+        $scope.showModalPub = false;
         $scope.newPublication = {
             title: '',
             description: '',
             linkPub: '',
-            file: false
+            file: null
         };
+
         $scope.openCreateDialog = function(){
-            $scope.showModal = !$scope.showModal;
+            $scope.showModalPub = !$scope.showModalPub;
             $scope.newPublication = {
                 title: '',
                 description: '',
                 linkPub: '',
-                file: false
+                file: null
             };
         };
-        publicationSrv.get({},
+        $scope.mainPublications = [];
+        publicationSrv.get({type: 'main'},
             function(result){
-                $scope.publications = result.data;
+                $scope.mainPublications = result.data;
+            },
+            function(error){
+                console.log('******************************');
+                console.error(error);
+            }
+        );
+
+        $scope.downPublications = [];
+        publicationSrv.get({type: 'secondary'},
+            function(result){
+                $scope.downPublications = result.data;
             },
             function(error){
                 console.log('******************************');
@@ -51,20 +64,34 @@ advcApp.controller('mainCtrl', [
             }
         };
 
-        $scope.saveCallback = function(idImage) {
+        $scope.getFile = function(file) {
+            if (file) {
+                return '/uploads/' + file;
+            }
+        };
+
+        $scope.saveCallback = function(idFile) {
             var data;
             data = {
                 title: $scope.newPublication.title,
                 description: $scope.newPublication.description,
                 reference: $scope.newPublication.reference,
-                type: $scope.newPublication.type?$scope.publication.type:
-                    'secondary',
-                image: idImage
+                type: $scope.newPublication.type?$scope.newPublication.type:
+                    'main',
+                file: idFile
             };
             if ($scope.fieldsAreValid(data)) {
                 publicationSrv.save({publication: data},
                     function(data){
-                       $scope.publications.push(data);
+                        if (data.type === 'main'){
+                            $scope.mainPublications.push(data);
+                        }
+                        else if (data.type === 'secondary'){
+                            $scope.downPublications.push(data);
+                        }
+                        $('#create-publication').modal('hide'); //hide modal
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
                     },
                     function(error){
                         alert('Hubo un error al guardar la publicacion. ' +
@@ -129,7 +156,30 @@ advcApp.controller('mainCtrl', [
                 alert('El formato de archivo que escogio es erroneo');
                 return false;
             }
+            if(file.type === "application/pdf")
+                $scope.newPublication.type = 'secondary';
             return true;
         };
+
+        $scope.removePublication = function(publication) {
+            console.log(publication._id);
+            var type = publication.type;
+            var indexPub = type === 'main' ?
+                $scope.mainPublications.indexOf(publication) :
+                $scope.downPublications.indexOf(publication);
+            var r = confirm("Esta seguro que eliminar esta publicación?");
+            if (r == true) {
+                publicationSrv.delete({publicationId: publication._id},
+                    function (data) {
+                        if(type === 'main')
+                            $scope.mainPublications.splice(indexPub, 1);
+                        else
+                            $scope.downPublications.splice(indexPub, 1);
+                    },
+                    function (error) {
+                        console.log(error);
+                    });
+            }
+        }
     }
 ]);

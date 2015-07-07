@@ -7,9 +7,10 @@
         <div class="left-menu-body">
             <div class="panel_content">
 
-                <div class="advc-rounded-card-w220-h80 highlight-parent float-left space-top-10px">
+                <div class="advc-rounded-card-w220-h80 highlight-parent float-left space-top-10px"
+                        ng-if="userCanCreatePub">
 
-                    <div class="advc-highlight-mouse-over-rounded-card-animated" ng-click="openCreateDialog()"></div>
+                    <div class="advc-highlight-mouse-over-rounded-card-animated" ng-click="openCreateDialog()" data-toggle="modal" data-target="#create-publication"></div>
                     <div class="highlighted-rounded-container">
                         <div class="left-body advc-font-semibold advc-color-b   custom-lablel-size">
                             <div class="advc-vertical-align-container" >
@@ -22,24 +23,39 @@
                         </div>
                     </div>
                 </div>
+                <div>
+                    <h2>Descargas</h2>
+                </div>
                 <!-- Available publications -->
-                <div  class="advc-rounded-card-w220-h200 highlight-parent float-left space-top-10px"
+                <div  class="advc-rounded-card-w220-h150 highlight-parent float-left space-top-10px"
                       ng-if="publication.type != 'main'"
-                      ng-repeat="publication in publications">
+                      ng-repeat="publication in downPublications">
 
                     <div class="advc-highlight-mouse-over-rounded-animated"
-                         over-clearance = "{{publication.isOver}}"></div>
+                         over-clearance = "{{publication.isOver}}" ng-if="userCanCreatePub">
+                        <div>
+                            <div id="div-remove-publication-{{$index}}"
+                                 ng-click="removePublication(publication)"
+                                 class="icon-delete_button-20px float-right opaque-icon animated"
+                                 style="margin: 5px 20px 0 0;"></div>
+                            <div id="div-update-publication-{{$index}}"
+                                 ng-click="removePublication(publication)"
+                                 class="icon-edit_button-20px float-right opaque-icon animated"
+                                 style="margin: 5px 0 0 0;"></div>
+                        </div>
+                    </div>
                     <div class="highlighted-rounded-container">
-
-                        <div class="left-body advc-font-semibold advc-color-b custom-lablel-size">
-                            <div class="advc-vertical-align-container" >
-                                <div class="advc-valign-middle ">
-                                    <div class="custom-text-overflow">
-                                        {{publication.title}}
-                                    </div>
+                            <div class="advc-valign-download">
+                                <div class="header">
+                                    {{publication.title}}
+                                </div>
+                                <div class="body">
+                                    {{publication.description}}
+                                </div>
+                                <div class="footer">
+                                    <a  ng-href="{{getFile(publication.file)}}">Descargar Archivo</a>
                                 </div>
                             </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -51,62 +67,100 @@
 
             <div class="advc-rounded-card-pub-comp-h400 highlight-parent float-left"
                  ng-if="pub.type == 'main'"
-                 ng-repeat="pub in publications"
+                 ng-repeat="pub in mainPublications"
                  card>
-                <div class="advc-highlight-mouse-over-rounded-main-pub-animated"
-                     over-clearance = "{{pub.isOver}}"></div>
-                <div class="highlighted-rounded-container">
-                    <div class="left-body advc-font-semibold advc-color-b custom-lablel-size">
-                        <div class="advc-vertical-align-container" >
-                            <div class="advc-valign-middle ">
-                                <div class="custom-text-overflow">
-                                    {{pub.title}}
-                                </div>
+                <div class="advc-highlight-mouse-over-rounded-main-pub"
+                     ng-if="userCanCreatePub">
+                    <div>
+                        <div id="div-remove-pub-{{$index}}"
+                             ng-click="removePublication(pub)"
+                             class="icon-delete_button-30px float-right opaque-icon animated"
+                             style="margin: 5px 20px 0 0;"></div>
+                    </div>
+                    <div>
+                        <div id="div-update-pub-{{$index}}"
+                             ng-click="updatePublication(pub)"
+                             class="icon-edit_button-30px float-right opaque-icon animated"
+                             style="margin: 5px 0 0 0;"></div>
+                    </div>
+                </div>
+                <div class="highlighted-rounded-container" ng-if="pub.file">
+                    <div class="publication-left advc-font-semibold advc-color-b custom-lablel-size">
+                        <div class="publication-image">
+                            <div class="image">
+                                <img class="image-size" ng-src="{{getFile(pub.file)}}"/>
+                                <h2><span>{{pub.title}}</span></h2>
                             </div>
                         </div>
+                    </div>
+                    <div class="publication-rigth advc-font-semibold advc-color-b custom-lablel-size">
+                        <div class="advc-valign-publication ">
+                            <div class="custom-text-overflow">
+                                {{pub.description}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlighted-rounded-container" ng-if="!pub.file">
+                    <div>
+                        <h1 class="text-align-center">{{pub.title}}</h1>
+                    </div>
+                    <div>
+                        <h2 class="text-align-center">{{pub.description}}</h2>
                     </div>
                 </div>
             </div>
 
         </div>
     </div>
+    <div id="create-publication" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Formulario de creación de publicaciones</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label>Titulo</label>
+                            <input type="text" class="form-control" ng-model="newPublication.title" placeholder="Ingrese el titulo" required="true"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            <textarea class="form-control" ng-model="newPublication.description" style="max-width: 100%;" placeholder="Ingrese una descripción" required="true"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Link externo</label>
+                            <input type="text" class="form-control" ng-model="newPublication.reference"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Archivo o Imagen</label>
+                            <input type="file"
+                                   id="fileElement"
+                                   name="fileElement"
+                                   accept="image/jpeg, image/png, application/pdf"
+                                   ng-model="fileName"
+                                   upload-file
+                                    >
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
 
-    <modal title="Formulario de creación de publicaciones" visible="showModal">
-        <form role="form" enctype="multipart/form-data">
-            <div class="form-group">
-                <label>Titulo</label>
-                <input type="text" class="form-control" ng-model="newPublication.title" placeholder="Ingrese el titulo" required="true"/>
-            </div>
-            <div class="form-group">
-                <label>Descripción</label>
-                <textarea class="form-control" ng-model="newPublication.description" style="max-width: 100%;" placeholder="Ingrese una descripción" required="true"/>
-            </div>
-            <div class="form-group">
-                <label>Link externo</label>
-                <input type="text" class="form-control" ng-model="newPublication.reference"/>
-            </div>
-            <div class="form-group">
-                <label>Tipo de publicacion</label>
-                <select  ng-model="newPublication.type"  ng-options="type.name for type in publicationTypes" required="true">
-                    <!--<option value=""> Tipo de Publicacion </option>-->
-                </select>
+                    <button type="submit" class="btn btn-info"
+                            ng-click="savePublication()">
+                        Guardar
+                    </button>
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">
+                        Cancelar
+                    </button>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Archivo o Imagen</label>
-                <input type="file"
-                       id="fileElement"
-                       name="fileElement"
-                       accept="image/jpeg, image/png, application/pdf"
-                       ng-model="fileName"
-                       upload-file
-                        >
-            </div>
-            <button type="submit" class="btn btn-info"
-                    ng-click="savePublication()">
-                Guardar
-            </button>
-        </form>
-    </modal>
+        </div>
+    </div>
 </div>
 

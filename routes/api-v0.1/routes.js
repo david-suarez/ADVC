@@ -55,7 +55,7 @@ exports.TeamRoute = TEAM_ROUTE + '/:team_id';
 var CLUB_ROUTE = API + BASE_CLUB_ROUTE;
 
 exports.ClubsRoute = CLUB_ROUTE;
-exports.ClubRoute = CLUB_ROUTE + '/:club_id';
+exports.ClubRoute = CLUB_ROUTE + '/:clubId';
 
 /*
  Api for Kardex

@@ -46,8 +46,6 @@ var ClubRoute = (function (){
     ClubRoute.prototype.saveClub = function(request, response){
         var newClub;
         newClub = request.body.club;
-        console.log("--------------------------------");
-        console.log(newClub);
         if(newClub !== undefined) {
             ClubModel.create(newClub, function (error, data) {
                 if (error) {
@@ -74,7 +72,7 @@ var ClubRoute = (function (){
     };
 
     ClubRoute.prototype.updateClub = function (request, response){
-        var club_id = request.params.club_id;
+        var club_id = request.params.clubId;
     var newDataClub = request.body.newDataClub;
     if(club_id !== undefined && newDataClub !== undefined){
         ClubModel.findById(club_id, function(error, club) {

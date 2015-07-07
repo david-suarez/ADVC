@@ -36,15 +36,14 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Contrase&ntilde;a</label>
+                            <label>Contraseña</label>
                             <label for="inputPassword" class="sr-only">Password</label>
                             <input type="password" id="inputPassword" class="form-control" ng-class="{'has-error':!isPassValid}" placeholder="Password"
                                    required="True" ng-model="newUser.password">
-                            <span style="color: red;" ng-if="!isPassValid">* La contrase&ntilde;a debe tener por lo menos una mayuscula y un numero</span>
+                            <span style="color: red;" ng-if="!isPassValid">* La contraseña debe tener por lo menos una mayuscula y un numero</span>
                         </div>
 
-
-                        <label>Confirmar contrase&ntilde;a</label>
+                        <label>Confirmar contraseña</label>
                         <label for="inputPassword" class="sr-only">Password</label>
                         <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Password" required="" ng-model="newUser.confirmPassword">
                         <br>
@@ -53,6 +52,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="createUser()">Crear usuario</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="updateUser()" ng-if="editMode">Actualizar usuario</button>
                     <button class="btn btn-lg btn-info btn-block" type="submit" data-dismiss="modal" ng-click="closeModal()">Cancelar</button>
                 </div>
             </div>
@@ -73,7 +73,7 @@
                             {{user.name}} {{user.lastname}}
                         </td>
                         <td class="col-md-3" style="">
-                            <a class="edit ml10" ng-click="editUser(user._id)" title="Actualizar">
+                            <a class="edit ml10" ng-click="editUser(user)" title="Actualizar">
                                 <i class="glyphicon glyphicon-edit"></i>
                             </a>
                             <a class="remove ml10" ng-click="deleteUser(user._id)" title="Eliminar">

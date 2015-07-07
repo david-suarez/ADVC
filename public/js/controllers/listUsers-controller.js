@@ -4,6 +4,8 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         $scope.Users = {};
         $scope.newUser = {};
         $scope.showModal = false;
+        $scope.createMode = false;
+        $scope.editMode = false;
         var restartValidationFields = function(){
             $scope.isNameValid = true;
             $scope.isLastNameValid = true;
@@ -24,6 +26,8 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
 
         $scope.formCreateUser = function () {
             $scope.showModal = !$scope.showModal;
+            $scope.createMode = true;
+            $scope.editMode = false;
         };
 
         $scope.validateFields = function () {
@@ -94,15 +98,19 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
             restartValidationFields();
         };
 
-        $scope.editUser = function(id){
+        $scope.editUser = function(user){
             $scope.showModal = !$scope.showModal;
-            listUsersSrv.get({
-
-                })
+            $scope.createMode = false;
+            $scope.editMode = true;
+            $scope.newUser = {
+                name: user.name,
+                lastname: user.lastname,
+                user_name: user.user_name
+            }
         };
 
         $scope.deleteUser = function(id){
-            var r = confirm("Quiere confirmar la eliminacion del usuario??");
+            var r = confirm("¿Quiere confirmar la eliminacion del usuario?");
             if (r === true) {
                 console.log( "You pressed OK!");
             } else {

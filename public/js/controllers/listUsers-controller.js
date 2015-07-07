@@ -92,6 +92,22 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
             $scope.showModal = !$scope.showModal;
             $scope.newUser = {};
             restartValidationFields();
+        };
+
+        $scope.editUser = function(id){
+            $scope.showModal = !$scope.showModal;
+            listUsersSrv.get({
+
+                })
+        };
+
+        $scope.deleteUser = function(id){
+            var r = confirm("Quiere confirmar la eliminacion del usuario??");
+            if (r === true) {
+                console.log( "You pressed OK!");
+            } else {
+                console.log("You pressed Cancel!");
+            }
         }
     }
 

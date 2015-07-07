@@ -61,10 +61,34 @@
     </div>
     <div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#create-user" ng-click="formCreateUser()">Crear usuario</button></div>
     <div class="col-md-12">
+        <h2 class="form-signin-heading">Lista de usuarios</h2>
+            <div ng-repeat="user in Users" class="row">
+                <table id="events-id2" data-url="data1.json" data-height="299" data-search="true">
+                    <tr>
+                        <td>
+                            {{$index + 1 }}.-
+                        </td>
 
-            <h2 class="form-signin-heading">Lista de usuarios</h2>
-        <div ng-repeat="user in Users" class="row">
-            <li>{{$index + 1}}.- {{user.name}} {{user.lastname}}</li>
+                        <td align="left">
+                            {{user.name}} {{user.lastname}}
+                        </td>
+                        <td class="col-md-3" style="">
+                            <a class="edit ml10" ng-click="editUser(user._id)" title="Actualizar">
+                                <i class="glyphicon glyphicon-edit"></i>
+                            </a>
+                            <a class="remove ml10" ng-click="deleteUser(user._id)" title="Eliminar">
+                                <i class="glyphicon glyphicon-remove">
+                                </i>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+
+                <!--<li>{{$index + 1}}.- {{user.name}} {{user.lastname}}-->
+                    <!--<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>-->
+                    <!--&lt;!&ndash;<button type="button" class="btn btn-sm btn-link">Eliminar</button>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<button type="button" class="btn btn-sm btn-link">Editar</button>&ndash;&gt;-->
+                <!--</li>-->
+            </div>
         </div>
-    </div>
 </div>

@@ -110,7 +110,6 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         };
 
         $scope.updateUser = function(){
-            //var self = this;
             var newUser =
             {
                 name: $scope.newUser.name,
@@ -120,22 +119,17 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
 
             listUsersSrv.update({user_id: $scope.newUser.user_id},{newDataUser: newUser},
                 function (data) {
-                    $scope.Users.push(data);
                     $scope.showModal = !$scope.showModal;
-
                     for(var index = 0; index < $scope.Users.length; index++){
                         if($scope.Users[index]._id === data._id){
-                            console.log($scope.Users[index]);
-                            console.log(data);
-                            console.log(index);
-
                             $scope.Users[index] = data;
                             break;
                         }
                     }
                 },
                 function(error){
-                    console.log(error);
+                    alert('Hubo un error al actualizar el usuario. ' +
+                        'Por favor intente mas tarde');
                 }
             );
         };

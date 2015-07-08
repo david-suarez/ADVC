@@ -51,7 +51,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="createUser()">Crear usuario</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="createUser()" ng-if="createMode">Crear usuario</button>
                     <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="updateUser()" ng-if="editMode">Actualizar usuario</button>
                     <button class="btn btn-lg btn-info btn-block" type="submit" data-dismiss="modal" ng-click="closeModal()">Cancelar</button>
                 </div>
@@ -60,36 +60,36 @@
         </div>
     </div>
     <div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#create-user" ng-click="formCreateUser()">Crear usuario</button></div>
-    <div class="col-md-12">
+    <div class="col-md-5">
         <h2 class="form-signin-heading">Lista de usuarios</h2>
-            <div class="row">
-                <table class="table table-bordered">
+        <div class="row">
+            <table class="table table-bordered">
+                <tr>
+                    <td>
+                        Nombre Completo
+                    </td>
+                    <td>
+                        Editar
+                    </td>
+                    <td>
+                        Eliminar
+                    </td>
+                </tr>
+                <tbody ng-repeat="user in Users">
                     <tr>
-                        <td>
-                            Nombre Completo
+                        <td class="col-md-3" style="">
+                            {{$index + 1 }}.- {{user.name}} {{user.lastname}}
                         </td>
-                        <td>
-                            Editar
+                        <td class="col-md-1" style="">
+                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#create-user" ng-click="editUser(user)">Editar</button>
                         </td>
-                        <td>
-                            Eliminar
+                        <td class="col-md-1" style="">
+                            <button type="button" class="btn btn-danger" ng-click="deleteUser(user._id, $index)">Eliminar</button>
                         </td>
                     </tr>
-                    <tbody ng-repeat="user in Users">
-                        <tr>
-                            <td class="col-md-3" style="">
-                                {{$index + 1 }}.- {{user.name}} {{user.lastname}}
-                            </td>
-                            <td class="col-md-1" style="">
-                                <button type="button" class="btn btn-warning" ng-click="editUser(user)">Editar</button>
-                            </td>
-                            <td class="col-md-1" style="">
-                                <button type="button" class="btn btn-danger" ng-click="deleteUser(user._id)">Eliminar</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                </tbody>
+            </table>
 
-            </div>
         </div>
+    </div>
 </div>

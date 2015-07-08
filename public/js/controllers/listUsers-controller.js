@@ -62,9 +62,6 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         };
 
         $scope.createUser = function () {
-            var name = $scope.newUser.name;
-            var lastName = $scope.newUser.lastname;
-            var userName = $scope.newUser.user_name;
             var pass = $scope.newUser.password;
             var confirmPass = $scope.newUser.confirmPassword;
 
@@ -107,7 +104,8 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
             {
                 name: user.name,
                 lastname: user.lastname,
-                user_name: user.user_name
+                user_name: user.user_name,
+                user_id: user._id
             }
         };
 
@@ -119,12 +117,9 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
                 lastname: $scope.newUser.lastname,
                 user_name: $scope.newUser.user_name
             };
-            var id ={
-                user_id: SessionService.get("user_id")
-            };
-            console.log(id);
 
-            listUsersSrv.update({user_id: id},{newDataUser: newUser},
+            listUsersSrv.update({user_id: $scope.newUser.user_id},
+                {newDataUser: newUser},
                 function (data) {
                     console.log(data);
                 },
@@ -132,25 +127,27 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
                     console.log(error);
                 }
             );
-        }
+        };
 
 
-        $scope.deleteUser = function(id){
-            var user_id = id;
-            console.log(user_id);
-            var r = confirm("¿Quiere confirmar la eliminacion del usuario?");
-            if (r === true) {
-                //console.log( "You pressed OK!");
-                listUsersSrv.delete({_id: user_id}, function(data){
-                    console.log(data);
-                },
-                function(error){
-                    console.log(error);
+        $scope.deleteUser = function(userId, index){
+            var currentUser = SessionService.get("idUser");
+            if(userId !== currentUser){
+                var r = confirm("¿Quiere confirmar la eliminacion del usuario?");
+                if (r === true) {
+                    listUsersSrv.delete({user_id: userId}, function(data){
+                            $scope.Users.splice(index,1);
+                        },
+                        function(error){
+                            console.log(error);
+                        }
+                    );
                 }
-                );
-            } else {
-                console.log("You pressed Cancel!");
+            } else{
+                alert('No se puede borrar al usuario que esta actualmente' +
+                    ' logeado.');
             }
+
         }
     }
 

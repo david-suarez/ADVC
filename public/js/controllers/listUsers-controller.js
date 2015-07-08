@@ -1,8 +1,9 @@
 advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
-    '$location', 'listUsersSrv',
-    function($scope, $routeParams, $location, listUsersSrv) {
+    '$location', 'listUsersSrv', 'SessionService',
+    function($scope, $routeParams, $location, listUsersSrv, SessionService) {
         $scope.Users = {};
         $scope.newUser = {};
+        $scope.idUser = {};
         $scope.showModal = false;
         $scope.createMode = false;
         $scope.editMode = false;
@@ -102,17 +103,51 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
             $scope.showModal = !$scope.showModal;
             $scope.createMode = false;
             $scope.editMode = true;
-            $scope.newUser = {
+            $scope.newUser =
+            {
                 name: user.name,
                 lastname: user.lastname,
                 user_name: user.user_name
             }
         };
 
+        $scope.updateUser = function(){
+            //var self = this;
+            var newUser =
+            {
+                name: $scope.newUser.name,
+                lastname: $scope.newUser.lastname,
+                user_name: $scope.newUser.user_name
+            };
+            var id ={
+                user_id: SessionService.get("user_id")
+            };
+            console.log(id);
+
+            listUsersSrv.update({user_id: id},{newDataUser: newUser},
+                function (data) {
+                    console.log(data);
+                },
+                function(error){
+                    console.log(error);
+                }
+            );
+        }
+
+
         $scope.deleteUser = function(id){
+            var user_id = id;
+            console.log(user_id);
             var r = confirm("¿Quiere confirmar la eliminacion del usuario?");
             if (r === true) {
-                console.log( "You pressed OK!");
+                //console.log( "You pressed OK!");
+                listUsersSrv.delete({_id: user_id}, function(data){
+                    console.log(data);
+                },
+                function(error){
+                    console.log(error);
+                }
+                );
             } else {
                 console.log("You pressed Cancel!");
             }

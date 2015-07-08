@@ -35,7 +35,7 @@
                             <span style="color: red;" ng-if="!isUserNameValid">* El nombre de usuario tiene caracteres no permitidos</span>
                         </div>
 
-                        <div class="form-group">
+                        <div ng-show="!editMode" class="form-group">
                             <label>Contraseña</label>
                             <label for="inputPassword" class="sr-only">Password</label>
                             <input type="password" id="inputPassword" class="form-control" ng-class="{'has-error':!isPassValid}" placeholder="Password"
@@ -43,9 +43,9 @@
                             <span style="color: red;" ng-if="!isPassValid">* La contraseña debe tener por lo menos una mayuscula y un numero</span>
                         </div>
 
-                        <label>Confirmar contraseña</label>
-                        <label for="inputPassword" class="sr-only">Password</label>
-                        <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Password" required="" ng-model="newUser.confirmPassword">
+                        <label ng-show="!editMode">Confirmar contraseña</label>
+                        <label ng-show="!editMode" for="inputPassword" class="sr-only">Password</label>
+                        <input ng-show="!editMode" type="password" id="inputConfirmPassword" class="form-control" placeholder="Password" required="" ng-model="newUser.confirmPassword">
                         <br>
 
                     </form>
@@ -62,33 +62,34 @@
     <div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#create-user" ng-click="formCreateUser()">Crear usuario</button></div>
     <div class="col-md-12">
         <h2 class="form-signin-heading">Lista de usuarios</h2>
-            <div ng-repeat="user in Users" class="row">
-                <table id="events-id2" data-url="data1.json" data-height="299" data-search="true">
+            <div class="row">
+                <table class="table table-bordered">
                     <tr>
                         <td>
-                            {{$index + 1 }}.-
+                            Nombre Completo
                         </td>
-
-                        <td align="left">
-                            {{user.name}} {{user.lastname}}
+                        <td>
+                            Editar
                         </td>
-                        <td class="col-md-3" style="">
-                            <a class="edit ml10" ng-click="editUser(user)" title="Actualizar">
-                                <i class="glyphicon glyphicon-edit"></i>
-                            </a>
-                            <a class="remove ml10" ng-click="deleteUser(user._id)" title="Eliminar">
-                                <i class="glyphicon glyphicon-remove">
-                                </i>
-                            </a>
+                        <td>
+                            Eliminar
                         </td>
                     </tr>
+                    <tbody ng-repeat="user in Users">
+                        <tr>
+                            <td class="col-md-3" style="">
+                                {{$index + 1 }}.- {{user.name}} {{user.lastname}}
+                            </td>
+                            <td class="col-md-1" style="">
+                                <button type="button" class="btn btn-warning" ng-click="editUser(user)">Editar</button>
+                            </td>
+                            <td class="col-md-1" style="">
+                                <button type="button" class="btn btn-danger" ng-click="deleteUser(user._id)">Eliminar</button>
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
 
-                <!--<li>{{$index + 1}}.- {{user.name}} {{user.lastname}}-->
-                    <!--<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>-->
-                    <!--&lt;!&ndash;<button type="button" class="btn btn-sm btn-link">Eliminar</button>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<button type="button" class="btn btn-sm btn-link">Editar</button>&ndash;&gt;-->
-                <!--</li>-->
             </div>
         </div>
 </div>

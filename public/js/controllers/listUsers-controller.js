@@ -118,10 +118,21 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
                 user_name: $scope.newUser.user_name
             };
 
-            listUsersSrv.update({user_id: $scope.newUser.user_id},
-                {newDataUser: newUser},
+            listUsersSrv.update({user_id: $scope.newUser.user_id},{newDataUser: newUser},
                 function (data) {
-                    console.log(data);
+                    $scope.Users.push(data);
+                    $scope.showModal = !$scope.showModal;
+
+                    for(var index = 0; index < $scope.Users.length; index++){
+                        if($scope.Users[index]._id === data._id){
+                            console.log($scope.Users[index]);
+                            console.log(data);
+                            console.log(index);
+
+                            $scope.Users[index] = data;
+                            break;
+                        }
+                    }
                 },
                 function(error){
                     console.log(error);

@@ -75,7 +75,7 @@
                         Eliminar
                     </td>
                 </tr>
-                <tbody ng-repeat="user in Users">
+                <tbody ng-repeat="user in Users track by $index">
                     <tr>
                         <td class="col-md-3" style="">
                             {{$index + 1 }}.- {{user.name}} {{user.lastname}}

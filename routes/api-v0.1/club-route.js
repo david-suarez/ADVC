@@ -60,12 +60,12 @@ var ClubRoute = (function (){
     };
 
     ClubRoute.prototype.removeClub = function(request,response){
-        var club_id = request.params.club_id;
-        ClubModel.remove({_id: club_id}, function(err, doc){
-           if(err){
+        var clubId = request.params.clubId;
+        ClubModel.remove({_id: clubId}, function(err, doc){
+            if(err){
                response.send(500, err.message);
             } else {
-               response.send(200, {club_id: club_id});
+               response.send(200, {clubId: clubId});
            }
 
         });

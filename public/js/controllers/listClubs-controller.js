@@ -10,6 +10,12 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
         $scope.Users = {};
         $scope.editClub = {};
 
+        var restartValidationFields = function(){
+            $scope.isNameValid = true;
+        };
+
+        restartValidationFields();
+
         listUsersSrv.get({},
             function(result){
                 for(var index in result.data){
@@ -33,6 +39,20 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
             }
         );
 
+        $scope.validateFields = function () {
+            var name = $scope.newClub.name;
+            var nameRegEx = /[A-Za-z0-9_]{3,16}/;
+
+            if (!nameRegEx.test(name)) {
+                $scope.isNameValid = false;
+                return false;}
+            else {
+                $scope.isPassValid = true;
+                return true;
+            }
+        };
+
+
         $scope.createClub= function () {
 
 
@@ -42,18 +62,24 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
                 delegate: $scope.newClub.delegate._id
             };
 
-             listClubsSrv.save({club: newClub},
-             function (data) {
-             $scope.Clubs.push(data);
-             $scope.Users.push(data);
-             $scope.showModal = !$scope.showModal;
-             $scope.newClub = {};
-             },
-             function(error){
-             console.log(error);
-             }
-             );
+            if($scope.validateFields()){
+
+                listClubsSrv.save({club: newClub},
+                    function (data) {
+                        $scope.Clubs.push(data);
+                        $scope.Users.push(data);
+                        $scope.showModal = !$scope.showModal;
+                        $scope.newClub = {};
+                    },
+                    function(error){
+                        console.log(error);
+                    }
+                );
+            }else{
+                console.log("Las contraseñas no coinciden.");
+            }
         };
+
         $scope.formCreateClub = function () {
             $scope.showModal = !$scope.showModal;
             $scope.createMode = true;
@@ -115,6 +141,28 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
                 }
             );
         }
+
+        $scope.formDeleteClub = function (club) {
+            var r = confirm("Esta seguro de eliminar el club" +' '+ club.name);
+            console.log(club._id);
+            if (r == true) {
+                x = "You pressed OK!";
+                listClubsSrv.delete({clubId: club._id},
+                    function (data) {
+                        var index = 0;
+                        $scope.Clubs.splice(index, 1);
+                        //$scope.Clubs.splash(data);
+                    }
+                );
+            } else {
+                x = "You pressed Cancel!";
+            }
+
+            /*$scope.showModal = !$scope.showModal;
+            $scope.createMode = true;
+            $scope.editMode = false;*/
+        };
+
 
         $scope.closeModal=function(){
             $scope.showModal = !$scope.showModal;

@@ -52,10 +52,11 @@
                                 </div>
                                 <div class="body">
                                     {{publication.description}}
-                                    <a ng-if="publication.reference" class="text-align-right" ng-href="publication.reference">Leer mas...</a>
+                                    <br>
+                                    <a ng-if="publication.reference" class="float-right" ng-href="{{publication.reference}}" target="_blank">Leer mas...</a>
                                 </div>
                                 <div class="footer">
-                                    <a  ng-href="{{getFile(publication.file)}}">Descargar Archivo</a>
+                                    <a  ng-href="{{getFile(publication.file)}}" target="_blank">Descargar Archivo</a>
                                 </div>
                             </div>
                     </div>
@@ -99,9 +100,8 @@
                         <div class="advc-valign-publication ">
                             <div class="custom-text-overflow">
                                 {{pub.description}}
-                            </div>
-                            <div class="custom-text-overflow">
-                                <a ng-if="pub.reference" class="text-align-right" ng-href="pub.reference">Leer mas...</a>
+                                <br>
+                                <a ng-if="pub.reference" ng-href="{{pub.reference}}" target="_blank">Leer mas...</a>
                             </div>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                         <h2 class="text-align-center">{{pub.description}}</h2>
                     </div>
                     <div>
-                        <h4 class="text-align-center" ng-if="pub.reference">Para más información ingrese al siguiente haga <a ng-href="{{pub.reference}}">click aqui</a></h4>
+                        <h4 class="text-align-center" ng-if="pub.reference">Para más información ingrese al siguiente haga <a ng-href="{{pub.reference}}" target="_blank">click aqui</a></h4>
                     </div>
                 </div>
             </div>

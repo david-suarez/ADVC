@@ -71,7 +71,11 @@ var PublicationRoute = (function () {
                         response.status(500).json(err.message);
                     } else if(publication.file){
                         pathFile += publication.file;
-
+                        fs.unlink(pathFile, function (error) {
+                            if (error) response.status(500).json(error.message);
+                            response.status(200).
+                                json({publicationId: publicationId});
+                        });
                     } else {
                         response.status(200).
                             json({publicationId: publicationId});

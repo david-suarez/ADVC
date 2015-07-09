@@ -39,9 +39,10 @@
                                  class="icon-delete_button-20px float-right opaque-icon animated"
                                  style="margin: 5px 20px 0 0;"></div>
                             <div id="div-update-publication-{{$index}}"
-                                 ng-click="removePublication(publication)"
+                                 ng-click="openUpdatePublication(publication, $index)"
                                  class="icon-edit_button-20px float-right opaque-icon animated"
-                                 style="margin: 5px 0 0 0;"></div>
+                                 style="margin: 5px 0 0 0;"
+                                 data-toggle="modal" data-target="#create-publication"></div>
                         </div>
                     </div>
                     <div class="highlighted-rounded-container">
@@ -51,6 +52,7 @@
                                 </div>
                                 <div class="body">
                                     {{publication.description}}
+                                    <a ng-if="publication.reference" class="text-align-right" ng-href="publication.reference">Leer mas...</a>
                                 </div>
                                 <div class="footer">
                                     <a  ng-href="{{getFile(publication.file)}}">Descargar Archivo</a>
@@ -75,13 +77,13 @@
                         <div id="div-remove-pub-{{$index}}"
                              ng-click="removePublication(pub)"
                              class="icon-delete_button-30px float-right opaque-icon animated"
-                             style="margin: 5px 20px 0 0;"></div>
+                             style="margin-right: 20px;"></div>
                     </div>
                     <div>
                         <div id="div-update-pub-{{$index}}"
-                             ng-click="updatePublication(pub)"
+                             ng-click="openUpdatePublication(pub, $index)"
                              class="icon-edit_button-30px float-right opaque-icon animated"
-                             style="margin: 5px 0 0 0;"></div>
+                             data-toggle="modal" data-target="#create-publication"></div>
                     </div>
                 </div>
                 <div class="highlighted-rounded-container" ng-if="pub.file">
@@ -98,6 +100,9 @@
                             <div class="custom-text-overflow">
                                 {{pub.description}}
                             </div>
+                            <div class="custom-text-overflow">
+                                <a ng-if="pub.reference" class="text-align-right" ng-href="pub.reference">Leer mas...</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -108,18 +113,23 @@
                     <div>
                         <h2 class="text-align-center">{{pub.description}}</h2>
                     </div>
+                    <div>
+                        <h4 class="text-align-center" ng-if="pub.reference">Para más información ingrese al siguiente haga <a ng-href="{{pub.reference}}">click aqui</a></h4>
+                    </div>
                 </div>
             </div>
 
         </div>
     </div>
-    <div id="create-publication" class="modal fade" role="dialog">
+
+    <div id="create-publication" class="modal fade" role="dialog" data-backdrop="static"
+         data-keyboard="false" >
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Formulario de creación de publicaciones</h4>
+                    <h4 class="modal-title">{{formTitle}}</h4>
                 </div>
                 <div class="modal-body">
                     <form role="form" enctype="multipart/form-data">
@@ -141,16 +151,25 @@
                                    id="fileElement"
                                    name="fileElement"
                                    accept="image/jpeg, image/png, application/pdf"
-                                   ng-model="fileName"
-                                   upload-file
-                                    >
+                                   upload-file ng-disabled="newPublication.fileName">
+                            <div ng-if="newPublication.fileName && editMode">
+                                <div class="float-left">
+                                    {{newPublication.fileName}}
+                                </div>
+                                <div class="icon-close-20px float-left opaque-icon animated"
+                                     ng-click="deleteFile()"></div>
+                            </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
 
-                    <button type="submit" class="btn btn-info"
+                    <button type="submit" class="btn btn-info" ng-if="createMode"
                             ng-click="savePublication()">
+                        Guardar
+                    </button>
+                    <button type="submit" class="btn btn-info" ng-if="editMode"
+                            ng-click="updatePublication()">
                         Guardar
                     </button>
                     <button type="button" class="btn btn-default"

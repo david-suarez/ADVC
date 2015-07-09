@@ -80,3 +80,4 @@ var PUB_ROUTE = API + BASE_PUB_ROUTE;
 exports.PubsRoute = PUB_ROUTE;
 exports.PubRoute = PUB_ROUTE + '/:publicationId';
 exports.PubUploadFile = PUB_ROUTE + '/fileupload';
+exports.PubDeleteFile = PUB_ROUTE + '/:publicationId/filedelete';

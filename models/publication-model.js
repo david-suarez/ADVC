@@ -17,6 +17,7 @@ var PublicationSchema = new Schema({
         'type': String,
         'index': true,
         'required': true,
+        'default': "main",
         'enum': [
             "main",
             "secondary"
@@ -24,11 +25,19 @@ var PublicationSchema = new Schema({
     },
     'reference':{
         'type': String,
-        'default':""
+        'default': ""
+    },
+    'fileName':{
+        'type': String,
+        'default': ""
     },
     'file':{
-        'type':String,
-        'default':""
+        'type': String,
+        'default': ""
+    },
+    'date':{
+        'type': Date,
+        'default': new Date()
     }
 });
 

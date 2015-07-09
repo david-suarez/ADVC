@@ -1,6 +1,3 @@
-/**
- * Created by david on 16-06-15.
- */
 
 var route = require('./routes');
 var fs = require('fs');
@@ -35,7 +32,7 @@ var PublicationRoute = (function () {
     };
     PublicationRoute.prototype.getPublications = function(request, response){
         var filter = request.body;
-        var query = PublicationModel.find(filter);
+        var query = PublicationModel.find(filter).sort({date: -1});
         query.exec(function(error, data) {
             if (error) {
                 response.status(500).json(error.message);
@@ -50,7 +47,6 @@ var PublicationRoute = (function () {
 
             PublicationModel.create(newPublication, function (error, data) {
                 if (error) {
-                    console.log(error);
                     response.status(500).json(error.message);
                 } else {
                     response.status(201).json(data);
@@ -72,14 +68,10 @@ var PublicationRoute = (function () {
             else{
                 PublicationModel.remove({_id: publicationId}, function(err, doc){
                     if (err){
-                        response.json(500, err.message);
+                        response.status(500).json(err.message);
                     } else if(publication.file){
                         pathFile += publication.file;
-                        fs.unlink(pathFile, function (error) {
-                            if (error) response.status(500).json(error.message);
-                            response.status(200).
-                                json({publicationId: publicationId});
-                        });
+
                     } else {
                         response.status(200).
                             json({publicationId: publicationId});
@@ -89,7 +81,35 @@ var PublicationRoute = (function () {
         });
     };
     PublicationRoute.prototype.updatePublication = function(request, response){
-
+        var publicationId = request.params.publicationId;
+        var newDataPublication = request.body.newDataPublication;
+        if(publicationId !== undefined && newDataPublication !== undefined) {
+            PublicationModel.findById(publicationId, function(error, pub) {
+                if(error){
+                    response.status(500).json(error.message);
+                }
+                else{
+                    var type = pub.type;
+                    for (var key in newDataPublication) {
+                        if(typeof(pub[key]) !== 'undefined'){
+                            pub[key] = newDataPublication[key];
+                        }
+                    }
+                    pub.save(function(err, publicationUpdated){
+                        if(err){
+                            response.status(500).json(err.message);
+                        }
+                        else {
+                            response.status(200).json(
+                                {pub:publicationUpdated,
+                                prevType:type});
+                        }
+                    });
+                }
+            });
+        } else {
+            response.json(400, {'message': 'Bad Request'});
+        }
     };
     PublicationRoute.prototype.uploadFile = function(request, response){
         if(request.files != undefined){
@@ -98,6 +118,32 @@ var PublicationRoute = (function () {
         } else{
             response.status(400).json({'message': 'Bad Request'});
         }
+    };
+    PublicationRoute.prototype.deleteFile = function(request, response){
+        var publicationId = request.params.publicationId;
+        var fileName = request.body.fileName;
+        var pathFile = './public/uploads/' + fileName;
+        fs.unlink(pathFile, function (error) {
+            if (error) response.status(500).json(error.message);
+            PublicationModel.findById(publicationId, function(error, pub) {
+                if(error){
+                    response.status(500).json(error.message);
+                }
+                else {
+                    pub.file = '';
+                    pub.fileName = '';
+                    pub.type = 'main';
+                    pub.save(function(err, publicationUpdated){
+                        if(err){
+                            response.status(500).json(err.message);
+                        }
+                        else {
+                            response.status(200).json(publicationUpdated);
+                        }
+                    });
+                }
+            });
+        });
     };
     return PublicationRoute;
 })();
@@ -110,5 +156,6 @@ module.exports = function(app){
     app.put(route.PubRoute, pubRoute.updatePublication);
     app.post(route.PubsRoute, pubRoute.savePublications);
     app.delete(route.PubRoute, pubRoute.deletePublication);
+    app.post(route.PubDeleteFile, pubRoute.deleteFile);
     app.post(route.PubUploadFile, pubRoute.uploadFile);
 };

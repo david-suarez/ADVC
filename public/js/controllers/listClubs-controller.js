@@ -62,7 +62,9 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
                     function (data) {
                         $scope.Clubs.push(data);
                         $scope.Users.push(data);
-                        $scope.showModal = !$scope.showModal;
+                        $('#create-user').modal('hide'); //hide modal
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
                         $scope.newClub = {};
                     },
                     function(error){
@@ -114,8 +116,6 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
                 foundation: $scope.newClub.foundation,
                 delegate: $scope.newClub.delegate._id
             };
-
-
 
             listClubsSrv.update({clubId: $scope.newClub._id},
                 {newDataClub: newClub},

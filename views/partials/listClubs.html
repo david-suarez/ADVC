@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <div ng-controller="listClubsCtrl">
     <!---Formulario modal para creacion de clubs -->
-    <div class="modal fade" id="create-club" role="dialog">
+    <div class="modal fade" id="create-club" role="dialog" data-backdrop="static"
+         data-keyboard="false">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -62,7 +63,7 @@
                 <tbody ng-repeat="club in Clubs">
                 <tr>
                     <td>{{club.name}}</td>
-                    <td>{{club.foundation}}</td>
+                    <td>{{obtainFormatDate(club.foundation)}}</td>
                     <td>{{club.delegate.name}} {{club.delegate.lastname}}</td>
                     <td><button type="button" class="btn btn-warning" ng-click="formEditClub(club)" data-toggle="modal" data-target="#create-club">Editar</button></td>
                     <td><button type="button" class="btn btn-danger" ng-click="formDeleteClub(club)">Eliminar</button></td>

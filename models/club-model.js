@@ -8,7 +8,8 @@ var Schema = mongoose.Schema;
 var ClubSchema = new Schema({
     'name':{
         'type': String,
-        'default': ""
+        'default': "",
+        'required': true
     },
     'foundation':{
         'type':Date,

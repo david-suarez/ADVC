@@ -6,7 +6,7 @@ var BASE_PLAYER_ROUTE = '/players';
 var BASE_TEAM_ROUTE = '/teams';
 var BASE_CLUB_ROUTE = '/clubs';
 var BASE_KARDEX_ROUTE = '/kardex';
-var BASE_NEWS_ROUTE = '/news';
+var BASE_PUB_ROUTE = '/publications';
 
 /*
  Api for Users
@@ -69,14 +69,15 @@ var KADEX_ROUTE = API + BASE_KARDEX_ROUTE;
 exports.Kardex_Route = KADEX_ROUTE;
 
 /*
- Api for Kardex
+ Api for Publications
  @example define routes for kardex
- /api/v0.1/kardex
- /api/v0.1/kardex/:kadex_id
+ /api/v0.1/publications
+ /api/v0.1/publications/:publication_id
 */
 
-var NEWS_ROUTE = API + BASE_NEWS_ROUTE;
+var PUB_ROUTE = API + BASE_PUB_ROUTE;
 
-exports.NewsRoute = NEWS_ROUTE;
-exports.NewRoute = NEWS_ROUTE + '/:news_id';
-exports.NewUploadImageRoute = NEWS_ROUTE + '/fileupload';
+exports.PubsRoute = PUB_ROUTE;
+exports.PubRoute = PUB_ROUTE + '/:publicationId';
+exports.PubUploadFile = PUB_ROUTE + '/fileupload';
+exports.PubDeleteFile = PUB_ROUTE + '/:publicationId/filedelete';

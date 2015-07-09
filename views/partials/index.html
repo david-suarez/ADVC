@@ -1,31 +1,185 @@
 <div ng-controller="mainCtrl">
-    <!--<div ng-if="haveProfile" class="container-board-header">-->
-        <!--<div class="{{profile.class}} "-->
-             <!--template="{{profile.template}}"-->
-             <!--header-profile-->
-                <!-->
-            <!--&lt;!&ndash; todo the directive validate should not be here is a work around for-->
-            <!--call this directives in the all boards and cards &ndash;&gt;-->
-        <!--</div>-->
-    <!--</div>-->
+
+    <!-- Left menu -->
     <div class="left-menu-container">
+
+        <!-- Left menu - Body -->
         <div class="left-menu-body">
             <div class="panel_content">
-                <div class="{{pub.class}} item"
-                     template="{{pub.template}}" card
-                     ng-repeat="pub in publications">
+
+                <div class="advc-rounded-card-w220-h80 highlight-parent float-left space-top-10px"
+                        ng-if="userCanCreatePub">
+
+                    <div class="advc-highlight-mouse-over-rounded-card-animated" ng-click="openCreateDialog()" data-toggle="modal" data-target="#create-publication"></div>
+                    <div class="highlighted-rounded-container">
+                        <div class="left-body advc-font-semibold advc-color-b   custom-lablel-size">
+                            <div class="advc-vertical-align-container" >
+                                <div class="advc-valign-middle ">
+                                    <div class="custom-text-overflow" ng-class="{'task-words':clearance.onProgress[clearance.type]}">
+                                        Crear publicación
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h2>Descargas</h2>
+                </div>
+                <!-- Available publications -->
+                <div  class="advc-rounded-card-w220-h150 highlight-parent float-left space-top-10px"
+                      ng-if="publication.type != 'main'"
+                      ng-repeat="publication in downPublications">
+
+                    <div class="advc-highlight-mouse-over-rounded-animated"
+                         over-clearance = "{{publication.isOver}}" ng-if="userCanCreatePub">
+                        <div>
+                            <div id="div-remove-publication-{{$index}}"
+                                 ng-click="removePublication(publication)"
+                                 class="icon-delete_button-20px float-right opaque-icon animated"
+                                 style="margin: 5px 20px 0 0;"></div>
+                            <div id="div-update-publication-{{$index}}"
+                                 ng-click="openUpdatePublication(publication, $index)"
+                                 class="icon-edit_button-20px float-right opaque-icon animated"
+                                 style="margin: 5px 0 0 0;"
+                                 data-toggle="modal" data-target="#create-publication"></div>
+                        </div>
+                    </div>
+                    <div class="highlighted-rounded-container">
+                            <div class="advc-valign-download">
+                                <div class="header">
+                                    {{publication.title}}
+                                </div>
+                                <div class="body">
+                                    {{publication.description}}
+                                    <a ng-if="publication.reference" class="text-align-right" ng-href="publication.reference">Leer mas...</a>
+                                </div>
+                                <div class="footer">
+                                    <a  ng-href="{{getFile(publication.file)}}">Descargar Archivo</a>
+                                </div>
+                            </div>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
+
     <div class="main-content-container">
         <div class="container-board-players">
-            <div class="{{pub.class}} item"
-                 template="{{pub.template}}"
+
+            <div class="advc-rounded-card-pub-comp-h400 highlight-parent float-left"
+                 ng-if="pub.type == 'main'"
                  ng-repeat="pub in mainPublications"
                  card>
+                <div class="advc-highlight-mouse-over-rounded-main-pub"
+                     ng-if="userCanCreatePub">
+                    <div>
+                        <div id="div-remove-pub-{{$index}}"
+                             ng-click="removePublication(pub)"
+                             class="icon-delete_button-30px float-right opaque-icon animated"
+                             style="margin-right: 20px;"></div>
+                    </div>
+                    <div>
+                        <div id="div-update-pub-{{$index}}"
+                             ng-click="openUpdatePublication(pub, $index)"
+                             class="icon-edit_button-30px float-right opaque-icon animated"
+                             data-toggle="modal" data-target="#create-publication"></div>
+                    </div>
+                </div>
+                <div class="highlighted-rounded-container" ng-if="pub.file">
+                    <div class="publication-left advc-font-semibold advc-color-b custom-lablel-size">
+                        <div class="publication-image">
+                            <div class="image">
+                                <img class="image-size" ng-src="{{getFile(pub.file)}}"/>
+                                <h2><span>{{pub.title}}</span></h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="publication-rigth advc-font-semibold advc-color-b custom-lablel-size">
+                        <div class="advc-valign-publication ">
+                            <div class="custom-text-overflow">
+                                {{pub.description}}
+                            </div>
+                            <div class="custom-text-overflow">
+                                <a ng-if="pub.reference" class="text-align-right" ng-href="pub.reference">Leer mas...</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="highlighted-rounded-container" ng-if="!pub.file">
+                    <div>
+                        <h1 class="text-align-center">{{pub.title}}</h1>
+                    </div>
+                    <div>
+                        <h2 class="text-align-center">{{pub.description}}</h2>
+                    </div>
+                    <div>
+                        <h4 class="text-align-center" ng-if="pub.reference">Para más información ingrese al siguiente haga <a ng-href="{{pub.reference}}">click aqui</a></h4>
+                    </div>
+                </div>
             </div>
+
+        </div>
+    </div>
+
+    <div id="create-publication" class="modal fade" role="dialog" data-backdrop="static"
+         data-keyboard="false" >
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">{{formTitle}}</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label>Titulo</label>
+                            <input type="text" class="form-control" ng-model="newPublication.title" placeholder="Ingrese el titulo" required="true"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Descripción</label>
+                            <textarea class="form-control" ng-model="newPublication.description" style="max-width: 100%;" placeholder="Ingrese una descripción" required="true"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Link externo</label>
+                            <input type="text" class="form-control" ng-model="newPublication.reference"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Archivo o Imagen</label>
+                            <input type="file"
+                                   id="fileElement"
+                                   name="fileElement"
+                                   accept="image/jpeg, image/png, application/pdf"
+                                   upload-file ng-disabled="newPublication.fileName">
+                            <div ng-if="newPublication.fileName && editMode">
+                                <div class="float-left">
+                                    {{newPublication.fileName}}
+                                </div>
+                                <div class="icon-close-20px float-left opaque-icon animated"
+                                     ng-click="deleteFile()"></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+
+                    <button type="submit" class="btn btn-info" ng-if="createMode"
+                            ng-click="savePublication()">
+                        Guardar
+                    </button>
+                    <button type="submit" class="btn btn-info" ng-if="editMode"
+                            ng-click="updatePublication()">
+                        Guardar
+                    </button>
+                    <button type="button" class="btn btn-default"
+                            data-dismiss="modal">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
+

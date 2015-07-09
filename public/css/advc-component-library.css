@@ -1,0 +1,370 @@
+/********************************
+  ADVC COMPONENT LIBRARY v0.1
+  Date: June 20, 2015
+  Copyright: Soft.BDA
+  Author:
+    name: David Suarez Aliendre
+    email: david.suarez87@gmail
+  Version: 0.1
+*********************************/
+/* Import constants */
+/* Set default fonts */
+[class*="-font-normal"] {
+    font-family: Roboto !important;
+}
+[class*="-font-semibold"] {
+    font-family: RobotoBold !important;
+}
+[class*="-font-ligth"] {
+    font-family: RobotoLight !important;
+}
+/* Cards default sizes */
+[class*="-w220"] {
+    width: 220px;
+}
+[class*="-pub-half"] {
+    width: 50%;
+}
+[class*="-pub-comp"] {
+    width: 95%;
+    margin: 10px 10px 0 10px;
+}
+[class*="-h400"] {
+    height: 410px;
+}
+[class*="-h80"] {
+    height: 80px;
+}
+[class*="-h200"] {
+    height: 200px;
+}
+
+[class*="-h150"] {
+    height: 150px;
+}
+
+/* Top margin */
+.space-top-10px {
+    margin: 10px 0 0 0;
+}
+/* Vertical alignment */
+.advc-vertical-align-container {
+    text-align: left;
+    display: table;
+    height: 100%;
+    width: 100%;
+}
+/* Horizontal alignment */
+.advc-horizontal-align-container {
+    height: 100%;
+    width: 100%;
+    margin-top: -5px;
+}
+.advc-valign-middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+.advc-valign-publication {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 20px 35px 20px 20px;
+    font-size: 15px;
+    text-align: justify;
+}
+.advc-valign-download {
+    display: table-cell;
+    vertical-align: middle;
+    width: 220px;
+    padding: 10px 20px 20px 20px;
+    font-size: 15px;
+    text-align: justify;
+}
+/* Cards */
+[class*="advc-card"],
+[class*="advc-rounded-card"] {
+    min-width: 220px;
+    min-height: 80px;
+    border-radius: 3px;
+    background-color: #fff;
+    font-family: Roboto;
+    color: #444;
+    box-shadow: rgba(0,0,0,0.3) 1px 1px 3px;
+    font-size: 12px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+/* Rounded Cards */
+[class*="advc-rounded-card"] {
+    border-radius: 40px !important;
+}
+[class*="advc-rounded-card"] .header {
+    border-radius: 40px 40px 0 0;
+    padding: 0 10px 0 20px;
+    height: 21px;
+}
+[class*="advc-rounded-card"] .body {
+    border-radius: 0 0 40px 40px;
+    height: 90px;
+    font-family: RobotoLight !important;
+}
+[class*="advc-rounded-card"] .footer {
+    border-radius: 40px 40px 0 0;
+    padding: 0 10px 0 20px;
+    height: 21px;
+}
+[class*="advc-rounded-card"] .header-icon-margin {
+    padding-top: 5px;
+}
+[class*="advc-rounded-card"] .left-body {
+    width: 140px;
+    height: 100%;
+    float: left;
+    border-radius: 40px 0 0 40px;
+    padding-left: 22px;
+    overflow: hidden;
+}
+[class*="advc-rounded-card"] .publication-left {
+    width: 50%;
+    height: 90%;
+    float: left;
+    border-radius: 40px;
+    overflow: hidden;
+    margin: 20px 0 0 20px;
+}
+[class*="advc-rounded-card"] .publication-image {
+    width: 100%;
+    height: 100%;
+}
+[class*="advc-rounded-card"] .publication-image .image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+[class*="advc-rounded-card"] .publication-image .image h2 {
+    position: absolute;
+    top: 70%;
+    left: 5%;
+    width: 90%;
+}
+
+[class*="advc-rounded-card"] .publication-image .image h2 span{
+    color: white;
+    font: bold 20px Roboto, Sans-Serif;
+    background: rgb(0, 0, 0); /* fallback color */
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    display:inline-block
+}
+
+[class*="advc-rounded-card"] .publication-image .image .image-size {
+    width: 100%;
+    height: 100%;
+}
+
+[class*="advc-rounded-card"] .right-counter-circumference {
+    text-align: center;
+    line-height: 60px;
+    font-size: 18px;
+    margin: 15px;
+    width: 50px;
+    height: 50px;
+    border-radius: 30px;
+    float: left;
+}
+[class*="advc-rounded-card"] .spinner-progress {
+    width: 30px;
+    float: left;
+    height: 80px;
+}
+[class*="advc-multiple-card-selection"] {
+    width: 220px;
+    height: 80px;
+    position: relative;
+}
+[class*="advc-multiple-card-selection"] .right-counter-circumference {
+    position: absolute;
+    background-color: #000;
+    color: #fff;
+    width: 34px;
+    height: 34px;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 34px;
+    top: -10px;
+    right: -10px;
+    box-shadow: rgba(0,0,0,0.1) 0 0 1px;
+}
+/* Mouse over a card effect */
+.highlight-parent {
+    position: relative;
+    overflow: visible;
+}
+.highlight-parent .highlighted-container {
+    height: 100%;
+    width: 100%;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.highlight-parent .highlighted-rounded-container {
+    height: 100%;
+    width: 100%;
+    border-radius: 45px;
+    overflow: hidden;
+}
+[class*="-highlight-mouse-over"],
+[class*="-highlight-mouse-over-rounded"] {
+    width: 226px;
+    height: 156px;
+    position: absolute;
+    border-radius: 6px;
+    margin: -3px;
+    border: #0082ff 3px solid;
+    opacity: 0;
+    cursor: pointer;
+}
+[class*="-highlight-mouse-over-rounded-card"] {
+    width: 226px;
+    height: 86px;
+    position: absolute;
+    border-radius: 6px;
+    margin: -3px;
+    border: #0082ff 3px solid;
+    opacity: 0;
+    cursor: pointer;
+}
+[class*="-highlight-mouse-over-rounded-main-pub"] {
+    width: 100.5%;
+    height: 416px;
+    position: absolute;
+    border-radius: 6px;
+    margin: -3px;
+    border: #0082ff 3px solid;
+    opacity: 0;
+    cursor: pointer;
+}
+.selected-highlight {rgba(0, 0, 0, 0.3)
+    border: #fff 3px solid !important;
+}
+[class*="-highlight-mouse-over-rounded"] {
+    border-radius: 45px;
+}
+[class*="-highlight-mouse-over"]:hover {
+    opacity: 1;
+}
+[class*="highligh-font-container"],
+[class*="highligh-font-container-contrast"] {
+    height: 100%;
+    width: 100%;
+}
+[class*="highligh-font-container"]:hover,
+[class*="highligh-font-container-contrast"]:hover {
+    color: #0082ff !important;
+}
+[class*="highligh-font-container-contrast"]:hover {
+    color: #fff !important;
+}
+/* Cards layout */
+[class*="-layout"] {
+    float: left;
+    margin: 10px 0 0 20px;
+}
+/*
+  Animations
+  This class animates all attributes on all DOM matches when some css property
+  changes
+*/
+[class*="animated"],
+.animated {
+    -webkit-transition: all 0.4s ease-in-out;
+    -moz-transition: all 0.4s ease-in-out;
+    -ms-transition: all 0.4s ease-in-out;
+    -o-transition: all 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
+}
+.text-align-center {
+    text-align: center;
+}
+.text-align-right {
+    text-align: right;
+}
+.animated-opacity {
+    opacity: 0.5;
+}
+.animated-opacity:hover {
+    opacity: 1;
+}
+.animated-color-a {
+    color: #444;
+}
+.animated-color-a:hover {
+    color: #0082ff;
+}
+.animated-color-b {
+    color: #444;
+}
+.animated-color-b:hover {
+    color: #fff;
+}
+/* Helper classes */
+.pointer {
+    cursor: pointer;
+}
+.rotate-180deg {
+    -ms-transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
+.middle-opacity {
+    opacity: 0.5;
+}
+.low-opacity-black-bg {
+    background-color: rgba(0,0,0,0.2);
+}
+.absolute-position {
+    position: absolute;
+}
+.multiple-selection-level-1-margin {
+    margin: 5px 0 0 -5px;
+}
+.multiple-selection-level-2-margin {
+    margin: 10px 0 0 -10px;
+}
+.show-overflow {
+    overflow: visible !important;
+}
+.hide-overflow {
+    overflow: hidden !important;
+}
+.float-right {
+    float: right;
+}
+.float-left {
+    float: left;
+}
+/* People pictures */
+.advc-small-person-pic-container {
+    background-color: #ccc;
+    border-radius: 35px;
+    width: 70px;
+    height: 70px;
+    overflow: hidden;
+    margin: 5px;
+}
+.advc-small-person-pic {
+    font-size: 84px;
+    color: #999;
+    margin: -2px 0 0 -6px;
+}
+/* Titles */
+.advc-title {
+    color: #444;
+    font-size: 40px;
+    line-height: 40px;
+}
+.custom-text-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    float: left;
+}

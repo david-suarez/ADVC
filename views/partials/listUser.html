@@ -1,48 +1,65 @@
 <!DOCTYPE html>
 <div ng-controller="listUsersCtrl">
-    <modal  title="Formulario de creaci&oacute;n de usuarios" visible="showModal">
-        <form role="form">
-            <div class="form-group">
-                <label>Nombres</label>
-                <label for="inputName" class="sr-only">Nombres</label>
-                <input type="text" id="inputName" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Nombres"
-                       required="True" autofocus="1" ng-model="newUser.name">
-                <span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span>
-            </div>
-            <div class="form-group">
-                <label>Apellidos</label>
-                <label for="inputLastName" class="sr-only">Apellidos</label>
-                <input type="text" id="inputLastName" class="form-control" ng-class="{'has-error':!isLastNameValid}" placeholder="Apellidos"
-                       required="True" autofocus="1" ng-model="newUser.lastname">
-                <span style="color: red;" ng-if="!isLastNameValid">* El apellido tiene caracteres no permitidos</span>
+
+    <div class="modal fade" id="create-user" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="closeModal()">&times;</button>
+                    <h4 class="modal-title">Formulario de creación de usuarios</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="form-group">
+                            <label>Nombres</label>
+                            <label for="inputName" class="sr-only">Nombres</label>
+                            <input type="text" id="inputName" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Nombres"
+                                   required="True" autofocus="1" ng-model="newUser.name">
+                            <span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Apellidos</label>
+                            <label for="inputLastName" class="sr-only">Apellidos</label>
+                            <input type="text" id="inputLastName" class="form-control" ng-class="{'has-error':!isLastNameValid}" placeholder="Apellidos"
+                                   required="True" autofocus="1" ng-model="newUser.lastname">
+                            <span style="color: red;" ng-if="!isLastNameValid">* El apellido tiene caracteres no permitidos</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Nombre de usuario</label>
+                            <label for="inputUser" class="sr-only">Usuario</label>
+                            <input type="text" id="inputUser" class="form-control" ng-class="{'has-error':!isUserNameValid}" placeholder="Usuario"
+                                   required="True" autofocus="1" ng-model="newUser.user_name">
+                            <span style="color: red;" ng-if="!isUserNameValid">* El nombre de usuario tiene caracteres no permitidos</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Contrase&ntilde;a</label>
+                            <label for="inputPassword" class="sr-only">Password</label>
+                            <input type="password" id="inputPassword" class="form-control" ng-class="{'has-error':!isPassValid}" placeholder="Password"
+                                   required="True" ng-model="newUser.password">
+                            <span style="color: red;" ng-if="!isPassValid">* La contrase&ntilde;a debe tener por lo menos una mayuscula y un numero</span>
+                        </div>
+
+
+                        <label>Confirmar contrase&ntilde;a</label>
+                        <label for="inputPassword" class="sr-only">Password</label>
+                        <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Password" required="" ng-model="newUser.confirmPassword">
+                        <br>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="createUser()">Crear usuario</button>
+                    <button class="btn btn-lg btn-info btn-block" type="submit" data-dismiss="modal" ng-click="closeModal()">Cancelar</button>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label>Nombre de usuario</label>
-                <label for="inputUser" class="sr-only">Usuario</label>
-                <input type="text" id="inputUser" class="form-control" ng-class="{'has-error':!isUserNameValid}" placeholder="Usuario"
-                       required="True" autofocus="1" ng-model="newUser.user_name">
-                <span style="color: red;" ng-if="!isUserNameValid">* El nombre de usuario tiene caracteres no permitidos</span>
-            </div>
-
-            <div class="form-group">
-                <label>Contrase&ntilde;a</label>
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" id="inputPassword" class="form-control" ng-class="{'has-error':!isPassValid}" placeholder="Password"
-                       required="True" ng-model="newUser.password">
-                <span style="color: red;" ng-if="!isPassValid">* La contrase&ntilde;a debe tener por lo menos una mayuscula y un numero</span>
-            </div>
-
-
-            <label>Confirmar contrase&ntilde;a</label>
-            <label for="inputPassword" class="sr-only">Password</label>
-            <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Password" required="" ng-model="newUser.confirmPassword">
-            <br>
-            <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="createUser()">Crear usuario</button>
-            <button class="btn btn-lg btn-info btn-block" type="submit" ng-click="closeModal()">Cancelar</button>
-        </form>
-    </modal>
-    <div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="formCreateUser()">Crear usuario</button></div>
+        </div>
+    </div>
+    <div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#create-user" ng-click="formCreateUser()">Crear usuario</button></div>
     <div class="col-md-12">
 
             <h2 class="form-signin-heading">Lista de usuarios</h2>

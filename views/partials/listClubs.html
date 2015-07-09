@@ -33,31 +33,28 @@
 
     <div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="formCreateClub()">Crear club</button></div>
     <div class="col-md-12">
-
-    <h2 class="form-signin-heading">Lista de clubs</h2>
-    <div class="row">
-        <table class="table table-bordered">
-            <thead>
-            <tr>
-                <th>Nombre Club</th>
-                <th>Fundacion</th>
-                <th>Delegado</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
-            </tr>
-            </thead>
-            <tbody ng-repeat="club in Clubs">
-            <tr>
-                <td>{{club.name}}</td>
-                <td>{{club.foundation}}</td>
-                <td>{{club.delegate.name}} {{club.delegate.lastname}}</td>
-                <td><button type="button" class="btn btn-warning" ng-click="formEditClub(club)">Editar</button></td>
-                <td><button type="button" class="btn btn-danger" ng-click="formDeleteClub(club)">Eliminar</button></td>
-            </tr>
-            </tbody>
-        </table>
-        <!--li>{{$index + 1}}.- {{club.name}} - {{club.delegate}}</li-->
-    </div>
-
+        <h2 class="form-signin-heading">Lista de clubs</h2>
+        <div class="row">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Nombre Club</th>
+                    <th>Fundacion</th>
+                    <th>Delegado</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+                </thead>
+                <tbody ng-repeat="club in Clubs">
+                <tr>
+                    <td>{{club.name}}</td>
+                    <td>{{club.foundation}}</td>
+                    <td>{{club.delegate.name}} {{club.delegate.lastname}}</td>
+                    <td><button type="button" class="btn btn-warning" ng-click="formEditClub(club)">Editar</button></td>
+                    <td><button type="button" class="btn btn-danger" ng-click="formDeleteClub(club)">Eliminar</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

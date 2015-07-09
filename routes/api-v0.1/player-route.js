@@ -1,4 +1,3 @@
-var express = require('express');
 var route = require('./routes');
 var PlayerModel = require('../../models/player-model');
 var __bind = function(fn, me){
@@ -20,22 +19,22 @@ var PlayerRoute = (function() {
         var player_id = request.params.player_id;
         PlayerModel.findById(player_id, function(error, data) {
             if(error){
-                response.json(500, error.message);
+                response.status(500).json(error.message);
             }
             else{
-                response.json(200, data);
+                response.status(200).json(data);
             }
         });
     };
 
     PlayerRoute.prototype.getPlayers = function(request, response){
         var filter = request.body;
-        var query = PlayerModel.find(filter)
+        var query = PlayerModel.find(filter);
         query.exec(function(error, data) {
             if (error) {
-                response.json(500, error.message);
+                response.status(500).json(error.message);
             } else {
-                response.json(200, data);
+                response.status(200).json(data);
             }
         });
     };
@@ -48,14 +47,13 @@ var PlayerRoute = (function() {
 
             PlayerModel.create(newPlayer, function (error, data) {
                 if (error) {
-                    console.log(data);
-                    response.json(500, error.message);
+                    response.status(500).json(error.message);
                 } else {
-                    response.json(201, data);
+                    response.status(201).json(data);
                 }
             });
         } else {
-            response.json(400, {'message': 'Bad Request'});
+            response.status(400).json({'message': 'Bad Request'});
         }
     };
 
@@ -63,9 +61,9 @@ var PlayerRoute = (function() {
         var player_id = request.params.player_id;
         PlayerModel.remove({_id: player_id}, function(err, doc){
             if (err){
-                response.json(500, err.message);
+                response.status(500).json(err.message);
             } else {
-                response.json(200, doc);
+                response.status(200).json(doc);
             }
         });
     };
@@ -76,27 +74,26 @@ var PlayerRoute = (function() {
         if(player_id !== undefined && newDataPlayer !== undefined) {
             PlayerModel.findById(player_id, function(error, player) {
                 if(error){
-                    response.json(500, error.message);
+                    response.status(500).json(error.message);
                 }
                 else{
                     for (var key in newDataPlayer) {
-                        console.log(key);
-                        if(player[key]){
+                        if(typeof(player[key]) !== 'undefined'){
                             player[key] = newDataPlayer[key];
                         }
                     }
                     player.save(function(err, playerUpdated){
                         if(err){
-                            response.json(500, err.message);
+                            response.status(500).json(err.message);
                         }
                         else {
-                            response.json(200, playerUpdated);
+                            response.status(200).json(playerUpdated);
                         }
                     });
                 }
             });
         } else {
-            response.json(400, {'message': 'Bad Request'});
+            response.status(400).json({'message': 'Bad Request'});
         }
     };
 

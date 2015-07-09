@@ -3,12 +3,11 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
     function($scope, $routeParams, $location, listClubsSrv, listUsersSrv) {
         $scope.Clubs = {};
         $scope.newClub = {};
-        //$scope.showModal = false;
-        //$scope.showModal2 = false;
         $scope.createMode = false;
         $scope.editMode = false;
         $scope.Users = {};
         $scope.editClub = {};
+        $scope.showModal = false;
 
         var restartValidationFields = function(){
             $scope.isNameValid = true;
@@ -42,7 +41,6 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
         $scope.validateFields = function () {
             var name = $scope.newClub.name;
             var nameRegEx = /[A-Za-z0-9_]{3,16}/;
-
             if (!nameRegEx.test(name)) {
                 $scope.isNameValid = false;
                 return false;}
@@ -52,16 +50,12 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
             }
         };
 
-
         $scope.createClub= function () {
-
-
             var newClub = {
                 name: $scope.newClub.name,
                 foundation: $scope.newClub.foundation,
                 delegate: $scope.newClub.delegate._id
             };
-
             if($scope.validateFields()){
 
                 listClubsSrv.save({club: newClub},
@@ -76,7 +70,7 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
                     }
                 );
             }else{
-                console.log("Las contraseñas no coinciden.");
+                console.log("Las contraseÃ±as no coinciden.");
             }
         };
 
@@ -85,6 +79,7 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
             $scope.createMode = true;
             $scope.editMode = false;
         };
+
         $scope.formEditClub = function (club) {
             $scope.showModal = !$scope.showModal;
             $scope.createMode = false;
@@ -95,9 +90,8 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
             for(index; index < $scope.Users.length; index++){
                 if($scope.Users[index]._id === club.delegate._id){
                    break;
-                };
+                }
             }
-
             $scope.newClub.delegate = $scope.Users[index] ;
             $scope.newClub._id = club._id;
         };
@@ -123,7 +117,8 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
 
 
 
-            listClubsSrv.update({clubId: $scope.newClub._id},{newDataClub: newClub},
+            listClubsSrv.update({clubId: $scope.newClub._id},
+                {newDataClub: newClub},
                 function (data) {
                     $scope.showModal = !$scope.showModal;
                     $scope.newClub = {};
@@ -140,38 +135,25 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
                     console.log(error);
                 }
             );
-        }
+        };
 
         $scope.formDeleteClub = function (club) {
             var r = confirm("Esta seguro de eliminar el club" +' '+ club.name);
             console.log(club._id);
             if (r == true) {
-                x = "You pressed OK!";
                 listClubsSrv.delete({clubId: club._id},
                     function (data) {
                         var index = 0;
                         $scope.Clubs.splice(index, 1);
-                        //$scope.Clubs.splash(data);
                     }
                 );
-            } else {
-                x = "You pressed Cancel!";
             }
-
-            /*$scope.showModal = !$scope.showModal;
-            $scope.createMode = true;
-            $scope.editMode = false;*/
         };
-
 
         $scope.closeModal=function(){
             $scope.showModal = !$scope.showModal;
             $scope.newClub = {};
-            //restartValidationFields();
+            restartValidationFields();
         }
-
-
-
-
     }
 ]);

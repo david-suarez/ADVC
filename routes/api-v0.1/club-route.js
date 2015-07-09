@@ -23,10 +23,10 @@ var ClubRoute = (function (){
         var club_id = request.params.club_id;
         ClubModel.findById(club_id, function(error, data) {
             if(error){
-                response.json(error.statusCode, null);
+                response.status(500).json(error.message);
             }
             else{
-                response.json(200, data);
+                response.status(200).json(data);
             }
         });
     };
@@ -36,9 +36,9 @@ var ClubRoute = (function (){
         var query = ClubModel.find(filter).populate('delegate');
         query.exec(function(error, data) {
             if (error) {
-                response.json(500, error.message);
+                response.status(500).json(error.message);
             } else {
-                response.json(200,  {data: data});
+                response.status(200).json({data: data});
             }
         });
     };
@@ -49,13 +49,13 @@ var ClubRoute = (function (){
         if(newClub !== undefined) {
             ClubModel.create(newClub, function (error, data) {
                 if (error) {
-                    response.json(error.statusCode, null);
+                    response.status(500).json(error.message);
                 } else {
-                    response.json(201, data);
+                    response.status(201).json(data);
                 }
             });
         } else {
-            response.json(400, {'message': 'Bad Request'});
+            response.status(400).json({'message': 'Bad Request'});
         }
     };
 
@@ -63,9 +63,9 @@ var ClubRoute = (function (){
         var clubId = request.params.clubId;
         ClubModel.remove({_id: clubId}, function(err, doc){
             if(err){
-               response.send(500, err.message);
+                response.status(500).json(error.message);
             } else {
-               response.send(200, {clubId: clubId});
+               response.status(200).send({clubId: clubId});
            }
 
         });
@@ -77,20 +77,20 @@ var ClubRoute = (function (){
     if(club_id !== undefined && newDataClub !== undefined){
         ClubModel.findById(club_id, function(error, club) {
             if(error){
-                response.json(500, err.message);
+                response.status(500).json(error.message);
             }
             else{
                 for(var key in newDataClub){
-                    if(club[key]){
+                    if(typeof(club[key]) !== 'undefined'){
                         club[key] = newDataClub[key];
                     }
                 }
                 club.save(function(err, clubUpdated){
                     if(err){
-                        response.json(500, err.message);
+                        response.status(500).json(error.message);
                     }
                     else{
-                        response.json(200, clubUpdated);
+                        response.status(200).json(clubUpdated);
                     }
                 })
             }

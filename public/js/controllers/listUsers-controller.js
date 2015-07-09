@@ -4,7 +4,6 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         $scope.Users = {};
         $scope.newUser = {};
         $scope.idUser = {};
-        $scope.showModal = false;
         $scope.createMode = false;
         $scope.editMode = false;
         var restartValidationFields = function(){
@@ -26,7 +25,6 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         );
 
         $scope.formCreateUser = function () {
-            $scope.showModal = !$scope.showModal;
             $scope.createMode = true;
             $scope.editMode = false;
         };
@@ -91,13 +89,11 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         };
 
         $scope.closeModal=function(){
-            $scope.showModal = !$scope.showModal;
             $scope.newUser = {};
             restartValidationFields();
         };
 
         $scope.editUser = function(user){
-            $scope.showModal = !$scope.showModal;
             $scope.createMode = false;
             $scope.editMode = true;
             $scope.newUser =
@@ -117,15 +113,18 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
                 user_name: $scope.newUser.user_name
             };
 
-            listUsersSrv.update({user_id: $scope.newUser.user_id},{newDataUser: newUser},
+            listUsersSrv.update({user_id: $scope.newUser.user_id},
+                {newDataUser: newUser},
                 function (data) {
-                    $scope.showModal = !$scope.showModal;
                     for(var index = 0; index < $scope.Users.length; index++){
                         if($scope.Users[index]._id === data._id){
                             $scope.Users[index] = data;
                             break;
                         }
                     }
+                    $('#create-user').modal('hide'); //hide modal
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
                 },
                 function(error){
                     alert('Hubo un error al actualizar el usuario. ' +

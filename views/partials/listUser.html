@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <div ng-controller="listUsersCtrl">
 
-    <div class="modal fade" id="create-user" role="dialog">
+    <div class="modal fade" id="create-user" role="dialog" data-backdrop="static"
+         data-keyboard="false">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -66,7 +67,10 @@
             <table class="table table-bordered">
                 <tr>
                     <td>
-                        Nombre Completo
+                        Nombre completo
+                    </td>
+                    <td>
+                        Nombre de usuario
                     </td>
                     <td>
                         Editar
@@ -79,6 +83,9 @@
                     <tr>
                         <td class="col-md-3" style="">
                             {{$index + 1 }}.- {{user.name}} {{user.lastname}}
+                        </td>
+                        <td class="col-md-3" style="">
+                            {{user.user_name}}
                         </td>
                         <td class="col-md-1" style="">
                             <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#create-user" ng-click="editUser(user)">Editar</button>

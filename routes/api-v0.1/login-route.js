@@ -25,10 +25,10 @@ var LoginRoute = (function(){
             } else {
                 if (user != undefined)
                 {
-                    response.json('200',{success:true, user: user});
+                    response.status(200).json({success:true, user: user});
                 }
                 else {
-                    response.json('404',{success:false});
+                    response.status(404).json({success:false});
                 }
             }
         });

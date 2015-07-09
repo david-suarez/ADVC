@@ -1,9 +1,11 @@
 advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
-    '$location', 'listUsersSrv',
-    function($scope, $routeParams, $location, listUsersSrv) {
+    '$location', 'listUsersSrv', 'SessionService',
+    function($scope, $routeParams, $location, listUsersSrv, SessionService) {
         $scope.Users = {};
         $scope.newUser = {};
-        $scope.showModal = false;
+        $scope.idUser = {};
+        $scope.createMode = false;
+        $scope.editMode = false;
         var restartValidationFields = function(){
             $scope.isNameValid = true;
             $scope.isLastNameValid = true;
@@ -23,7 +25,8 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         );
 
         $scope.formCreateUser = function () {
-            $scope.showModal = !$scope.showModal;
+            $scope.createMode = true;
+            $scope.editMode = false;
         };
 
         $scope.validateFields = function () {
@@ -57,9 +60,6 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         };
 
         $scope.createUser = function () {
-            var name = $scope.newUser.name;
-            var lastName = $scope.newUser.lastname;
-            var userName = $scope.newUser.user_name;
             var pass = $scope.newUser.password;
             var confirmPass = $scope.newUser.confirmPassword;
 
@@ -89,9 +89,69 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         };
 
         $scope.closeModal=function(){
-            $scope.showModal = !$scope.showModal;
             $scope.newUser = {};
             restartValidationFields();
+        };
+
+        $scope.editUser = function(user){
+            $scope.createMode = false;
+            $scope.editMode = true;
+            $scope.newUser =
+            {
+                name: user.name,
+                lastname: user.lastname,
+                user_name: user.user_name,
+                user_id: user._id
+            }
+        };
+
+        $scope.updateUser = function(){
+            var newUser =
+            {
+                name: $scope.newUser.name,
+                lastname: $scope.newUser.lastname,
+                user_name: $scope.newUser.user_name
+            };
+
+            listUsersSrv.update({user_id: $scope.newUser.user_id},
+                {newDataUser: newUser},
+                function (data) {
+                    for(var index = 0; index < $scope.Users.length; index++){
+                        if($scope.Users[index]._id === data._id){
+                            $scope.Users[index] = data;
+                            break;
+                        }
+                    }
+                    $('#create-user').modal('hide'); //hide modal
+                    $('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                },
+                function(error){
+                    alert('Hubo un error al actualizar el usuario. ' +
+                        'Por favor intente mas tarde');
+                }
+            );
+        };
+
+
+        $scope.deleteUser = function(userId, index){
+            var currentUser = SessionService.get("idUser");
+            if(userId !== currentUser){
+                var r = confirm("¿Quiere confirmar la eliminacion del usuario?");
+                if (r === true) {
+                    listUsersSrv.delete({user_id: userId}, function(data){
+                            $scope.Users.splice(index,1);
+                        },
+                        function(error){
+                            console.log(error);
+                        }
+                    );
+                }
+            } else{
+                alert('No se puede borrar al usuario que esta actualmente' +
+                    ' logeado.');
+            }
+
         }
     }
 

@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <div ng-controller="listUsersCtrl">
 
-    <div class="modal fade" id="create-user" role="dialog">
+    <div class="modal fade" id="create-user" role="dialog" data-backdrop="static"
+         data-keyboard="false">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -35,24 +36,24 @@
                             <span style="color: red;" ng-if="!isUserNameValid">* El nombre de usuario tiene caracteres no permitidos</span>
                         </div>
 
-                        <div class="form-group">
-                            <label>Contrase&ntilde;a</label>
+                        <div ng-show="!editMode" class="form-group">
+                            <label>Contraseña</label>
                             <label for="inputPassword" class="sr-only">Password</label>
                             <input type="password" id="inputPassword" class="form-control" ng-class="{'has-error':!isPassValid}" placeholder="Password"
                                    required="True" ng-model="newUser.password">
-                            <span style="color: red;" ng-if="!isPassValid">* La contrase&ntilde;a debe tener por lo menos una mayuscula y un numero</span>
+                            <span style="color: red;" ng-if="!isPassValid">* La contraseña debe tener por lo menos una mayuscula y un numero</span>
                         </div>
 
-
-                        <label>Confirmar contrase&ntilde;a</label>
-                        <label for="inputPassword" class="sr-only">Password</label>
-                        <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Password" required="" ng-model="newUser.confirmPassword">
+                        <label ng-show="!editMode">Confirmar contraseña</label>
+                        <label ng-show="!editMode" for="inputPassword" class="sr-only">Password</label>
+                        <input ng-show="!editMode" type="password" id="inputConfirmPassword" class="form-control" placeholder="Password" required="" ng-model="newUser.confirmPassword">
                         <br>
 
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="createUser()">Crear usuario</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="createUser()" ng-if="createMode">Crear usuario</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="updateUser()" ng-if="editMode">Actualizar usuario</button>
                     <button class="btn btn-lg btn-info btn-block" type="submit" data-dismiss="modal" ng-click="closeModal()">Cancelar</button>
                 </div>
             </div>
@@ -60,11 +61,42 @@
         </div>
     </div>
     <div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#create-user" ng-click="formCreateUser()">Crear usuario</button></div>
-    <div class="col-md-12">
+    <div class="col-md-5">
+        <h2 class="form-signin-heading">Lista de usuarios</h2>
+        <div class="row">
+            <table class="table table-bordered">
+                <tr>
+                    <td>
+                        Nombre completo
+                    </td>
+                    <td>
+                        Nombre de usuario
+                    </td>
+                    <td>
+                        Editar
+                    </td>
+                    <td>
+                        Eliminar
+                    </td>
+                </tr>
+                <tbody ng-repeat="user in Users track by $index">
+                    <tr>
+                        <td class="col-md-3" style="">
+                            {{$index + 1 }}.- {{user.name}} {{user.lastname}}
+                        </td>
+                        <td class="col-md-3" style="">
+                            {{user.user_name}}
+                        </td>
+                        <td class="col-md-1" style="">
+                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#create-user" ng-click="editUser(user)">Editar</button>
+                        </td>
+                        <td class="col-md-1" style="">
+                            <button type="button" class="btn btn-danger" ng-click="deleteUser(user._id, $index)">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
 
-            <h2 class="form-signin-heading">Lista de usuarios</h2>
-        <div ng-repeat="user in Users" class="row">
-            <li>{{$index + 1}}.- {{user.name}} {{user.lastname}}</li>
         </div>
     </div>
 </div>

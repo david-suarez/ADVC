@@ -79,7 +79,7 @@ var UserRoute = (function(){
                 }
                 else{
                     for(var key in newDataUser){
-                        if(user[key]){
+                        if(typeof(user[key]) !== 'undefined'){
                             user[key] = newDataUser[key];
                         }
                     }

@@ -1,7 +1,7 @@
 <!doctype html>
 <html ng-app="advcApp">
     <head>
-        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <!--<script src="/socket.io/socket.io.js"></script>-->
         <script data-main="js/main" src="js/lib/requirejs/require.min.js"></script>
@@ -20,8 +20,7 @@
         <script type="application/javascript" src="js/controllers/main-controller.js"></script>
         <script type="application/javascript" src="js/controllers/listUsers-controller.js"></script>
         <script type="application/javascript" src="js/controllers/login-controller.js"></script>
-
-        <script type="application/javascript" src="js/directives/create-modal-directive.js"></script>
+        <script type="application/javascript" src="js/controllers/listClubs-controller.js"></script>
 
         <script type="application/javascript" src="js/services/login-service.js"></script>
         <script type="application/javascript" src="js/services/listUsers-service.js"></script>
@@ -29,8 +28,8 @@
         <script type="application/javascript" src="js/services/upload-file-service.js"></script>
         <script type="application/javascript" src="js/services/delete-file-service.js"></script>
         <script type="application/javascript" src="js/services/session.js"></script>
+        <script type="application/javascript" src="js/services/listClubs-service.js"></script>
 
-        <script type="application/javascript" src="js/directives/create-modal-directive.js"></script>
         <script type="application/javascript" src="js/directives/upload-file-directive.js"></script>
 
         <link href="css/bootstrap/bootstrap.css" rel="stylesheet"/>
@@ -49,6 +48,5 @@
     <body>
         <header ng-include="'partials/headerMenu.html'"></header>
         <div class="view" ng-view></div>
-        <!-- inject -->
     </body>
 </html>

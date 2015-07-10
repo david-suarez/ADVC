@@ -8,16 +8,17 @@ var Schema = mongoose.Schema;
 var ClubSchema = new Schema({
     'name':{
         'type': String,
-        'default': ""
+        'default': "",
+        'required': true
     },
     'foundation':{
         'type':Date,
         'default':""
     },
-    'delegate':{
-        'type':String,
-        'default':""
-    }
+    'delegate': {
+            'type': mongoose.Schema.Types.ObjectId,
+            'ref': 'User'
+        }
 });
 
 var ClubModel = mongoose.model('Club', ClubSchema);

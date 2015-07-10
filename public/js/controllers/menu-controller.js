@@ -25,6 +25,10 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', '$location',
             {
                 name: 'Usuarios',
                 href: '/listUser'
+            },
+            {
+                name: 'Clubs',
+                href: '/listClubs'
             }
         ];
         $rootScope.$on('userAuthenticated', function(event, booleanData) {
@@ -42,6 +46,10 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', '$location',
                 break;
             case '/listUser':
                 $scope.selectedItem = $scope.items[2];
+                break;
+
+            case '/listClubs':
+                $scope.selectedItem = $scope.items[3];
                 break;
 
         }

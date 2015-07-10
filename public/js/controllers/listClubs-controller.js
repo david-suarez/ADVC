@@ -101,12 +101,14 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
             $scope.newClub.name = club.name;
             $scope.newClub.foundation = new Date(club.foundation);
             var index = 0;
-            for(index; index < $scope.Users.length; index++){
-                if($scope.Users[index]._id === club.delegate._id){
-                   break;
+            if(club.delegate){
+                for(index; index < $scope.Users.length; index++){
+                    if($scope.Users[index]._id === club.delegate._id){
+                        $scope.newClub.delegate = $scope.Users[index] ;
+                        break;
+                    }
                 }
             }
-            $scope.newClub.delegate = $scope.Users[index] ;
             $scope.newClub._id = club._id;
         };
 
@@ -129,25 +131,29 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
                 delegate: $scope.newClub.delegate ?
                     $scope.newClub.delegate. _id : null
             };
-
-            listClubsSrv.update({clubId: $scope.newClub._id},
-                {newDataClub: newClub},
-                function (data) {
-                    $scope.showModal = !$scope.showModal;
-                    $scope.newClub = {};
-                    for(var index = 0; index < $scope.Clubs.length; index++){
-                        if($scope.Clubs[index]._id === data._id){
-                            var option = self.findUserSelected(data.delegate);
-                            if(option != -1)
-                                data.delegate = $scope.Users[option];
-                            $scope.Clubs[index] = data;
+            if($scope.validateFields()) {
+                listClubsSrv.update({clubId: $scope.newClub._id},
+                    {newDataClub: newClub},
+                    function (data) {
+                        $scope.showModal = !$scope.showModal;
+                        $scope.newClub = {};
+                        for (var index = 0; index < $scope.Clubs.length; index++) {
+                            if ($scope.Clubs[index]._id === data._id) {
+                                var option = self.findUserSelected(data.delegate);
+                                if (option != -1)
+                                    data.delegate = $scope.Users[option];
+                                $scope.Clubs[index] = data;
+                            }
                         }
+                        $('#create-club').modal('hide'); //hide modal
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                    },
+                    function (error) {
+                        console.log(error);
                     }
-                },
-                function(error){
-                    console.log(error);
-                }
-            );
+                );
+            }
         };
 
         $scope.formDeleteClub = function (club) {

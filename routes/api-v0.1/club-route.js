@@ -20,7 +20,8 @@ var ClubRoute = (function (){
     }
 
     ClubRoute.prototype.getClub = function(request, response){
-        var club_id = request.params.club_id;
+        var club_id = request.params.clubId;
+        console.log(request.params);
         ClubModel.findById(club_id, function(error, data) {
             if(error){
                 response.status(500).json(error.message);

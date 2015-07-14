@@ -1,3 +1,4 @@
+debugger;
 advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
     '$location', 'listClubsSrv','listUsersSrv',
     function($scope, $routeParams, $location, listClubsSrv, listUsersSrv) {
@@ -8,6 +9,7 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
         $scope.Users = {};
         $scope.editClub = {};
         $scope.showModal = false;
+        $scope.Division = {};
 
         var restartValidationFields = function(){
             $scope.isNameValid = true;
@@ -17,6 +19,7 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
 
         listUsersSrv.get({},
             function(result){
+                //console.log(result);
                 for(var index in result.data){
                     var user = result.data[index];
                     var fullName = user.name + ' ' + user.lastname
@@ -31,7 +34,7 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
 
         listClubsSrv.get({},
             function(result){
-                $scope.Clubs = result.data;
+               $scope.Clubs = result.data;
             },
             function(error){
                 console.log(error);
@@ -182,5 +185,10 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
             }
             return '';
         };
+
+         $scope.formTeams = function(){
+             $location.path('/listTeams');
+         };
+
     }
 ]);

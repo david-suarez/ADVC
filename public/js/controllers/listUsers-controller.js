@@ -1,3 +1,4 @@
+debugger;
 advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
     '$location', 'listUsersSrv', 'SessionService',
     function($scope, $routeParams, $location, listUsersSrv, SessionService) {
@@ -25,8 +26,35 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         );
 
         $scope.formCreateUser = function () {
+            $scope.newUser={};
+            $scope.isNameValid = true;
+            $scope.isLastNameValid = true;
+            $scope.isUserNameValid = true;
             $scope.createMode = true;
             $scope.editMode = false;
+        };
+
+        $scope.validateEditFields = function () {
+            var name = $scope.newUser.name;
+            var lastName = $scope.newUser.lastname;
+            var userName = $scope.newUser.user_name;
+            var nameRegEx = /^([a-z ñáéíóú]{2,60})$/i;
+            var lastNameRegEx = /^([a-z ñáéíóú]{2,60})$/i;
+            var userNameRegEx = /^[a-zA-Z0-9_]{3,16}$/;
+
+            if (!nameRegEx.test(name)) {
+                $scope.isNameValid = false;
+                return false;
+            } else if (!lastNameRegEx.test(lastName)) {
+                $scope.isNameValid = true;
+                $scope.isLastNameValid = false;
+                return false;
+            } else if (!userNameRegEx.test(userName)) {
+                $scope.isLastNameValid = true;
+                $scope.isUserNameValid = false;
+                return false;
+            }
+            return true;
         };
 
         $scope.validateFields = function () {
@@ -112,25 +140,26 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
                 lastname: $scope.newUser.lastname,
                 user_name: $scope.newUser.user_name
             };
-
-            listUsersSrv.update({user_id: $scope.newUser.user_id},
-                {newDataUser: newUser},
-                function (data) {
-                    for(var index = 0; index < $scope.Users.length; index++){
-                        if($scope.Users[index]._id === data._id){
-                            $scope.Users[index] = data;
-                            break;
+            if($scope.validateEditFields()) {
+                listUsersSrv.update({user_id: $scope.newUser.user_id},
+                    {newDataUser: newUser},
+                    function (data) {
+                        for (var index = 0; index < $scope.Users.length; index++) {
+                            if ($scope.Users[index]._id === data._id) {
+                                $scope.Users[index] = data;
+                                break;
+                            }
                         }
+                        $('#create-user').modal('hide'); //hide modal
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                    },
+                    function (error) {
+                        alert('Hubo un error al actualizar el usuario. ' +
+                            'Por favor intente mas tarde');
                     }
-                    $('#create-user').modal('hide'); //hide modal
-                    $('body').removeClass('modal-open');
-                    $('.modal-backdrop').remove();
-                },
-                function(error){
-                    alert('Hubo un error al actualizar el usuario. ' +
-                        'Por favor intente mas tarde');
-                }
-            );
+                );
+            }
         };
 
 

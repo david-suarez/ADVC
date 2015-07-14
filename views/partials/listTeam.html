@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<div ng-controller="listTeamsCtrl">
+    <br>
+    <div class="col-md-2">
+        <button class="btn btn-lg btn-primary btn-block" type="submit" data-toggle="modal" data-target="#create-team" ng-click="formCreateTeam()"> Crear  Equipo
+        </button>
+    </div>
+    <br>
+
+    <div class="modal fade" id="create-team" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="closeModal()">&times;</button>
+                    <h4 class="modal-title">Formulario de creación de Equipos</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div>
+                            <label>Nombre</label>
+                            <label for="inputName" class="sr-only">Nombre</label>
+                            <input type="text" id="inputName" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Nombre"
+                                   required="True" autofocus="1" ng-model="newTeam.name">
+                            <span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span>
+                        </div>
+                        <br>
+
+                        <div class="form-group">
+                            <label>Rama</label>
+                            <label for="inputRama" class="sr-only">Division</label>
+                            <select id="inputRama" ng-model="newTeam.branch"></select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Categoria</label>
+                            <label for="inputCategoria" class="sr-only">Division</label>
+                            <select id="inputCategoria" ng-model="newTeam.category"></select>
+                        </div>
+
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+                            <li role="division"
+                                ng-repeat="division in Divisions">
+                                <a role="menuitem" tabindex="-1">{{division.enum}}</a>
+                            </li>
+                        </ul>
+
+                        <div class="btn-group">
+                            <label>Division</label>
+                            <label for="inputDivision" class="sr-only">Division</label>
+                            <select id="inputDivision" ng-model="newTeam.division" ng-options="team.division for team in Teams"></select>
+                        </div>
+                        <br>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="createTeam()" ng-if="createMode">Crear Equipo</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="editTeam()" ng-if="editMode">Actualizar Equipo</button>
+                    <button class="btn btn-lg btn-info btn-block" type="submit" data-dismiss="modal" ng-click="closeModal()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="row">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Nombre Equipo</th>
+                    <th>Rama</th>
+                    <th>Categoria</th>
+                    <th>Division</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+                </thead>
+                <tbody ng-repeat="team in Teams track by $index">
+                <tr>
+                    <td>{{$index + 1 }}.-{{team.name}}</td>
+                    <td>{{team.branch}}</td>
+                    <td>{{team.category}}</td>
+                    <td>{{team.division}}</td>
+                    <td>
+                        <button type="button" class="btn btn-warning" ng-click="formEditClub(club)" data-toggle="modal">Editar</button>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-danger" ng-click="formDeleteClub(club)">Eliminar</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -47,11 +47,12 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', '$location',
             case '/listUser':
                 $scope.selectedItem = $scope.items[2];
                 break;
-
             case '/listClubs':
                 $scope.selectedItem = $scope.items[3];
                 break;
-
+            case '/listTeams':
+                $scope.selectedItem = $scope.items[4];
+                break;
         }
 
         $scope.autenticate = {

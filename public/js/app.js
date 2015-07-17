@@ -38,6 +38,11 @@ advcApp.config(["$routeProvider",
                 templateUrl: 'partials/listClubs',
                 controller: "listClubsCtrl"
             }
+        ).when("/listClubs/:clubName/:clubId/listTeams",
+            {
+                templateUrl: 'partials/listTeam',
+                controller: 'listTeamsCtrl'
+            }
         ).otherwise(
             {
                 redirectTo: "/index"

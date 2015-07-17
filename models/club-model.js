@@ -18,7 +18,13 @@ var ClubSchema = new Schema({
     'delegate': {
             'type': mongoose.Schema.Types.ObjectId,
             'ref': 'User'
+        },
+    'teams': [
+        {
+            'type': mongoose.Schema.Types.ObjectId,
+            'ref': 'Team'
         }
+    ]
 });
 
 var ClubModel = mongoose.model('Club', ClubSchema);

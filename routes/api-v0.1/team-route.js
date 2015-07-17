@@ -21,22 +21,33 @@ var TeamRoute = (function(){
         var team_id = request.params.team_id;
         TeamModel.findById(team_id, function(error, data) {
             if(error){
-                response.json(500, error.message);
+                response.status(500).json(error.message);
             }
             else{
-                response.json(200, data);
+                response.status(200).json(data);
             }
         });
     };
 
     TeamRoute.prototype.getTeams = function(request, response) {
-        var filter = request.body;
-        var query = TeamModel.find(filter);
+        var filter = request.query;
+        var query = TeamModel.find(filter).populate('club').sort({sequence: 1});
         query.exec(function(error, data) {
             if (error) {
-                response.json(500, error.message);
+                response.status(500).json(error.message);
             } else {
-                response.json(200, data);
+                var dataResult = [];
+                for(var index = 0; index < data.length; index++){
+                    dataResult.push({
+                        id: data[index]._id,
+                        name: data[index].name,
+                        division: data[index].division,
+                        branch: data[index].branch,
+                        category: data[index].category,
+                        club: data[index].club.name
+                    })
+                }
+                response.status(200).json({data: dataResult});
             }
         });
     };
@@ -47,9 +58,12 @@ var TeamRoute = (function(){
         if(newTeam !== undefined) {
              TeamModel.create(newTeam, function (error, data) {
                 if (error) {
-                    response.json(500, error.message);
+                    if (error.code)
+                        response.status(error.code).json(error.message);
+                    else
+                        response.status(500).json(error.message);
                 } else {
-                    response.json(201, data);
+                    response.status(201).json({data: data});
                 }
             });
         } else {
@@ -61,9 +75,9 @@ var TeamRoute = (function(){
         var team_id = request.params.team_id;
         TeamModel.remove({_id: team_id}, function(err, doc){
             if (err){
-                response.json(500, err.message);
+                response.status(500).json(err.message);
             } else {
-                response.json(200, doc);
+                response.status(200).json(doc);
             }
         });
     };
@@ -74,27 +88,29 @@ var TeamRoute = (function(){
         if(team_id !== undefined && newDataTeam !== undefined) {
              TeamModel.findById(team_id, function(error, team) {
                 if(error){
-                    response.json(500, error.message);
+                    response.status(500).json(error.message);
                 }
                 else{
                     for (var key in newDataTeam) {
-                        console.log(key);
-                        if(team[key]){
+                        if(typeof(team[key]) !== 'undefined'){
                             team[key] = newDataTeam[key];
                         }
                     }
                     team.save(function(err, teamUpdated){
                         if(err){
-                            response.json(500, err.message);
+                            if (err.code)
+                                response.status(err.code).json(err.message);
+                            else
+                                response.status(500).json(err.message);
                         }
                         else {
-                            response.json(200, teamUpdated);
+                            response.status(200).json({ data: teamUpdated });
                         }
                     });
                 }
             });
         } else {
-            response.json(400, {'message': 'Bad Request'});
+            response.status(400).json({'message': 'Bad Request'});
         }
     };
     return TeamRoute;

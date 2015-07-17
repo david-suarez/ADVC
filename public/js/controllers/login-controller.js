@@ -11,7 +11,8 @@ advcApp.controller('loginCtrl', [
                         SessionService.set('logged', true);
                         SessionService.set(
                             'user', user.name + ' ' + user.lastname);
-                        SessionService.set('idUser', user._id);
+                        SessionService.set('userId', user._id);
+                        SessionService.set('clubId', user._id);
                         $rootScope.$emit('userAuthenticated', true);
                         $location.path('/index');
                     }

@@ -6,7 +6,7 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', '$location',
         if(SessionService.get('logged')) {
             $scope.userIsAuthenticated = true;
             $scope.loggedUser = SessionService.get('user');
-            $scope.idUser = SessionService.get('idUser');
+            $scope.userId = SessionService.get('userId');
         }
 
         $scope.items = [
@@ -34,25 +34,35 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', '$location',
         $rootScope.$on('userAuthenticated', function(event, booleanData) {
             $scope.userIsAuthenticated = booleanData;
             $scope.loggedUser = SessionService.get('user');
-            $scope.idUser = SessionService.get('idUser');
+            $scope.userId = SessionService.get('userId');
         });
 
-        switch($location.$$path) {
-            case '/index':
-                $scope.selectedItem = $scope.items[0];
-                break;
-            case '/mainBoard':
-                $scope.selectedItem = $scope.items[1];
-                break;
-            case '/listUser':
-                $scope.selectedItem = $scope.items[2];
-                break;
+        $scope.getCurrentItem = function(currentUrl) {
+            var item, _i, _len, _ref1;
+            _ref1 = $scope.items;
+            for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+                item = _ref1[_i];
+                if (item.href === currentUrl) {
+                    return item = {
+                        name: item.name,
+                        src: item.srcIcon
+                    };
+                }
+            }
+        };
 
-            case '/listClubs':
-                $scope.selectedItem = $scope.items[3];
-                break;
+        $scope.selectedItem = $scope.getCurrentItem($location.path());
 
-        }
+        $scope.setSelectedItem = function(item) {
+            console.log(item);
+            return $scope.selectedItem = item;
+        };
+
+        $scope.$on('$locationChangeSuccess', function(event) {
+            var item;
+            item = $scope.getCurrentItem($location.path());
+            $scope.selectedItem = item;
+        });
 
         $scope.autenticate = {
             login: 'Iniciar Sesion',
@@ -70,7 +80,7 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', '$location',
                 SessionService.unsetAll('logged');
                 $rootScope.$emit('userAuthenticated', false);
                 $scope.loggedUser = '';
-                $scope.idUser = false;
+                $scope.userId = false;
                 $location.path('/index');
             }
         };

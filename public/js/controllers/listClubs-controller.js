@@ -1,4 +1,3 @@
-debugger;
 advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
     '$location', 'listClubsSrv','listUsersSrv',
     function($scope, $routeParams, $location, listClubsSrv, listUsersSrv) {
@@ -10,6 +9,8 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
         $scope.editClub = {};
         $scope.showModal = false;
         $scope.Division = {};
+        $scope.today = new Date();
+        $scope.format = 'dd/MM/yyyy';
 
         var restartValidationFields = function(){
             $scope.isNameValid = true;
@@ -22,7 +23,7 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
                 //console.log(result);
                 for(var index in result.data){
                     var user = result.data[index];
-                    var fullName = user.name + ' ' + user.lastname
+                    var fullName = user.name + ' ' + user.lastname;
                     result.data[index].fullName = fullName;
                 }
                 $scope.Users = result.data;
@@ -46,7 +47,11 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
             var foundation = $scope.newClub.foundation;
             var nameRegEx = /[A-Za-z0-9_]{3,16}/;
             if (!name || !name.trim()) {
-                alert('Ingrese un nombre para el club que desea crear.')
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:2000 });
+                alert('Ingrese un nombre para el club que desea crear.');
+                $.noty.stopConsumeAlert();
                 return false;
             }else if (!nameRegEx.test(name)) {
                 $scope.isNameValid = false;
@@ -56,7 +61,11 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
                 var now = new Date();
                 var dateFound = new Date(foundation);
                 if(dateFound > now){
-                    alert('ingrese una fecha de creación valida.')
+                    $.noty.consumeAlert({layout: 'topCenter',
+                        type: 'warning', dismissQueue: true ,
+                        timeout:2000 });
+                    alert('ingrese una fecha de creación valida.');
+                    $.noty.stopConsumeAlert();
                     return false;
                 }
             }
@@ -78,6 +87,7 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
                         for(index; index < $scope.Users.length; index++){
                             if($scope.Users[index]._id === delegateId){
                                 data.delegate = $scope.Users[index];
+                                break;
                             }
                         }
                         $scope.Clubs.push(data);
@@ -140,9 +150,11 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
                     function (data) {
                         $scope.showModal = !$scope.showModal;
                         $scope.newClub = {};
-                        for (var index = 0; index < $scope.Clubs.length; index++) {
+                        var index = 0;
+                        for (index; index < $scope.Clubs.length; index++) {
                             if ($scope.Clubs[index]._id === data._id) {
-                                var option = self.findUserSelected(data.delegate);
+                                var option = self
+                                    .findUserSelected(data.delegate);
                                 if (option != -1)
                                     data.delegate = $scope.Users[option];
                                 $scope.Clubs[index] = data;
@@ -186,9 +198,31 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
             return '';
         };
 
-         $scope.formTeams = function(){
-             $location.path('/listTeams');
-         };
+        $scope.formTeams = function(club){
+            var path = '/listClubs/' + club.name +'/'+ club._id + '/listTeams';
+            $location.path(path);
+        };
 
+        $scope.toggleMin = function() {
+            $scope.minDate = $scope.minDate ? null : new Date();
+        };
+        $scope.toggleMin();
+
+        $scope.dateOptions = {
+            formatYear: 'yyyy',
+            startingDay: 1
+        };
+
+        // Disable weekend selection
+        $scope.disabled = function(date, mode) {
+            return ( mode === 'day' &&
+            ( date.getDay() === 0 || date.getDay() === 6 ) );
+        };
+
+        $scope.open = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.opened = true;
+        };
     }
 ]);

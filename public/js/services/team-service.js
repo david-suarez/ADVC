@@ -4,7 +4,6 @@ advcApp.factory('listTeamSrv', ['$resource', function($resource){
         {
             'get': { method: 'GET' },
             'save': { method: 'POST' },
-            'query':  {method:'GET', isArray:true},
             'update': { method: 'PUT' },
             'delete': { method: 'DELETE' }
         }

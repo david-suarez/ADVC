@@ -1,10 +1,9 @@
-debugger;
 advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
     '$location', 'listUsersSrv', 'SessionService',
     function($scope, $routeParams, $location, listUsersSrv, SessionService) {
         $scope.Users = {};
         $scope.newUser = {};
-        $scope.idUser = {};
+        $scope.userId = {};
         $scope.createMode = false;
         $scope.editMode = false;
         var restartValidationFields = function(){
@@ -110,7 +109,11 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
                     );
                 }
                 else{
+                    $.noty.consumeAlert({layout: 'topCenter',
+                        type: 'warning', dismissQueue: true ,
+                        timeout:2000 });
                     alert("Las contraseñas no coinciden.");
+                    $.noty.stopConsumeAlert();
                 }
             }
 
@@ -155,8 +158,12 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
                         $('.modal-backdrop').remove();
                     },
                     function (error) {
+                        $.noty.consumeAlert({layout: 'topCenter',
+                            type: 'warning', dismissQueue: true ,
+                            timeout:2000 });
                         alert('Hubo un error al actualizar el usuario. ' +
                             'Por favor intente mas tarde');
+                        $.noty.stopConsumeAlert();
                     }
                 );
             }
@@ -164,7 +171,7 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
 
 
         $scope.deleteUser = function(userId, index){
-            var currentUser = SessionService.get("idUser");
+            var currentUser = SessionService.get("userId");
             if(userId !== currentUser){
                 var r = confirm("¿Quiere confirmar la eliminacion del usuario?");
                 if (r === true) {
@@ -177,8 +184,12 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
                     );
                 }
             } else{
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:2000 });
                 alert('No se puede borrar al usuario que esta actualmente' +
                     ' logeado.');
+                $.noty.stopConsumeAlert();
             }
 
         }

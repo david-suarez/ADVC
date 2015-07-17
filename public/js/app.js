@@ -38,7 +38,7 @@ advcApp.config(["$routeProvider",
                 templateUrl: 'partials/listClubs',
                 controller: "listClubsCtrl"
             }
-        ).when("/listTeams",
+        ).when("/listClubs/:clubName/:clubId/listTeams",
             {
                 templateUrl: 'partials/listTeam',
                 controller: 'listTeamsCtrl'

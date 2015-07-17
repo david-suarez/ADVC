@@ -39,6 +39,18 @@ var ClubRoute = (function (){
             if (error) {
                 response.status(500).json(error.message);
             } else {
+                var index = 0;
+                var delegate = {};
+                for(index; index < data.length; index++){
+                    if(data[index].delegate){
+                        delegate = {
+                            _id: data[index].delegate._id,
+                            name: data[index].delegate.name,
+                            lastname: data[index].delegate.lastname
+                        };
+                        data[index].delegate = delegate;
+                    }
+                }
                 response.status(200).json({data: data});
             }
         });

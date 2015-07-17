@@ -98,7 +98,10 @@ var TeamRoute = (function(){
                     }
                     team.save(function(err, teamUpdated){
                         if(err){
-                            response.status(500).json(err.message);
+                            if (err.code)
+                                response.status(err.code).json(err.message);
+                            else
+                                response.status(500).json(err.message);
                         }
                         else {
                             response.status(200).json({ data: teamUpdated });

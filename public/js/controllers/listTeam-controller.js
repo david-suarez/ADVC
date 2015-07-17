@@ -64,7 +64,20 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
                         $scope.newTeam = {};
                     },
                     function(error){
-                        console.log(error);
+                        if(error.status === 409) {
+                            $.noty.consumeAlert({layout: 'topCenter',
+                                type: 'error', dismissQueue: true ,
+                                timeout:2000 });
+                            alert('Existe un error de duplicación.');
+                            $.noty.stopConsumeAlert();
+                        } else {
+                            $.noty.consumeAlert({layout: 'topCenter',
+                                type: 'warning', dismissQueue: true ,
+                                timeout:2000 });
+                            alert('Hubo un error interno, por favor intente ' +
+                                'mas tarde');
+                            $.noty.stopConsumeAlert();
+                        }
                     }
                 );
             }
@@ -90,7 +103,20 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
                         $scope.newTeam = {};
                     },
                     function(error){
-                        console.log(error);
+                        if(error.status === 409) {
+                            $.noty.consumeAlert({layout: 'topCenter',
+                                type: 'error', dismissQueue: true ,
+                                timeout:2000 });
+                            alert('Existe un error de duplicación.');
+                            $.noty.stopConsumeAlert();
+                        } else {
+                            $.noty.consumeAlert({layout: 'topCenter',
+                                type: 'warning', dismissQueue: true ,
+                                timeout:2000 });
+                            alert('Hubo un error interno, por favor intente ' +
+                                'mas tarde');
+                            $.noty.stopConsumeAlert();
+                        }
                     }
                 );
             }

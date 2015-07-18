@@ -45,7 +45,7 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
         $scope.validateFields = function () {
             var name = $scope.newClub.name;
             var foundation = $scope.newClub.foundation;
-            var nameRegEx = /[A-Za-z0-9_]{3,16}/;
+            var nameRegEx = /^([a-z ñáéíóú]{2,60})$/i;
             if (!name || !name.trim()) {
                 $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
@@ -171,13 +171,11 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
             }
         };
 
-        $scope.formDeleteClub = function (club) {
+        $scope.formDeleteClub = function (club, index) {
             var r = confirm("Esta seguro de eliminar el club" +' '+ club.name);
-            console.log(club._id);
             if (r == true) {
                 listClubsSrv.delete({clubId: club._id},
                     function (data) {
-                        var index = 0;
                         $scope.Clubs.splice(index, 1);
                     }
                 );

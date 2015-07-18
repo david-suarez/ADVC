@@ -9,6 +9,7 @@ var BASE_KARDEX_ROUTE = '/kardex';
 var BASE_PUB_ROUTE = '/publications';
 var BASE_MEDICAL_ROUTE = '/medicals';
 var BASE_CHAMPIONSHIP_ROUTE = '/championships';
+var BASE_RBAC_ROUTE = '/rbac';
 
 /*
  Api for Users
@@ -109,3 +110,7 @@ exports.PubsRoute = PUB_ROUTE;
 exports.PubRoute = PUB_ROUTE + '/:publicationId';
 exports.PubUploadFile = PUB_ROUTE + '/fileupload';
 exports.PubDeleteFile = PUB_ROUTE + '/:publicationId/filedelete';
+
+var RBAC_ROUTE = API + BASE_RBAC_ROUTE;
+
+exports.RbacRoute = RBAC_ROUTE;

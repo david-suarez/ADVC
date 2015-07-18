@@ -1,6 +1,6 @@
 var route = require('./routes');
 var UserModel = require('../../models/user-model');
-var Q = require('q');
+var Permissions = require ("../../config/permission");
 var __bind = function(fn, me){
     return function(){
         return fn.apply(me, arguments);
@@ -25,7 +25,12 @@ var LoginRoute = (function(){
             } else {
                 if (user != undefined)
                 {
-                    response.status(200).json({success:true, user: user});
+                    var data = {
+                        _id: user._id,
+                        fullName: user.name + ' ' + user.lastname
+                    };
+                    console.log(request.user);
+                    response.status(200).json({success:true, user: data});
                 }
                 else {
                     response.status(404).json({success:false});
@@ -40,5 +45,7 @@ var LoginRoute = (function(){
 module.exports = function(app) {
     var loginRoute;
     loginRoute = new LoginRoute(app);
+    app.post(route.Route_Login, loginRoute.saveUser);
+    app.get(route.Route_Login, loginRoute.saveUser);
     app.post(route.Route_Login, loginRoute.saveUser);
 };

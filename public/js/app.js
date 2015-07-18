@@ -5,7 +5,8 @@ advcApp = angular.module(
     [
         'ngRoute',
         'ngResource',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'rbac'
     ]
 );
 
@@ -60,3 +61,32 @@ advcApp.config(["$routeProvider",
         );
         //$locationProvider.html5Mode(true);
 }]);
+
+advcApp.run([
+    '$rootScope', '$location', 'SessionService', '$rbac',
+    function($rootScope, $location, SessionService, $rbac) {
+        return $rootScope.$on(
+            "$routeChangeStart",
+            function(event, next, current) {
+                console.log(next);
+                //console.log(next);
+
+                if (SessionService.isAuthenticated()) {
+                    var isUser = SessionService.get('idUSer');
+                    $rbac.checkAccess(isUser).then(function(){
+                        //$rbac.allow()
+                    });
+                }
+
+        });
+    }
+]);
+
+advcApp.config([
+    "$rbacProvider", function($rbacProvider) {
+        return $rbacProvider.setup({
+            url: "/api/v0.1/rbac",
+            scopeName: "rbac"
+        });
+    }
+]);

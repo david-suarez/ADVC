@@ -30,7 +30,9 @@ var UserRoute = (function(){
 
     UserRoute.prototype.getUsers = function(request, response){
         var filter = request.body;
-        var query = UserModel.find(filter);
+        var query = UserModel
+            .find(filter)
+            .select('_id name lastname user_name role');
         //query.sort(sortBy);
         query.exec(function(error, data) {
             if (error) {

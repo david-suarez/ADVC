@@ -73,7 +73,7 @@
                     <td>{{club.delegate.name}} {{club.delegate.lastname}}</td>
                     <td><button type="button" class="btn btn-primary" ng-click="formTeams(club)">Ver Club</button></td>
                     <td><button type="button" class="btn btn-warning" ng-click="formEditClub(club)" data-toggle="modal" data-target="#create-club">Editar</button></td>
-                    <td><button type="button" class="btn btn-danger" ng-click="formDeleteClub(club)">Eliminar</button></td>
+                    <td><button type="button" class="btn btn-danger" ng-click="formDeleteClub(club, $index)">Eliminar</button></td>
                 </tr>
                 </tbody>
             </table>

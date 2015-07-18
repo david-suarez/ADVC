@@ -29,7 +29,12 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', '$location',
             {
                 name: 'Clubs',
                 href: '/listClubs'
+            },
+            {
+                name: 'Fichas Medicas',
+                href: '/listMedicalRecord'
             }
+
         ];
         $rootScope.$on('userAuthenticated', function(event, booleanData) {
             $scope.userIsAuthenticated = booleanData;

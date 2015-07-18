@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<div ng-controller="listMedicalRecordCtrl">
+    <!---Formulario modal para creacion de clubs -->
+    <div class="modal fade" id="create-medical" role="dialog" data-backdrop="static"
+         data-keyboard="false">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="closeModal()">&times;</button>
+                    <h4 class="modal-title">Formulario de fichas medicas</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="form-group">
+                            <label>Jugador</label>
+                            <label  for="inputPlayer" class="sr-only">Jugador</label>
+                            <select id="inputPlayer" ng-model="newMedicalRecord.player" ng-options="player.fullName for player in Players"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Edad</label>
+                            <label for="inputAge" class="sr-only">Edad</label>
+                            <input type="text" id="inputAge" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Edad"
+                                   required="True" autofocus="1" ng-model="newMedicalRecord.age">
+                            <!--span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span-->
+                        </div>
+                        <div class="form-group">
+                            <label>Peso</label>
+                            <label for="inputWeight" class="sr-only">Peso</label>
+                            <input type="text" id="inputWeight" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Peso"
+                                   required="True" autofocus="1" ng-model="newMedicalRecord.weight">
+                            <!--span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span-->
+                        </div>
+                        <div class="form-group">
+                            <label>Altura</label>
+                            <label for="inputHeight" class="sr-only">Altura</label>
+                            <input type="text" id="inputHeight" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Altura"
+                                   required="True" autofocus="1" ng-model="newMedicalRecord.height">
+                            <!--span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span-->
+                        </div>
+                        <div class="form-group">
+                            <label>Direccion</label>
+                            <label for="inputHome" class="sr-only">Direccion</label>
+                            <input type="text" id="inputHome" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Direccion"
+                                   required="True" autofocus="1" ng-model="newMedicalRecord.home">
+                            <!--span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span-->
+                        </div>
+                        <div class="form-group">
+                            <label>Alergias</label>
+                            <label for="inputAllergies" class="sr-only">Alergias</label>
+                            <textarea rows="2" id="inputAllergies" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Alergias"
+                                   required="False" autofocus="1" ng-model="newMedicalRecord.allergies"> </textarea>
+                            <!--span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span-->
+                        </div>
+                        <div class="form-group">
+                            <label>Operaciones</label>
+                            <label for="inputOperations" class="sr-only">Operaciones</label>
+                            <textarea rows="2" id="inputOperations" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Operaciones"
+                                   required="True" autofocus="1" ng-model="newMedicalRecord.operations"></textarea>
+                            <!--span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span-->
+                        </div>
+                        <br>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="createMedicalRecord()" ng-if="createMode">Crear ficha medica</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="editMedicalRecord()" ng-if="editMode">Actualizar</button>
+                    <button class="btn btn-lg btn-info btn-block" type="submit" data-dismiss="modal" ng-click="closeModal()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" type="submit" data-toggle="modal" data-target="#create-medical" ng-click="formCreateMedical()">Crear ficha medica</button></div>
+    <div class="col-md-12">
+        <h2 class="form-signin-heading">Lista de fichas medicas</h2>
+        <div class="row">
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Jugador</th>
+                    <th>Edad</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+                </thead>
+                <tbody ng-repeat="medical in Medicals">
+                <tr>
+                    <td>{{medical.player.name}} {{medical.player.lastname}}</td>
+                    <td>{{medical.age}}</td>
+                    <td><button type="button" class="btn btn-warning" ng-click="formEditMedical(medical)" data-toggle="modal" data-target="#create-medical">Editar</button></td>
+                    <td><button type="button" class="btn btn-danger" ng-click="formDeleteMedical(medical)">Eliminar</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

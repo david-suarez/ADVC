@@ -34,14 +34,16 @@ var PlayerRoute = (function() {
             if (error) {
                 response.status(500).json(error.message);
             } else {
-                response.status(200).json(data);
+                response.status(200).json({data: data});
             }
         });
     };
 
     PlayerRoute.prototype.savePlayer = function(request, response){
         var newPlayer;
+        console.log('////////////////////////////////////');
         newPlayer = request.body.player;
+
         console.log(newPlayer);
         if(newPlayer !== undefined) {
 
@@ -53,7 +55,7 @@ var PlayerRoute = (function() {
                 }
             });
         } else {
-            response.status(400).json({'message': 'Bad Request'});
+            response.status(500).json({'message': 'Bad Request'});
         }
     };
 

@@ -79,7 +79,7 @@ exports.Kardex_Route = KADEX_ROUTE;
 var MEDICAL_ROUTE = API + BASE_MEDICAL_ROUTE;
 
 exports.MedicalRecordsRoute = MEDICAL_ROUTE;
-exports.MedicalRecordRoute = MEDICAL_ROUTE + '/:medicalRecordId';
+exports.MedicalRecordRoute = MEDICAL_ROUTE + '/:medicalId';
 
 /*
  Api for Kardex

@@ -89,8 +89,8 @@
                 <tr>
                     <td>{{medical.player.name}} {{medical.player.lastname}}</td>
                     <td>{{medical.age}}</td>
-                    <td><button type="button" class="btn btn-warning" ng-click="formEditMedical(medical)" data-toggle="modal" data-target="#create-medical">Editar</button></td>
-                    <td><button type="button" class="btn btn-danger" ng-click="formDeleteMedical(medical)">Eliminar</button></td>
+                    <td><button type="button" class="btn btn-warning" ng-click="formEditMedical(medical, $index)" data-toggle="modal" data-target="#create-medical">Editar</button></td>
+                    <td><button type="button" class="btn btn-danger" ng-click="deleteMedical(medical, $index)">Eliminar</button></td>
                 </tr>
                 </tbody>
             </table>

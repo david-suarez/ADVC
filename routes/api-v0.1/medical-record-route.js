@@ -14,7 +14,7 @@ var MedicalRecordRoute = (function (){
         this.getMedicalRecord = __bind(this.getMedicalRecord, this);
         this.getMedicalRecords = __bind(this.getMedicalRecords,this);
         this.saveMedicalRecord = __bind(this.saveMedicalRecord,this);
-        this.deleteMedicalRecord = __bind(this.deleteMedicalRecord,this);
+        this.removeMedicalRecord = __bind(this.removeMedicalRecord,this);
         this.updateMedicalRecord = __bind(this.updateMedicalRecord, this);
     }
 
@@ -58,7 +58,8 @@ var MedicalRecordRoute = (function (){
         }
     };
 
-    MedicalRecordRoute.prototype.removeMedicalRecord = function(request,response){
+    MedicalRecordRoute.prototype.removeMedicalRecord = function(request,
+                                                                response){
         var medicalRecordId = request.params.medicalId;
         MedicalRecordModel.remove({_id: medicalRecordId}, function(err, doc){
             if(err){
@@ -70,6 +71,34 @@ var MedicalRecordRoute = (function (){
         });
     };
 
+    MedicalRecordRoute.prototype.updateMedicalRecord = function (request,
+                                                                 response){
+        var medicalId = request.params.medicalId;
+        var medicalRecord = request.body.medicalRecord;
+        if(medicalId !== undefined && medicalRecord !== undefined){
+            MedicalRecordModel.findById(medicalId, function(error, record) {
+                if(error){
+                    response.json(500, err.message);
+                }
+                else{
+                    for(var key in medicalRecord){
+                        if(typeof(record[key]) !== 'undefined'){
+                            record[key] = medicalRecord[key];
+                        }
+                    }
+                    record.save(function(err, recordUpdated){
+                        if(err){
+                            response.status(500).json(err.message);
+                        }
+                        else{
+                            response.status(200).json(recordUpdated);
+                        }
+                    })
+                }
+            });
+        }
+    };
+
     return MedicalRecordRoute;
 })();
 
@@ -79,7 +108,7 @@ module.exports = function(app) {
     medicalRecordRoute = new MedicalRecordRoute(app);
     app.get(route.MedicalRecordsRoute, medicalRecordRoute.getMedicalRecords);
     app.get(route.MedicalRecordRoute, medicalRecordRoute.getMedicalRecord);
-    //app.put(route.ClubRoute, clubRoute.updateClub);
+    app.put(route.MedicalRecordRoute, medicalRecordRoute.updateMedicalRecord);
     app.post(route.MedicalRecordsRoute, medicalRecordRoute.saveMedicalRecord);
     app.delete(route.MedicalRecordRoute, medicalRecordRoute.removeMedicalRecord);
 };

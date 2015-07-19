@@ -22,7 +22,7 @@ advcApp.controller('listMedicalRecordCtrl', ['$scope', '$routeParams',
                 $scope.Players = result.data;
             },
             function(error){
-                console.log("aqui"+ error);
+                console.log(error);
             }
         );
 
@@ -32,7 +32,7 @@ advcApp.controller('listMedicalRecordCtrl', ['$scope', '$routeParams',
             },
             function(error){
 
-                console.log("aca"+ error);
+                console.log(error);
             }
         );
 

@@ -78,7 +78,7 @@ var MedicalRecordRoute = (function (){
         if(medicalId !== undefined && medicalRecord !== undefined){
             MedicalRecordModel.findById(medicalId, function(error, record) {
                 if(error){
-                    response.json(500, err.message);
+                    response.status(500).json.(err.message);
                 }
                 else{
                     for(var key in medicalRecord){

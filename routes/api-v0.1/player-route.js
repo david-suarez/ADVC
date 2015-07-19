@@ -41,7 +41,6 @@ var PlayerRoute = (function() {
 
     PlayerRoute.prototype.savePlayer = function(request, response){
         var newPlayer;
-        console.log('////////////////////////////////////');
         newPlayer = request.body.player;
 
         console.log(newPlayer);

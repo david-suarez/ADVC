@@ -60,7 +60,8 @@
 
     <div class="col-md-8">
         <div class="row">
-            <table class="table table-bordered">
+            <label>Filtrar: <input id="inputSearch" ng-model="searchText" placeholder="Filtro"></label>
+            <table id="searchTextResults" class="table table-bordered">
                 <thead>
                 <tr>
                     <th>Nombre Equipo</th>
@@ -71,7 +72,7 @@
                     <th>Eliminar</th>
                 </tr>
                 </thead>
-                <tbody ng-repeat="team in Teams track by $index">
+                <tbody ng-repeat="team in Teams | filter:searchText track by $index ">
                 <tr>
                     <td>{{team.name}}</td>
                     <td>{{team.branch}}</td>

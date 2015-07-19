@@ -37,13 +37,13 @@ exports.Players_Route = PLAYER_ROUTE;
  Api for Teams
  @example define routes for teams
  /api/v0.1/teams
- /api/v0.1/teams/:team_id
+ /api/v0.1/teams/:teamId
 */
 
 var TEAM_ROUTE = API + BASE_TEAM_ROUTE;
 
 exports.TeamsRoute = TEAM_ROUTE;
-exports.TeamRoute = TEAM_ROUTE + '/:team_id';
+exports.TeamRoute = TEAM_ROUTE + '/:teamId';
 
 /*
  Api for Clubs

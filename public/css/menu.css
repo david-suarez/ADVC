@@ -21,6 +21,10 @@
     float: left;
     margin-left: 10px;
 }
+.menu .inline-menu {
+    font-size: 14px;
+    margin: 50px 0 0 0;
+}
 .menu .dropdown-toggle {
     background-color: #337ab7;
     min-width: 120px;
@@ -75,6 +79,10 @@
     height: 30px;
     margin-top: 60px;
     line-height: 22px;
+}
+.menu .right-menu .login-logout-box a:hover{
+    color: #eeeeee;
+    text-decoration: none;
 }
 .menu .popover.bottom {
     margin: 20px 0 0 20px;

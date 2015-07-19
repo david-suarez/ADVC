@@ -1,6 +1,6 @@
 advcApp.factory('listTeamSrv', ['$resource', function($resource){
-    return $resource('/api/v0.1/teams/:team_id',
-        { team_id: '@team_id' },
+    return $resource('/api/v0.1/teams/:teamId',
+        { teamId: '@teamId' },
         {
             'get': { method: 'GET' },
             'save': { method: 'POST' },

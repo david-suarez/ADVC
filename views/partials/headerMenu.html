@@ -4,12 +4,9 @@
     <div class="logo"></div>
 
     <div id="navbar" class="navbar-collapse collapse">
-        <div>
+        <div class="navbar-header inline-menu">
             <ul class="nav navbar-nav">
-                <br>
-                <br>
-                <li role="presentation"
-                    ng-repeat="item in items"
+                <li ng-repeat="item in items"
                     allow="{{item.allow}}">
                     <a role="menuitem" tabindex="-1"  ng-href="#{{item.href}}" ng-click="changeSelectedItem($index)">{{item.name}}</a>
                 </li>

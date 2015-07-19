@@ -19,32 +19,25 @@
                             <select id="inputPlayer" ng-model="newMedicalRecord.player" ng-options="player.fullName for player in Players"></select>
                         </div>
                         <div class="form-group">
-                            <label>Edad</label>
-                            <label for="inputAge" class="sr-only">Edad</label>
-                            <input type="text" id="inputAge" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Edad"
-                                   required="True" autofocus="1" ng-model="newMedicalRecord.age">
-                            <!--span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span-->
-                        </div>
-                        <div class="form-group">
                             <label>Peso</label>
                             <label for="inputWeight" class="sr-only">Peso</label>
-                            <input type="text" id="inputWeight" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Peso"
+                            <input type="text" id="inputWeight" class="form-control" ng-class="{'has-error':!isWeightValid}" placeholder="Peso"
                                    required="True" autofocus="1" ng-model="newMedicalRecord.weight">
-                            <!--span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span-->
+                            <span style="color: red;" ng-if="!isWeightValid">* El nombre tiene caracteres no permitidos</span>
                         </div>
                         <div class="form-group">
                             <label>Altura</label>
                             <label for="inputHeight" class="sr-only">Altura</label>
-                            <input type="text" id="inputHeight" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Altura"
+                            <input type="text" id="inputHeight" class="form-control" ng-class="{'has-error':!isHeightValid}" placeholder="Altura"
                                    required="True" autofocus="1" ng-model="newMedicalRecord.height">
-                            <!--span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span-->
+                            <span style="color: red;" ng-if="!isHeightValid">* La altura tiene caracteres no permitidos</span>
                         </div>
                         <div class="form-group">
                             <label>Direccion</label>
                             <label for="inputHome" class="sr-only">Direccion</label>
-                            <input type="text" id="inputHome" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Direccion"
+                            <input type="text" id="inputHome" class="form-control" ng-class="{'has-error':!isHomeValid}" placeholder="Direccion"
                                    required="True" autofocus="1" ng-model="newMedicalRecord.home">
-                            <!--span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span-->
+                            <span style="color: red;" ng-if="!isHomeValid">* La direccion tiene caracteres no permitidos</span>
                         </div>
                         <div class="form-group">
                             <label>Alergias</label>
@@ -57,7 +50,7 @@
                             <label>Operaciones</label>
                             <label for="inputOperations" class="sr-only">Operaciones</label>
                             <textarea rows="2" id="inputOperations" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Operaciones"
-                                   required="True" autofocus="1" ng-model="newMedicalRecord.operations"></textarea>
+                                   required="False" autofocus="1" ng-model="newMedicalRecord.operations"></textarea>
                             <!--span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span-->
                         </div>
                         <br>
@@ -75,8 +68,9 @@
     <div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" type="submit" data-toggle="modal" data-target="#create-medical" ng-click="formCreateMedical()">Crear ficha medica</button></div>
     <div class="col-md-12">
         <h2 class="form-signin-heading">Lista de fichas medicas</h2>
+        <label>Filtrar: <input id="inputSearch" ng-model="searchText" placeholder="Filtro"></label>
         <div class="row">
-            <table class="table table-bordered">
+            <table id="searchTextResults"  class="table table-bordered">
                 <thead>
                 <tr>
                     <th>Jugador</th>
@@ -85,12 +79,12 @@
                     <th>Eliminar</th>
                 </tr>
                 </thead>
-                <tbody ng-repeat="medical in Medicals">
+                <tbody ng-repeat="medical in Medicals | filter:searchText">
                 <tr>
                     <td>{{medical.player.name}} {{medical.player.lastname}}</td>
-                    <td>{{medical.age}}</td>
-                    <td><button type="button" class="btn btn-warning" ng-click="formEditMedical(medical, $index)" data-toggle="modal" data-target="#create-medical">Editar</button></td>
-                    <td><button type="button" class="btn btn-danger" ng-click="deleteMedical(medical, $index)">Eliminar</button></td>
+                    <td>{{calculateAge(medical.player.date_of_birth)}}</td>
+                    <td><button type="button" class="btn btn-warning" ng-click="formEditMedical(medical, $index)" data-toggle="modal" data-target="#create-medical"><i class="glyphicon glyphicon-pencil"></i> Editar</button></td>
+                    <td><button type="button" class="btn btn-danger" ng-click="deleteMedical(medical, $index)"><i class="glyphicon glyphicon-trash"></i> Eliminar</button></td>
                 </tr>
                 </tbody>
             </table>

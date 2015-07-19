@@ -1,5 +1,7 @@
 var route = require('./routes');
 var PlayerModel = require('../../models/player-model');
+var Q = require('q');
+
 var __bind = function(fn, me){
     return function(){
         return fn.apply(me, arguments);
@@ -28,6 +30,7 @@ var PlayerRoute = (function() {
     };
 
     PlayerRoute.prototype.getPlayers = function(request, response){
+        var self = this;
         var filter = request.body;
         var query = PlayerModel.find(filter);
         query.exec(function(error, data) {

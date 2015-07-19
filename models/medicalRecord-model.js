@@ -8,11 +8,6 @@ var MedicalRecordSchema = new Schema({
     'type': mongoose.Schema.Types.ObjectId,
         'ref': 'Player'
     },
-    'age':{
-    'type': Number,
-        'default': "",
-        'required': true
-    },
     'weight':{
         'type': Number,
         'default': "",

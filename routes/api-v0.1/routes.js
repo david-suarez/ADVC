@@ -2,6 +2,7 @@ var VERSION = '/v0.1';
 var API = '/api' + VERSION;
 var BASE_USER_ROUTE = '/users';
 var BASE_ROUTE_LOGIN = '/login';
+var BASE_ROUTE_LOGOUT = '/logout';
 var BASE_PLAYER_ROUTE = '/players';
 var BASE_TEAM_ROUTE = '/teams';
 var BASE_CLUB_ROUTE = '/clubs';
@@ -29,7 +30,8 @@ exports.UserRoute = USERS_ROUTE + '/:user_id';
  /api/v0.1/players/:player_id
 */
 
-exports.Route_Login = BASE_ROUTE_LOGIN;
+exports.RouteLogin = BASE_ROUTE_LOGIN;
+exports.RouteLogout = BASE_ROUTE_LOGOUT;
 
 
 var PLAYER_ROUTE = API + BASE_PLAYER_ROUTE;

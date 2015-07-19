@@ -31,8 +31,8 @@ advcApp.config(["$routeProvider",
             }
         ).when('/login',
             {
-                templateUrl : 'partials/login_view.html',
-                controller : 'loginCtrl'
+                templateUrl: 'partials/login_view.html',
+                controller: 'loginCtrl'
             }
         ).when("/listClubs",
             {
@@ -69,8 +69,6 @@ advcApp.run([
             "$routeChangeStart",
             function(event, next, current) {
                 console.log(next);
-                //console.log(next);
-
                 if (SessionService.isAuthenticated()) {
                     var isUser = SessionService.get('idUSer');
                     $rbac.checkAccess(isUser).then(function(){

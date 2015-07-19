@@ -10,7 +10,7 @@ advcApp.controller('loginCtrl', [
                         var user = response.user;
                         SessionService.set('logged', true);
                         SessionService.set(
-                            'user', user.name + ' ' + user.lastname);
+                            'user', user.fullName);
                         SessionService.set('userId', user._id);
                         SessionService.set('clubId', user._id);
                         $rootScope.$emit('userAuthenticated', true);
@@ -30,7 +30,7 @@ advcApp.controller('loginCtrl', [
                         'Por favor intente de nuevo con credenciales ' +
                         'válidos.');
                     $scope.User = {
-                        user_name: '',
+                        username: '',
                         password: ''
                     };
                     $location.path('/login');

@@ -20,7 +20,6 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
 
         listUsersSrv.get({},
             function(result){
-                //console.log(result);
                 for(var index in result.data){
                     var user = result.data[index];
                     var fullName = user.name + ' ' + user.lastname;
@@ -64,7 +63,7 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
                     $.noty.consumeAlert({layout: 'topCenter',
                         type: 'warning', dismissQueue: true ,
                         timeout:2000 });
-                    alert('ingrese una fecha de creación valida.');
+                    alert('Ingrese una fecha de creación valida.');
                     $.noty.stopConsumeAlert();
                     return false;
                 }

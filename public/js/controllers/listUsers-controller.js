@@ -36,7 +36,7 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         $scope.validateEditFields = function () {
             var name = $scope.newUser.name;
             var lastName = $scope.newUser.lastname;
-            var userName = $scope.newUser.user_name;
+            var userName = $scope.newUser.username;
             var nameRegEx = /^([a-z ñáéíóú]{2,60})$/i;
             var lastNameRegEx = /^([a-z ñáéíóú]{2,60})$/i;
             var userNameRegEx = /^[a-zA-Z0-9_]{3,16}$/;
@@ -70,7 +70,7 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         $scope.validateFields = function () {
             var name = $scope.newUser.name;
             var lastName = $scope.newUser.lastname;
-            var userName = $scope.newUser.user_name;
+            var userName = $scope.newUser.username;
             var pass = $scope.newUser.password;
             var passRegEx = /(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{5,20})/;
             var nameRegEx = /^([a-z ñáéíóú]{2,60})$/i;
@@ -153,7 +153,7 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
             {
                 name: user.name,
                 lastname: user.lastname,
-                user_name: user.user_name,
+                username: user.username,
                 user_id: user._id
             }
         };
@@ -163,7 +163,7 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
             {
                 name: $scope.newUser.name,
                 lastname: $scope.newUser.lastname,
-                user_name: $scope.newUser.user_name
+                username: $scope.newUser.username
             };
             if($scope.validateEditFields()) {
                 listUsersSrv.update({user_id: $scope.newUser.user_id},

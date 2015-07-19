@@ -31,13 +31,11 @@ var RBACRoute = (function () {
     RBACRoute.prototype.getAccessPermissions = function (request, response){
         var permissions, role, user;
         permissions = void 0;
-        user = request.user ? request.user : '';
-        console.log(request.user);
-        if (this.users[user]) {
-            role = this.users[user].role;
+        user = request.user ? request.user.role : '';
+        if (user) {
+            console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
             console.log(user);
-            console.log(Permissions);
-            permissions = Permissions[role];
+            permissions = Permissions[user];
         }
         console.log(permissions);
         return response.json(permissions);

@@ -32,8 +32,7 @@ var UserRoute = (function(){
         var filter = request.body;
         var query = UserModel
             .find(filter)
-            .select('_id name lastname user_name role');
-        //query.sort(sortBy);
+            .select('_id name lastname fullname username role');
         query.exec(function(error, data) {
             if (error) {
                 response.status(500).json(error.message);
@@ -45,18 +44,22 @@ var UserRoute = (function(){
 
     UserRoute.prototype.saveUser = function(request, response){
         var newUser;
-        newUser = request.body.user;
-        if(newUser !== undefined) {
-            UserModel.create(newUser, function (error, data) {
-                if (error) {
-                    response.status(500).json(error.message);
+        newUser = {
+            username: request.body.user.username,
+            name: request.body.user.name,
+            lastname: request.body.user.lastname,
+            fullname: request.body.user.name + ' ' + request.body.user.lastname,
+            role: request.body.user.role
+        };
+
+        UserModel.register(new UserModel(newUser), request.body.user.password,
+            function(err, account) {
+                if (err) {
+                    response.status(500).json(err.message);
                 } else {
-                    response.status(201).json(data);
+                    response.status(201).json(account);
                 }
-            });
-        } else {
-            response.json(400, {'message': 'Bad Request'});
-        }
+        });
     };
 
     UserRoute.prototype.removeUser = function(request, response) {

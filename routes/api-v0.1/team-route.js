@@ -18,8 +18,8 @@ var TeamRoute = (function(){
     }
 
     TeamRoute.prototype.getTeam = function(request, response) {
-        var team_id = request.params.team_id;
-        TeamModel.findById(team_id, function(error, data) {
+        var teamId = request.params.teamId;
+        TeamModel.findById(teamId, function(error, data) {
             if(error){
                 response.status(500).json(error.message);
             }
@@ -72,8 +72,8 @@ var TeamRoute = (function(){
     };
 
     TeamRoute.prototype.removeTeam = function(request, response) {
-        var team_id = request.params.team_id;
-        TeamModel.remove({_id: team_id}, function(err, doc){
+        var teamId = request.params.teamId;
+        TeamModel.remove({_id: teamId}, function(err, doc){
             if (err){
                 response.status(500).json(err.message);
             } else {
@@ -83,10 +83,10 @@ var TeamRoute = (function(){
     };
 
     TeamRoute.prototype.updateTeam = function(request, response) {
-        var team_id = request.params.team_id;
+        var teamId = request.params.teamId;
         var newDataTeam = request.body.newDataTeam;
-        if(team_id !== undefined && newDataTeam !== undefined) {
-             TeamModel.findById(team_id, function(error, team) {
+        if(teamId !== undefined && newDataTeam !== undefined) {
+             TeamModel.findById(teamId, function(error, team) {
                 if(error){
                     response.status(500).json(error.message);
                 }
@@ -96,7 +96,7 @@ var TeamRoute = (function(){
                             team[key] = newDataTeam[key];
                         }
                     }
-                    team.save(function(err, teamUpdated){
+                    team.save(function(err, data){
                         if(err){
                             if (err.code)
                                 response.status(err.code).json(err.message);
@@ -104,7 +104,15 @@ var TeamRoute = (function(){
                                 response.status(500).json(err.message);
                         }
                         else {
-                            response.status(200).json({ data: teamUpdated });
+                            var teamU = {
+                                id: data._id,
+                                name: data.name,
+                                division: data.division,
+                                branch: data.branch,
+                                category: data.category,
+                                club: data.club.name
+                            };
+                            response.status(200).json({ data: teamU });
                         }
                     });
                 }

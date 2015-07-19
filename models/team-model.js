@@ -136,9 +136,13 @@ var _validateMajorTeam = function(team){
         if(error){
             deferred.reject(error);
         } else if(teams.length) {
-            duplicateError = new Error('duplicate team');
-            duplicateError.code = 409;
-            deferred.reject(duplicateError);
+            if(team._id.equals(teams[0]._id)){
+                deferred.resolve(true);
+            } else {
+                duplicateError = new Error('duplicate team');
+                duplicateError.code = 409;
+                deferred.reject(duplicateError);
+            }
         } else{
             deferred.resolve(true);
         }

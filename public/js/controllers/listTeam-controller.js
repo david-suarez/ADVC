@@ -93,7 +93,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
                 category: $scope.newTeam.category
             };
             if($scope.validateFields()){
-                listTeamSrv.update({team_id: teamId}, {newDataTeam: newTeam},
+                listTeamSrv.update({teamId: teamId}, {newDataTeam: newTeam},
                     function (teams) {
                         var team = teams.data;
                         $scope.Teams[teamIndex]= team;
@@ -189,7 +189,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
         $scope.formDeleteTeam = function(teamId, index){
             var r = confirm("¿Quiere confirmar la eliminacion del equipo?");
             if (r === true) {
-                listTeamSrv.delete({team_id: teamId}, function(data){
+                listTeamSrv.delete({teamId: teamId}, function(data){
                         $scope.Teams.splice(index,1);
                     },
                     function(error){

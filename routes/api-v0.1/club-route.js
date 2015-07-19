@@ -86,7 +86,7 @@ var ClubRoute = (function (){
 
     ClubRoute.prototype.updateClub = function (request, response){
         var club_id = request.params.clubId;
-    var newDataClub = request.body.newDataClub;
+    var newDataClub = request.body.championship;
     if(club_id !== undefined && newDataClub !== undefined){
         ClubModel.findById(club_id, function(error, club) {
             if(error){

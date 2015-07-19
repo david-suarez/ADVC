@@ -5,6 +5,7 @@ var ClubRoutes = require('./club-route');
 var LoginRoutes = require('./login-route');
 var PublicationRoutes = require('./publication-route');
 var MedicalRecordRoutes = require('./medical-record-route');
+var ChampionshipRoutes = require('./championship-route');
 
 module.exports = function(app){
     UserRoutes(app);
@@ -14,5 +15,5 @@ module.exports = function(app){
     LoginRoutes(app);
     PublicationRoutes(app);
     MedicalRecordRoutes(app);
-
+    ChampionshipRoutes(app);
 };

@@ -1,5 +1,7 @@
 var route = require('./routes');
 var PlayerModel = require('../../models/player-model');
+var Q = require('q');
+
 var __bind = function(fn, me){
     return function(){
         return fn.apply(me, arguments);
@@ -13,6 +15,7 @@ var PlayerRoute = (function() {
         this.savePlayer = __bind(this.savePlayer, this);
         this.removePlayer = __bind(this.removePlayer, this);
         this.updatePlayer = __bind(this.updatePlayer, this);
+        this.calculateAge = __bind(this.calculateAge, this);
     }
 
     PlayerRoute.prototype.getPlayer = function(request, response){
@@ -27,7 +30,38 @@ var PlayerRoute = (function() {
         });
     };
 
+    PlayerRoute.prototype.calculateAge = function(data) {
+        var defer = Q.defer();
+        var today = new Date();
+        var todayYear = today.getYear();
+        var todayMonth = today.getMonth();
+        var todayDate = today.getDate();
+
+        for(var index in data){
+            var birthDate = new Date(data[index].date_of_birth);
+
+            var date = birthDate.getDate();
+            var month = birthDate.getMonth();
+            var year = birthDate.getYear();
+            var age = (todayYear + 1900) - year;
+
+            if ( todayMonth < (month - 1)){
+                age--;
+            }
+            if (((month - 1) == todayMonth) && (todayDate < date)){
+                age--;
+            }
+            if (age > 1900){
+                age -= 1900;
+            }
+            data[index].age = age;
+        }
+        defer.resolve(data);
+        return defer.promise;
+    };
+
     PlayerRoute.prototype.getPlayers = function(request, response){
+        var self = this;
         var filter = request.body;
         var query = PlayerModel.find(filter);
         query.exec(function(error, data) {

@@ -41,6 +41,17 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
             var lastNameRegEx = /^([a-z ñáéíóú]{2,60})$/i;
             var userNameRegEx = /^[a-zA-Z0-9_]{3,16}$/;
 
+            if (!name || !name.trim() || !lastName || !lastName.trim() || !userName || !userName.trim()) {
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:2000 });
+                alert('No se permiten campos vacíos!!!');
+                $.noty.stopConsumeAlert();
+                return false;
+            }else if (!nameRegEx.test(name)) {
+                $scope.isNameValid = false;
+                return false;
+            }
             if (!nameRegEx.test(name)) {
                 $scope.isNameValid = false;
                 return false;
@@ -66,6 +77,17 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
             var lastNameRegEx = /^([a-z ñáéíóú]{2,60})$/i;
             var userNameRegEx = /^[a-zA-Z0-9_]{3,16}$/;
 
+            if (!name || !name.trim() || !lastName || !lastName.trim() || !userName || !userName.trim()) {
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:2000 });
+                alert('No se permiten campos vacíos!!!');
+                $.noty.stopConsumeAlert();
+                return false;
+            }else if (!nameRegEx.test(name)) {
+                $scope.isNameValid = false;
+                return false;
+            }
             if (!nameRegEx.test(name)) {
                 $scope.isNameValid = false;
                 return false;

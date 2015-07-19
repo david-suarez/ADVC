@@ -34,7 +34,7 @@ var PlayerRoute = (function() {
             if (error) {
                 response.status(500).json(error.message);
             } else {
-                response.status(200).json(data);
+                response.status(200).json({data: data});
             }
         });
     };
@@ -42,6 +42,7 @@ var PlayerRoute = (function() {
     PlayerRoute.prototype.savePlayer = function(request, response){
         var newPlayer;
         newPlayer = request.body.player;
+
         console.log(newPlayer);
         if(newPlayer !== undefined) {
 
@@ -53,7 +54,7 @@ var PlayerRoute = (function() {
                 }
             });
         } else {
-            response.status(400).json({'message': 'Bad Request'});
+            response.status(500).json({'message': 'Bad Request'});
         }
     };
 

@@ -63,17 +63,7 @@ var PlayerSchema = new Schema({
         'required': true
     },
     'date_of_birth': {
-        'type': Number,
-        'default': "",
-        'required': true
-    },
-    'month_of_birth': {
-        'type': String,
-        'default': "",
-        'required': true
-    },
-    'year_of_birth': {
-        'type': Number,
+        'type': Date,
         'default': "",
         'required': true
     },

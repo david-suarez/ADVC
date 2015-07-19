@@ -7,6 +7,7 @@ var BASE_TEAM_ROUTE = '/teams';
 var BASE_CLUB_ROUTE = '/clubs';
 var BASE_KARDEX_ROUTE = '/kardex';
 var BASE_PUB_ROUTE = '/publications';
+var BASE_MEDICAL_ROUTE = '/medicals';
 
 /*
  Api for Users
@@ -74,6 +75,19 @@ exports.Kardex_Route = KADEX_ROUTE;
  /api/v0.1/publications
  /api/v0.1/publications/:publication_id
 */
+
+var MEDICAL_ROUTE = API + BASE_MEDICAL_ROUTE;
+
+exports.MedicalRecordsRoute = MEDICAL_ROUTE;
+exports.MedicalRecordRoute = MEDICAL_ROUTE + '/:medicalId';
+
+/*
+ Api for Kardex
+ @example define routes for kardex
+ /api/v0.1/kardex
+ /api/v0.1/kardex/:kadex_id
+ */
+
 
 var PUB_ROUTE = API + BASE_PUB_ROUTE;
 

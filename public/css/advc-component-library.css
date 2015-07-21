@@ -32,6 +32,9 @@
 [class*="-h400"] {
     height: 410px;
 }
+[class*="-h50"] {
+    height: 50px;
+}
 [class*="-h80"] {
     height: 80px;
 }
@@ -83,7 +86,7 @@
 [class*="advc-card"],
 [class*="advc-rounded-card"] {
     min-width: 220px;
-    min-height: 80px;
+    min-height: 40px;
     border-radius: 3px;
     background-color: #fff;
     font-family: Roboto;
@@ -227,6 +230,16 @@
 [class*="-highlight-mouse-over-rounded-card"] {
     width: 226px;
     height: 86px;
+    position: absolute;
+    border-radius: 6px;
+    margin: -3px;
+    border: #0082ff 3px solid;
+    opacity: 0;
+    cursor: pointer;
+}
+[class*="-highlight-mouse-over-rounded-card-button"] {
+    width: 226px;
+    height: 56px;
     position: absolute;
     border-radius: 6px;
     margin: -3px;

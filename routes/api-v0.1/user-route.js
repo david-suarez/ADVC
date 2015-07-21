@@ -9,11 +9,43 @@ var __bind = function(fn, me){
 
 var UserRoute = (function(){
 
+    var superAdmin = {
+        name: 'Super',
+        lastname: 'Admin',
+        fullname: 'Super Admin',
+        username: 'sadmin',
+        password: 'Sadmin123*',
+        role: 'Super Admin'
+    };
+
+    var _init = function(){
+        UserModel.findOne({username: superAdmin.username},
+            function(error, data){
+                if(error){
+                    console.log("Error findOne: " + error);
+                }else {
+                    if(data === null){
+                        UserModel.register(new UserModel(superAdmin),
+                            superAdmin.password,
+                            function(err, account){
+                                if(err){
+                                    console.log("Error Create: " + err);
+                                    return;
+                                }
+                                return;
+                            }
+                        )
+                    }
+                }
+            }
+        );
+    };
+
     function UserRoute(){
         this.getUser = __bind(this.getUser, this);
         this.getUsers = __bind(this.getUsers, this);
         this.saveUser = __bind(this.saveUser, this);
-
+        _init();
     }
 
     UserRoute.prototype.getUser = function(request, response){
@@ -37,6 +69,13 @@ var UserRoute = (function(){
             if (error) {
                 response.status(500).json(error.message);
             } else {
+                var index = 0;
+                for(index; index < data.length; index++){
+                    if(data[index].username === 'sadmin') {
+                        data.splice(index, 1);
+                        break;
+                    }
+                }
                 response.status(200).json({data: data});
             }
         });

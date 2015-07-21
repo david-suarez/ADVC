@@ -1,7 +1,6 @@
 
 var route = require('./routes');
 var Permissions = require ("../../config/permission");
-var UserModel = require('../../models/user-model');
 
 var __bind =function(fn, me){
     return function(){
@@ -14,30 +13,15 @@ var RBACRoute = (function () {
     function RBACRoute (){
         var self = this;
         this.getAccessPermissions = __bind(this.getAccessPermissions, this);
-        this.users = {};
-        var query = UserModel.find().select('_id role');
-        //query.sort(sortBy);
-        query.exec(function(error, data) {
-            if (error) {
-                console.error(error);
-            } else {
-                data.forEach(function(val, index){
-                    self.users[val._id] = { role: val.role }
-                });
-            }
-        });
     }
 
     RBACRoute.prototype.getAccessPermissions = function (request, response){
-        var permissions, role, user;
+        var permissions, user;
         permissions = void 0;
         user = request.user ? request.user.role : '';
         if (user) {
-            console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-            console.log(user);
             permissions = Permissions[user];
         }
-        console.log(permissions);
         return response.json(permissions);
     };
 

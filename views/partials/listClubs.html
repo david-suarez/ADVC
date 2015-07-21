@@ -21,7 +21,7 @@
                             <span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span>
                         </div>
                         <div class="form-group" id='datetimepicker1'>
-                            <label>Fundacion</label>
+                            <label>Fundación</label>
                             <p class="input-group">
                                 <input type="text" placeholder="dd/mm/yyyy" id="inputDate" class="form-control" datepicker-popup="{{format}}" is-open="opened" min-date="minDate" max-date="{{today}}"
                                        datepicker-options="dateOptions" ng-required="true"
@@ -51,7 +51,7 @@
         </div>
     </div>
 
-    <div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" type="submit" data-toggle="modal" data-target="#create-club" ng-click="formCreateClub()">Crear club</button></div>
+    <div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" type="submit" data-toggle="modal" data-target="#create-club" ng-click="formCreateClub()" allow="Club.CUD">Crear club</button></div>
     <div class="col-md-12">
         <h2 class="form-signin-heading">Lista de clubs</h2>
         <label>Filtrar: <input id="inputSearch" ng-model="searchText" placeholder="Filtro"></label>
@@ -63,8 +63,8 @@
                     <th>Fundacion</th>
                     <th>Delegado</th>
                     <th>Ver Club</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
+                    <th allow="Club.CUD">Editar</th>
+                    <th allow="Club.CUD">Eliminar</th>
                 </tr>
                 </thead>
                 <tbody ng-repeat="club in Clubs | filter:searchText">
@@ -73,8 +73,8 @@
                     <td>{{obtainFormatDate(club.foundation)}}</td>
                     <td>{{club.delegate.name}} {{club.delegate.lastname}}</td>
                     <td><button type="button" class="btn btn-primary" ng-click="formTeams(club)">Ver Club</button></td>
-                    <td><button type="button" class="btn btn-warning" ng-click="formEditClub(club)" data-toggle="modal" data-target="#create-club">Editar</button></td>
-                    <td><button type="button" class="btn btn-danger" ng-click="formDeleteClub(club, $index)">Eliminar</button></td>
+                    <td allow="Club.CUD"><button type="button" class="btn btn-warning" ng-click="formEditClub(club)" data-toggle="modal" data-target="#create-club">Editar</button></td>
+                    <td allow="Club.CUD"><button type="button" class="btn btn-danger" ng-click="formDeleteClub(club, $index)">Eliminar</button></td>
                 </tr>
                 </tbody>
             </table>

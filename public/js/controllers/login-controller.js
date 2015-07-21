@@ -1,6 +1,8 @@
 advcApp.controller('loginCtrl', [
     '$scope', '$location', '$rootScope', 'loginService', 'SessionService',
-    function($scope, $location, $rootScope, loginService, SessionService){
+    '$window',
+    function($scope, $location, $rootScope, loginService, SessionService,
+             $window){
         $scope.User = {};
         $scope.isAnyError = false;
         $scope.loginSystem = function(){
@@ -12,9 +14,10 @@ advcApp.controller('loginCtrl', [
                         SessionService.set(
                             'user', user.fullName);
                         SessionService.set('userId', user._id);
-                        SessionService.set('clubId', user._id);
+                        SessionService.set('userRole', user.role);
                         $rootScope.$emit('userAuthenticated', true);
-                        $location.path('/index');
+                        $window.location.reload();
+                        $location.path('/mainBoard');
                     }
                     else
                     {

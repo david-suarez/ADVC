@@ -1,7 +1,8 @@
-advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', '$location',
-    '$rootScope', 'loginService', 'SessionService',
-    function($scope, $http, $routeParams, $location, $rootScope,
-             loginService, SessionService ){
+advcApp.controller('menuCtrl', ['$scope', '$http', '$route', '$routeParams',
+    '$location', '$rootScope', 'loginService', 'SessionService', '$rbac',
+    '$window',
+    function($scope, $http, $route, $routeParams, $location, $rootScope,
+             loginService, SessionService, $rbac, $window){
         $scope.userIsAuthenticated = false;
         if(SessionService.get('logged')) {
             $scope.userIsAuthenticated = true;
@@ -11,24 +12,14 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', '$location',
 
         $scope.items = [
             {
-                name: 'Principal',
-                srcIcon: 'icon-main',
-                href: '/index',
-                allow: "Menu.MainBoard.Execute"
-            },
-            {
-                name: 'Main - board',
-                srcIcon: 'icon-main',
-                href: '/mainBoard',
-                allow: "Menu.MainBoard.Execute"
-            },
-            {
                 name: 'Usuarios',
-                href: '/listUser'
+                href: '/listUser',
+                allow: "Menu.Users.Execute"
             },
             {
                 name: 'Clubs',
-                href: '/listClubs'
+                href: '/listClubs',
+                allow: "Menu.Clubs.Execute"
             },
             {
                 name: 'Fichas Medicas',
@@ -86,11 +77,14 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', '$location',
         $scope.goToLogoutPage = function() {
             var r = confirm("Esta seguro que desea cerrar sesion?");
             if (r == true) {
+                $rbac.reset();
                 SessionService.unsetAll('logged');
+                SessionService.logoutServer();
                 $rootScope.$emit('userAuthenticated', false);
+                $window.location.reload();
                 $scope.loggedUser = '';
                 $scope.userId = false;
-                $location.path('/index');
+                $location.path('/mainBoard');
             }
         };
 

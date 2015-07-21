@@ -24,6 +24,12 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
             }
         );
 
+        $scope.roles = [
+            'Administrador',
+            'Personal Apoyo',
+            'Delegado'
+        ];
+
         $scope.formCreateUser = function () {
             $scope.newUser={};
             $scope.isNameValid = true;
@@ -111,7 +117,8 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         $scope.createUser = function () {
             var pass = $scope.newUser.password;
             var confirmPass = $scope.newUser.confirmPassword;
-
+            $scope.newUser.club =
+                $scope.newUser.club ? $scope.newUser.club._id : '';
             if($scope.validateFields()){
                 if(pass === confirmPass){
                     var newUser = {
@@ -154,7 +161,9 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
                 name: user.name,
                 lastname: user.lastname,
                 username: user.username,
-                user_id: user._id
+                user_id: user._id,
+                role: user.role,
+                club: user.club
             }
         };
 
@@ -163,7 +172,9 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
             {
                 name: $scope.newUser.name,
                 lastname: $scope.newUser.lastname,
-                username: $scope.newUser.username
+                username: $scope.newUser.username,
+                role: $scope.newUser.role,
+                club: $scope.newUser.club ? $scope.newUser.club._id : ''
             };
             if($scope.validateEditFields()) {
                 listUsersSrv.update({user_id: $scope.newUser.user_id},

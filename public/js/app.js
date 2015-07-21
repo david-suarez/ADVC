@@ -56,7 +56,7 @@ advcApp.config(["$routeProvider",
             }
         ).otherwise(
             {
-                redirectTo: "/index"
+                redirectTo: "/mainBoard"
             }
         );
         //$locationProvider.html5Mode(true);
@@ -72,10 +72,20 @@ advcApp.run([
                 if (SessionService.isAuthenticated()) {
                     var isUser = SessionService.get('idUSer');
                     $rbac.checkAccess(isUser).then(function(){
-                        //$rbac.allow()
+                        var nextPage = "";
+                        if (next.originalPath != null) {
+                            var indexName = next.originalPath.lastIndexOf("/")
+                                + 1;
+                            nextPage = next.originalPath.slice(indexName,
+                                next.originalPath.length);
+                            nextPage = nextPage.charAt(0).toUpperCase() +
+                                nextPage.slice(1);
+                            if (!$rbac.allow(nextPage)) {
+                                $location.path('/mainBoard');
+                            }
+                        }
                     });
                 }
-
         });
     }
 ]);

@@ -1,6 +1,7 @@
 advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
-    '$location', 'listClubsSrv','listUsersSrv',
-    function($scope, $routeParams, $location, listClubsSrv, listUsersSrv) {
+    '$location', 'listClubsSrv','listUsersSrv', 'SessionService',
+    function($scope, $routeParams, $location, listClubsSrv, listUsersSrv,
+             SessionService) {
         $scope.Clubs = {};
         $scope.newClub = {};
         $scope.createMode = false;
@@ -11,6 +12,9 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
         $scope.Division = {};
         $scope.today = new Date();
         $scope.format = 'dd/MM/yyyy';
+        var userRole = SessionService.get('userRole');
+        var userId = SessionService.get('userId');
+        var filterclub = {};
 
         var restartValidationFields = function(){
             $scope.isNameValid = true;
@@ -32,7 +36,10 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
             }
         );
 
-        listClubsSrv.get({},
+        if(userRole === 'Delegado') {
+            filterclub = {delegate: userId}
+        }
+        listClubsSrv.get(filterclub,
             function(result){
                $scope.Clubs = result.data;
             },

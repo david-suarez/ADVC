@@ -6,6 +6,7 @@ var passportLocalMongoose = require('passport-local-mongoose');
 var UserSchema = new Schema({
     'username' : {
         'type': String,
+        'unique': true,
         'default':""
     },
     'name': {
@@ -28,18 +29,13 @@ var UserSchema = new Schema({
     'role': {
         'type': String,
         'index': true,
-        'required': false,
-        'default': "Delegate",
+        'default': "Delegado",
         'enum': [
             "Super Admin",
-            "Admin Staff",
-            "Staff",
-            "Delegate"
+            "Administrador",
+            "Personal Apoyo",
+            "Delegado"
         ]
-    },
-    'club': {
-        'type': mongoose.Schema.Types.ObjectId,
-        'ref': 'Club'
     }
 });
 

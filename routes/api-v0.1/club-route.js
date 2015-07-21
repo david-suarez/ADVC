@@ -33,7 +33,7 @@ var ClubRoute = (function (){
     };
 
     ClubRoute.prototype.getClubs = function(request, response){
-        var filter = request.body;
+        var filter = request.query;
         var query = ClubModel.find(filter).populate('delegate');
         query.exec(function(error, data) {
             if (error) {

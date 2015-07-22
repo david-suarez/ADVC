@@ -23,7 +23,8 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$route', '$routeParams',
             },
             {
                 name: 'Fichas Medicas',
-                href: '/listMedicalRecord'
+                href: '/listMedicalRecord',
+                allow: "Menu.Medical.Execute"
             },
             {
                 name: 'Campeonatos',

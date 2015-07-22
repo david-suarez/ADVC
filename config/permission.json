@@ -3,47 +3,69 @@
     "Menu.MainBoard.Execute": true,
     "Menu.Users.Execute": true,
     "Menu.Clubs.Execute": true,
+    "Menu.Medical.Execute": true,
     "Publications.CUD": true,
     "Club.CUD": true,
     "Index": true,
     "ListUser": true,
     "ListClubs": true,
-    "ListTeams": true
+    "ListTeam": true,
+    "ListMedicalRecord": true
   },
   "Administrador": {
     "Menu.MainBoard.Execute": true,
     "Menu.Users.Execute": true,
     "Menu.Clubs.Execute": true,
+    "Menu.Medical.Execute": true,
     "Publications.CUD": true,
     "Club.CUD": true,
     "Team.CUD": true,
     "Index": true,
     "ListUser": true,
     "ListClubs": true,
-    "ListTeams": true
+    "ListTeam": true,
+    "ListMedicalRecord": true
   },
   "Personal Apoyo": {
     "Menu.MainBoard.Execute": true,
     "Menu.Users.Execute": false,
     "Menu.Clubs.Execute": true,
+    "Menu.Medical.Execute": false,
     "Publications.CUD": false,
     "Club.CUD": false,
     "Team.CUD": true,
     "Index": true,
     "ListUser": false,
     "ListClub": true,
-    "ListTeams": true
+    "ListTeam": true,
+    "ListMedicalRecord": false
   },
   "Delegado": {
     "Menu.MainBoard.Execute": true,
     "Menu.Users.Execute": false,
     "Menu.Clubs.Execute": true,
+    "Menu.Medical.Execute": false,
     "Publications.CUD": false,
     "Club.CUD": false,
     "Team.CUD": false,
     "Index": true,
     "ListUser": false,
     "ListClubs": true,
-    "ListTeams": true
+    "ListTeam": true,
+    "ListMedicalRecord": false
+  },
+  "Comision Medica": {
+    "Menu.MainBoard.Execute": true,
+    "Menu.Users.Execute": false,
+    "Menu.Clubs.Execute": false,
+    "Menu.Medical.Execute": true,
+    "Publications.CUD": false,
+    "Club.CUD": false,
+    "Team.CUD": false,
+    "Index": true,
+    "ListUser": false,
+    "ListClubs": false,
+    "ListTeam": false,
+    "ListMedicalRecord": true
   }
 }

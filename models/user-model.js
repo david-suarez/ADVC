@@ -34,7 +34,8 @@ var UserSchema = new Schema({
             "Super Admin",
             "Administrador",
             "Personal Apoyo",
-            "Delegado"
+            "Delegado",
+            "Comision Medica"
         ]
     }
 });

@@ -30,7 +30,7 @@ var ChampionshipRoute = (function (){
 
     ChampionshipRoute.prototype.getChampionships = function(request, response){
         var filter = request.body;
-        var query = ChampionshipModel.find(filter).populate('teams');
+        var query = ChampionshipModel.find(filter);//.populate('teams');
         query.exec(function(error, data) {
             if (error) {
                 response.status(500).json(error.message);
@@ -79,21 +79,22 @@ var ChampionshipRoute = (function (){
         });
     };
 
-    ChampionshipRoute.prototype.updateChampionship = function (request, response){
-        var championship_id = request.params.championshipId;
-        var newDataChampionship = request.body.championship;
-        if(championship_id !== undefined && championship !== undefined){
-            ChampionshipModel.findById(championship_id, function(error, championship) {
-                if(error){
+    ChampionshipRoute.prototype.updateChampionship = function (request,
+                                                                 response){
+        var championshipId = request.params.championshipId;
+        var championship = request.body.championship;
+        if(championshipId !== undefined && championship !== undefined){
+            ChampionshipModel.findById(championshipId, function(err, record) {
+                if(err){
                     response.status(500).json(error.message);
                 }
                 else{
                     for(var key in championship){
-                        if(typeof(championship[key]) !== 'undefined'){
-                            championship[key] = championship[key];
+                        if(typeof(record[key]) !== 'undefined'){
+                            record[key] = championship[key];
                         }
                     }
-                    championship.save(function(err, championshipUpdated){
+                    record.save(function(err, championshipUpdated){
                         if(err){
                             response.status(500).json(error.message);
                         }
@@ -113,7 +114,7 @@ module.exports = function(app) {
     championshipRoute = new ChampionshipRoute(app);
     app.get(route.ChampionshipsRoute, championshipRoute.getChampionships);
     app.get(route.ChampionshipRoute, championshipRoute.getChampionship);
-    app.put(route.ChampionshipRoute, championshipRoute.saveChampionship);
-    app.post(route.ChampionshipsRoute, championshipRoute.saveClub);
+    app.put(route.ChampionshipRoute, championshipRoute.updateChampionship);
+    app.post(route.ChampionshipsRoute, championshipRoute.saveChampionship);
     app.delete(route.ChampionshipRoute, championshipRoute.deleteChampionship);
 };

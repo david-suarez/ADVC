@@ -8,7 +8,7 @@ var BASE_CLUB_ROUTE = '/clubs';
 var BASE_KARDEX_ROUTE = '/kardex';
 var BASE_PUB_ROUTE = '/publications';
 var BASE_MEDICAL_ROUTE = '/medicals';
-var BASE_CHAMPIONSHIP_ROUTE = '/championship';
+var BASE_CHAMPIONSHIP_ROUTE = '/championships';
 
 /*
  Api for Users

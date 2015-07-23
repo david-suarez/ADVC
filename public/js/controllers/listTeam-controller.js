@@ -1,14 +1,30 @@
 advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
-    '$location', 'listTeamSrv',
-    function($scope, $routeParams, $location, listTeamSrv) {
+    '$location', 'listTeamSrv','listChampionshipSrv',
+    function($scope, $routeParams, $location, listTeamSrv,listChampionshipSrv) {
         var currentClubId = $routeParams.clubId;
         $scope.currentClubName = $routeParams.clubName;
 
         $scope.Teams = [];
         $scope.newTeam = {};
+        $scope.Championships = {};
         $scope.createMode = false;
         $scope.editMode = false;
         $scope.showModal = false;
+
+        listChampionshipSrv.get({},
+            function(result){
+                //console.log(result);
+                for(var index in result.data){
+                    var championship = result.data[index];
+                    var fullName = championship.name;
+                    result.data[index].fullName = fullName;
+                }
+                $scope.Championships = result.data;
+            },
+            function(error){
+                console.log(error);
+            }
+        );
 
         $scope.branchValues = [
             'Femenino',
@@ -48,6 +64,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
         $scope.createTeam = function () {
             var newTeam = {
                 name: $scope.newTeam.name,
+                championship: $scope.newTeam.championship,
                 division: $scope.newTeam.division,
                 branch: $scope.newTeam.branch,
                 category: $scope.newTeam.category,
@@ -88,6 +105,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
             var teamIndex = $scope.newTeam.index;
             var newTeam = {
                 name: $scope.newTeam.name,
+                championship: $scope.newTeam.championship,
                 division: $scope.newTeam.division,
                 branch: $scope.newTeam.branch,
                 category: $scope.newTeam.category
@@ -124,6 +142,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
 
         $scope.validateFields = function () {
             var name = $scope.newTeam.name;
+            var championship = $scope.newTeam.championship;
             var branch = $scope.newTeam.name;
             var category = $scope.newTeam.name;
             var division = $scope.newTeam.name;
@@ -141,14 +160,21 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
                     'ingrese un nombre válido.');
                 $.noty.stopConsumeAlert();
                 return false;
-            }else if(!branch) {
+            }else if(!championship) {
                 $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
                     timeout:2000 });
-                alert('Ingrese la rama en la cual participara el equipo.');
+                alert('Ingrese un campeonato para inscribir al equipo.');
                 $.noty.stopConsumeAlert();
                 return false;
-            }else if(!category) {
+            }else if(!branch) {
+            $.noty.consumeAlert({layout: 'topCenter',
+                type: 'warning', dismissQueue: true ,
+                timeout:2000 });
+            alert('Ingrese la rama en la cual participara el equipo.');
+            $.noty.stopConsumeAlert();
+            return false;
+            } else if(!category) {
                 $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
                     timeout:2000 });
@@ -168,6 +194,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
 
         listTeamSrv.get({ club: currentClubId },
             function(result){
+                console.log(result);
                 $scope.Teams = result.data;
             },
             function(error){

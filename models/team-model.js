@@ -53,6 +53,11 @@ var TeamSchema = new Schema({
             'ref': 'Player'
         }
     ],
+    'championship':
+        {
+            'type': mongoose.Schema.Types.ObjectId,
+            'ref': 'Championship'
+        },
     'sequence': {
         'type': Number,
         'default': 0

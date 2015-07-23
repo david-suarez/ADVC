@@ -33,6 +33,10 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$routeParams', '$location',
             {
                 name: 'Fichas Medicas',
                 href: '/listMedicalRecord'
+            },
+            {
+                name: 'Campeonatos',
+                href: '/listChampionship'
             }
 
         ];

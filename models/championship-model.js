@@ -23,13 +23,7 @@ var ChampionshipSchema = new Schema({
     'final_inscription_date':{
         'type':Date,
         'default':""
-    },
-    'teams': [
-        {
-            'type': mongoose.Schema.Types.ObjectId,
-            'ref': 'Team'
-        }
-    ]
+    }
 });
 
 var ChampionshipModel = mongoose.model('Championship', ChampionshipSchema);

@@ -161,11 +161,13 @@ var _validateMinorTeam = function(team){
     var division = team.division;
     var branch = team.branch;
     var name = team.name;
+    var champId = team.championship;
     var filter = {
         "club": clubId,
         "name": name,
         "division": division,
         "branch": branch,
+        "championship": champId,
         category: "Menores"
     };
     TeamModel.find(filter).exec(function(error, teams) {

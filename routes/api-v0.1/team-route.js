@@ -115,7 +115,8 @@ var TeamRoute = (function(){
                                 division: data.division,
                                 branch: data.branch,
                                 category: data.category,
-                                club: data.club.name
+                                club: data.club,
+                                championship: data.championship
                             };
                             response.status(200).json({ data: teamU });
                         }

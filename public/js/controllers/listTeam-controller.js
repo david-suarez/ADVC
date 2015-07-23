@@ -105,7 +105,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
             var teamIndex = $scope.newTeam.index;
             var newTeam = {
                 name: $scope.newTeam.name,
-                championship: $scope.newTeam.championship,
+                championship: $scope.newTeam.championship._id,
                 division: $scope.newTeam.division,
                 branch: $scope.newTeam.branch,
                 category: $scope.newTeam.category
@@ -114,6 +114,16 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
                 listTeamSrv.update({teamId: teamId}, {newDataTeam: newTeam},
                     function (teams) {
                         var team = teams.data;
+                        for(var index in $scope.Championships){
+                            if(team.championship ===
+                                $scope.Championships[index]._id){
+                                team.nameChampionship =
+                                    $scope.Championships[index].name;
+                                team.idChampionship =
+                                    $scope.Championships[index]._id;
+                                break;
+                            }
+                        }
                         $scope.Teams[teamIndex]= team;
                         $('#create-team').modal('hide'); //hide modal
                         $('body').removeClass('modal-open');
@@ -229,11 +239,18 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
         $scope.formEditTeam = function(team, index){
             $scope.createMode = false;
             $scope.editMode = true;
+            var indexCh = 0;
+            for(indexCh; indexCh < $scope.Championships.length; indexCh++){
+                var champId = $scope.Championships[indexCh]._id;
+                if(champId === team.idChampionship)
+                    break;
+            }
             $scope.newTeam = {
                 name: team.name,
                 division: team.division,
                 branch: team.branch,
                 category: team.category,
+                championship: $scope.Championships[indexCh],
                 id: team.id,
                 index: index
             };

@@ -20,7 +20,7 @@
                 </div>
                 <div class="modal-body">
                     <form role="form">
-                        <div>
+                        <div class="form-group">
                             <label>Nombre(*)</label>
                             <label for="inputName" class="sr-only">Nombre</label>
                             <input type="text" id="inputName" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Nombre"
@@ -28,12 +28,11 @@
                             <span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span>
                         </div>
                         <div class="form-group">
-                            <label>Campeonato</label>
+                            <label>Campeonato(*)</label>
                             <label  for="inputChampionship" class="sr-only">Capeonato</label>
                             <select id="inputChampionship" ng-model="newTeam.championship" ng-options="championship.fullName for championship in Championships"></select>
 
                         </div>
-                        <br>
                         <div class="form-group">
                             <label>Rama(*)</label>
                             <select ng-options="item for item in branchValues" ng-model="newTeam.branch"></select>

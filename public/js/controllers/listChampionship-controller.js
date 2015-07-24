@@ -32,11 +32,13 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
             var name = $scope.newChampionship.name;
             var initialDate = $scope.newChampionship.initial_date;
             var final_date = $scope.newChampionship.final_date;
-            var initial_inscription_date = $scope.newChampionship.initial_inscription_date;
-            var final_inscription_date = $scope.newChampionship.final_inscription_date;
+            var initial_inscription_date =
+                $scope.newChampionship.initial_inscription_date;
+            var final_inscription_date =
+                $scope.newChampionship.final_inscription_date;
             var now = new Date();
             var now_Year = now.getFullYear();
-            var nameRegEx = /^([a-z ������]{2,60})$/i;
+            var nameRegEx = /^([a-z 0-9 ñáéíóú]{2,60})$/i;
             if (!name || !name.trim()) {
                 $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
@@ -56,7 +58,7 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
                     $.noty.consumeAlert({layout: 'topCenter',
                         type: 'warning', dismissQueue: true ,
                         timeout:2000 });
-                    alert('ingrese una fecha correspondiente a este anio.');
+                    alert('Ingrese una fecha correspondiente a este año.');
                     $.noty.stopConsumeAlert();
                     return false;
                 }
@@ -64,7 +66,7 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
                     $.noty.consumeAlert({layout: 'topCenter',
                         type: 'warning', dismissQueue: true ,
                         timeout:2000 });
-                    alert('ingrese una fecha de creaci�n valida.');
+                    alert('Ingrese una fecha de creación valida.');
                     $.noty.stopConsumeAlert();
                     return false;
                 }
@@ -73,20 +75,22 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
                 $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
                     timeout:2000 });
-                alert('Ingrese fecha de inicio y/o fin para el campeonato que desea crear.');
+                alert('Ingrese fecha de inicio y/o fin para el campeonato que' +
+                    ' desea crear.');
                 $.noty.stopConsumeAlert();
                 return false;
             }
 
             if(initial_inscription_date && final_inscription_date){
-                var initial_Inc_Date_Year = initial_inscription_date.getFullYear();
+                var initial_Inc_Date_Year =
+                    initial_inscription_date.getFullYear();
                 var final_Inc_Date_Year = final_inscription_date.getFullYear();
 
                 if(initial_inscription_date > final_inscription_date){
                     $.noty.consumeAlert({layout: 'topCenter',
                         type: 'warning', dismissQueue: true ,
                         timeout:2000 });
-                    alert('ingrese una fecha de creaci�n valida.');
+                    alert('Ingrese una fecha de creación valida.');
                     $.noty.stopConsumeAlert();
                     return false;
                 }
@@ -94,7 +98,7 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
                     $.noty.consumeAlert({layout: 'topCenter',
                         type: 'warning', dismissQueue: true ,
                         timeout:2000 });
-                    alert('ingrese una fecha de creaci�n valida.');
+                    alert('Ingrese una fecha de creación valida.');
                     $.noty.stopConsumeAlert();
                     return false;
                 }
@@ -102,7 +106,7 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
                     $.noty.consumeAlert({layout: 'topCenter',
                         type: 'warning', dismissQueue: true ,
                         timeout:2000 });
-                    alert('ingrese una fecha correspondiente a este anio.');
+                    alert('Ingrese una fecha correspondiente a este año.');
                     $.noty.stopConsumeAlert();
                     return false;
                 }
@@ -110,7 +114,7 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
                     $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
                     timeout:2000 });
-                    alert('ingrese una fecha correspondiente a este anio.');
+                    alert('Ingrese una fecha correspondiente a este año.');
                     $.noty.stopConsumeAlert();
                     return false;
                     }
@@ -118,7 +122,7 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
                     $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
                     timeout:2000 });
-                    alert('ingrese una fecha de creaci�n valida.');
+                    alert('Ingrese una fecha de creación valida.');
                     $.noty.stopConsumeAlert();
                     return false;
                 }
@@ -126,7 +130,8 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
                 $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
                     timeout:2000 });
-                alert('Ingrese fecha inicio y/o fin de inscripci�n para el coampeonato que desea crear.');
+                alert('Ingrese fecha inicio y/o fin de inscripción para el ' +
+                    'campeonato que desea crear.');
                 $.noty.stopConsumeAlert();
                 return false;
             }
@@ -143,18 +148,21 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
                 name: $scope.newChampionship.name,
                 initial_date: $scope.newChampionship.initial_date,
                 final_date: $scope.newChampionship.final_date,
-                initial_inscription_date: $scope.newChampionship.initial_inscription_date,
-                final_inscription_date: $scope.newChampionship.final_inscription_date
+                initial_inscription_date:
+                    $scope.newChampionship.initial_inscription_date,
+                final_inscription_date:
+                    $scope.newChampionship.final_inscription_date
 
             };
             if($scope.validateFields()){
                 listChampionshipSrv.save({championship: newChampionship},
                         function (data) {
                             $scope.Championships.push(data);
-                            $('#create-championship').modal('hide'); //hide modal
+                            restartValidationFields();
+                            $('#create-championship').modal('hide');//hide modal
                             $('body').removeClass('modal-open');
                             $('.modal-backdrop').remove();
-                            $scope.Championships = {};
+                            $scope.newChampionship = {};
                         },
                         function(error){
                             console.log(error);
@@ -167,48 +175,56 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
             $scope.createMode = false;
             $scope.editMode = true;
             $scope.newChampionship.name = championship.name;
-            $scope.newChampionship.initial_date = new Date(championship.initial_date);
-            $scope.newChampionship.final_date = new Date(championship.final_date);
-            $scope.newChampionship.initial_inscription_date = new Date(championship.initial_inscription_date);
-            $scope.newChampionship.final_inscription_date = new Date(championship.final_inscription_date);
+            $scope.newChampionship.initial_date =
+                new Date(championship.initial_date);
+            $scope.newChampionship.final_date =
+                new Date(championship.final_date);
+            $scope.newChampionship.initial_inscription_date =
+                new Date(championship.initial_inscription_date);
+            $scope.newChampionship.final_inscription_date =
+                new Date(championship.final_inscription_date);
             $scope.newChampionship._id = championship._id;
         };
 
         $scope.editChampionship= function () {
-            var self = this;
             var newChampionship = {
                 championshipId: $scope.newChampionship._id,
                 name: $scope.newChampionship.name,
                 initial_date: $scope.newChampionship.initial_date,
                 final_date: $scope.newChampionship.final_date,
-                initial_inscription_date: $scope.newChampionship.initial_inscription_date,
-                final_inscription_date: $scope.newChampionship.final_inscription_date
+                initial_inscription_date:
+                    $scope.newChampionship.initial_inscription_date,
+                final_inscription_date:
+                    $scope.newChampionship.final_inscription_date
             };
             if($scope.validateFields()) {
-                listChampionshipSrv.update({championshipId: $scope.newChampionship._id},
-                        {championship: newChampionship},
-                        function (data) {
-                            $scope.showModal = !$scope.showModal;
-                            $scope.newChampionship = {};
-                            var index = 0;
-                            for (index; index < $scope.Championships.length; index++) {
-                                if ($scope.Championships[index]._id === data._id) {
-                                    $scope.Championships[index] = data;
-                                }
+                listChampionshipSrv.update(
+                    {championshipId: $scope.newChampionship._id},
+                    {championship: newChampionship},
+                    function (data) {
+                        $scope.showModal = !$scope.showModal;
+                        $scope.newChampionship = {};
+                        var i = 0;
+                        for (i; i < $scope.Championships.length; i++) {
+                            if ($scope.Championships[i]._id === data._id) {
+                                $scope.Championships[i] = data;
                             }
-                            $('#create-championship').modal('hide'); //hide modal
-                            $('body').removeClass('modal-open');
-                            $('.modal-backdrop').remove();
-                        },
-                        function (error) {
-                            console.log(error);
                         }
-                    );
+                        restartValidationFields();
+                        $('#create-championship').modal('hide'); //hide modal
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                    },
+                    function (error) {
+                        console.log(error);
+                    }
+                );
             }
         };
 
         $scope.formDeleteChampionship = function (championship, index) {
-            var r = confirm("Esta seguro de eliminar el campeonato" +' '+ championship.name);
+            var r = confirm("Esta seguro de eliminar el campeonato" +' '+
+                championship.name);
             if (r == true) {
                 listChampionshipSrv.delete({championshipId: championship._id},
                     function (data) {
@@ -244,7 +260,6 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
         };
 
         $scope.open = function($event,num) {
-            console.log($event,num);
             $event.preventDefault();
             $event.stopPropagation();
             if(num==1){

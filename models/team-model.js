@@ -131,11 +131,12 @@ var _validateMajorTeam = function(team){
     var branch = team.branch;
 
     var filter = {
-        "club": clubId,
-        "division": division,
-        "branch": branch,
+        club: clubId,
+        division: division,
+        branch: branch,
         category: "Mayores"
     };
+    console.log(filter);
     TeamModel.find(filter).exec(function(error, teams) {
         var duplicateError;
         if(error){

@@ -63,7 +63,7 @@ var MedicalRecordRoute = (function (){
         var medicalRecordId = request.params.medicalId;
         MedicalRecordModel.remove({_id: medicalRecordId}, function(err, doc){
             if(err){
-                response.status(500).json(error.message);
+                response.status(500).json(err.message);
             } else {
                 response.status(200).send({medicalRecordId: medicalRecordId});
             }

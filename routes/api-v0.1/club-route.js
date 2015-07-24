@@ -86,30 +86,30 @@ var ClubRoute = (function (){
 
     ClubRoute.prototype.updateClub = function (request, response){
         var club_id = request.params.clubId;
-    var newDataClub = request.body.championship;
-    if(club_id !== undefined && newDataClub !== undefined){
-        ClubModel.findById(club_id, function(error, club) {
-            if(error){
-                response.status(500).json(error.message);
-            }
-            else{
-                for(var key in newDataClub){
-                    if(typeof(club[key]) !== 'undefined'){
-                        club[key] = newDataClub[key];
-                    }
+        var newDataClub = request.body.newDataClub;
+        if(club_id !== undefined && newDataClub !== undefined){
+            ClubModel.findById(club_id, function(error, club) {
+                if(error){
+                    response.status(500).json(error.message);
                 }
-                club.save(function(err, clubUpdated){
-                    if(err){
-                        response.status(500).json(error.message);
+                else{
+                    for(var key in newDataClub){
+                        if(typeof(club[key]) !== 'undefined'){
+                            club[key] = newDataClub[key];
+                        }
                     }
-                    else{
-                        response.status(200).json(clubUpdated);
-                    }
-                })
-            }
-        });
-    }
-};
+                    club.save(function(err, clubUpdated){
+                        if(err){
+                            response.status(500).json(error.message);
+                        }
+                        else{
+                            response.status(200).json(clubUpdated);
+                        }
+                    })
+                }
+            });
+        }
+    };
     return ClubRoute;
 })();
 

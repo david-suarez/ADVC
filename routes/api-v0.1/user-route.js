@@ -20,10 +20,10 @@ var UserRoute = (function(){
         var user_id = request.params.user_id;
         UserModel.findById(user_id, function(error, data) {
             if(error){
-                response.json(500, error.message);
+                response.status(500).json(error.message);
             }
             else{
-                response.json(200, data);
+                response.status(200).json(data);
             }
         });
     };
@@ -34,9 +34,9 @@ var UserRoute = (function(){
         //query.sort(sortBy);
         query.exec(function(error, data) {
             if (error) {
-                response.json(500, error.message);
+                response.status(500).json(error.message);
             } else {
-                response.json(200, {data: data});
+                response.status(200).json({data: data});
             }
         });
     };
@@ -47,9 +47,9 @@ var UserRoute = (function(){
         if(newUser !== undefined) {
             UserModel.create(newUser, function (error, data) {
                 if (error) {
-                    response.json(500, error.message);
+                    response.status(500).json(error.message);
                 } else {
-                    response.json(201, data);
+                    response.status(201).json(data);
                 }
             });
         } else {
@@ -61,9 +61,9 @@ var UserRoute = (function(){
         var user_id = request.params.user_id;
         UserModel.remove({_id: user_id}, function(err, doc){
             if (err){
-                response.json(500, err.message);
+                response.status(500).json(err.message);
             } else {
-                response.json(200, {user_id: user_id});
+                response.status(200).json({user_id: user_id});
             }
 
         });
@@ -75,7 +75,7 @@ var UserRoute = (function(){
         if(user_id !== undefined && newDataUser !== undefined){
             UserModel.findById(user_id, function(error, user) {
                 if(error){
-                    response.json(500, err.message);
+                    response.status(500).json(err.message);
                 }
                 else{
                     for(var key in newDataUser){
@@ -85,10 +85,10 @@ var UserRoute = (function(){
                     }
                     user.save(function(err, userUpdated){
                         if(err){
-                            response.json(500, err.message);
+                            response.status(500).json(err.message);
                         }
                         else{
-                            response.json(200, userUpdated);
+                            response.status(200).json(userUpdated);
                         }
                     })
                 }

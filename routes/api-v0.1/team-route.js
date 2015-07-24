@@ -48,8 +48,11 @@ var TeamRoute = (function(){
                         branch: data[index].branch,
                         category: data[index].category,
                         club: data[index].club.name,
-                        idChampionship: data[index].championship._id,
-                        nameChampionship: data[index].championship.name
+                        idChampionship:
+                            data[index].championship ?
+                                data[index].championship._id : '',
+                        nameChampionship: data[index].championship ?
+                            data[index].championship.name : ''
                     })
                 }
                 response.status(200).json({data: dataResult});
@@ -68,7 +71,16 @@ var TeamRoute = (function(){
                     else
                         response.status(500).json(error.message);
                 } else {
-                    response.status(201).json({data: data});
+                    var team = {
+                        id: data._id,
+                        name: data.name,
+                        division: data.division,
+                        branch: data.branch,
+                        category: data.category,
+                        club: data.club,
+                        championship: data.championship
+                    };
+                    response.status(201).json({data: team});
                 }
             });
         } else {

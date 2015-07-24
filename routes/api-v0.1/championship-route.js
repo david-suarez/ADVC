@@ -30,7 +30,7 @@ var ChampionshipRoute = (function (){
 
     ChampionshipRoute.prototype.getChampionships = function(request, response){
         var filter = request.body;
-        var query = ChampionshipModel.find(filter);//.populate('teams');
+        var query = ChampionshipModel.find(filter);
         query.exec(function(error, data) {
             if (error) {
                 response.status(500).json(error.message);
@@ -79,8 +79,8 @@ var ChampionshipRoute = (function (){
         });
     };
 
-    ChampionshipRoute.prototype.updateChampionship = function (request,
-                                                                 response){
+    ChampionshipRoute.prototype.updateChampionship = function(request,
+                                                              response){
         var championshipId = request.params.championshipId;
         var championship = request.body.championship;
         if(championshipId !== undefined && championship !== undefined){

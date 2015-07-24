@@ -72,15 +72,14 @@ advcApp.controller('listMedicalRecordCtrl', ['$scope', '$routeParams',
                 return age;
             };
 
-            $scope.validateFields = function () {
+        $scope.validateFields = function () {
             var weight = $scope.newMedicalRecord.weight;
             var height = $scope.newMedicalRecord.height;
             var home= $scope.newMedicalRecord.home;
             var weightRegEx = /^-?[0-9]+([\.][0-9]*)?$/;
             var heightRegEx = /^-?[0-9]+([\.][0-9]*)?$/;
             var homeRegEx = /[A-Za-z0-9_]{3,20}/;
-
-            if (!weight || !weight.trim()) {
+            if (!weight){
                 $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
                     timeout:2000 });
@@ -91,7 +90,7 @@ advcApp.controller('listMedicalRecordCtrl', ['$scope', '$routeParams',
                 $scope.isWeightValid = false;
                 return false;
 
-            }else if (!height || !height.trim()) {
+            }else if (!height) {
                 $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
                     timeout:2000 });

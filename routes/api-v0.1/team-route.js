@@ -31,7 +31,10 @@ var TeamRoute = (function(){
 
     TeamRoute.prototype.getTeams = function(request, response) {
         var filter = request.query;
-        var query = TeamModel.find(filter).populate('club').sort({sequence: 1});
+        var query = TeamModel.find(filter)
+            .populate('club')
+            .populate('championship')
+            .sort({sequence: 1});
         query.exec(function(error, data) {
             if (error) {
                 response.status(500).json(error.message);
@@ -44,7 +47,12 @@ var TeamRoute = (function(){
                         division: data[index].division,
                         branch: data[index].branch,
                         category: data[index].category,
-                        club: data[index].club.name
+                        club: data[index].club.name,
+                        idChampionship:
+                            data[index].championship ?
+                                data[index].championship._id : '',
+                        nameChampionship: data[index].championship ?
+                            data[index].championship.name : ''
                     })
                 }
                 response.status(200).json({data: dataResult});
@@ -63,7 +71,16 @@ var TeamRoute = (function(){
                     else
                         response.status(500).json(error.message);
                 } else {
-                    response.status(201).json({data: data});
+                    var team = {
+                        id: data._id,
+                        name: data.name,
+                        division: data.division,
+                        branch: data.branch,
+                        category: data.category,
+                        club: data.club,
+                        championship: data.championship
+                    };
+                    response.status(201).json({data: team});
                 }
             });
         } else {
@@ -110,7 +127,8 @@ var TeamRoute = (function(){
                                 division: data.division,
                                 branch: data.branch,
                                 category: data.category,
-                                club: data.club.name
+                                club: data.club,
+                                championship: data.championship
                             };
                             response.status(200).json({ data: teamU });
                         }

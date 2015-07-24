@@ -146,7 +146,7 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
             };
             if($scope.validateFields()) {
                 listClubsSrv.update({clubId: $scope.newClub._id},
-                    {newDataClub: newClub},
+                    {championship: newClub},
                     function (data) {
                         $scope.showModal = !$scope.showModal;
                         $scope.newClub = {};

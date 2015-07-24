@@ -53,6 +53,11 @@ var TeamSchema = new Schema({
             'ref': 'Player'
         }
     ],
+    'championship':
+        {
+            'type': mongoose.Schema.Types.ObjectId,
+            'ref': 'Championship'
+        },
     'sequence': {
         'type': Number,
         'default': 0
@@ -126,11 +131,12 @@ var _validateMajorTeam = function(team){
     var branch = team.branch;
 
     var filter = {
-        "club": clubId,
-        "division": division,
-        "branch": branch,
+        club: clubId,
+        division: division,
+        branch: branch,
         category: "Mayores"
     };
+    console.log(filter);
     TeamModel.find(filter).exec(function(error, teams) {
         var duplicateError;
         if(error){
@@ -156,11 +162,13 @@ var _validateMinorTeam = function(team){
     var division = team.division;
     var branch = team.branch;
     var name = team.name;
+    var champId = team.championship;
     var filter = {
         "club": clubId,
         "name": name,
         "division": division,
         "branch": branch,
+        "championship": champId,
         category: "Menores"
     };
     TeamModel.find(filter).exec(function(error, teams) {

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<div ng-controller="listChampionshipCtrl">
+    <!---Formulario modal para creacion de campeonatos -->
+    <div class="modal fade" id="create-championship" role="dialog" data-backdrop="static"
+         data-keyboard="false">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" ng-click="closeModal()">&times;</button>
+                    <h4 class="modal-title">Formulario de creación de campeonatos</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="form-group">
+                            <label>Nombre</label>
+                            <label for="inputName" class="sr-only">Nombre</label>
+                            <input type="text" id="inputName" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Nombre"
+                                   required="True" autofocus="1" ng-model="newChampionship.name">
+                            <span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span>
+                        </div>
+                        <div class="form-group" id='datetimepicker1'>
+                            <label>Fecha Inicio</label>
+                            <p class="input-group">
+                                <input type="text" placeholder="dd/mm/yyyy" id="inputInicialDate" class="form-control" datepicker-popup="{{format}}" is-open="opened1" min-date="minDate"
+                                       datepicker-options="dateOptions" ng-required="true"
+                                       close-text="Close" ng-model="newChampionship.initial_date" disabled>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event,1)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                            <!--input type="hidden" id="inputId"  ng-model="newChampionship._id"-->
+                        </div>
+                        <div class="form-group" id='datetimepicker2'>
+                            <label>Fecha Fin</label>
+                            <p class="input-group">
+                                <input type="text" placeholder="dd/mm/yyyy" id="inputFinalDate" class="form-control" datepicker-popup="{{format}}" is-open="opened2" min-date="minDate"
+                                       datepicker-options="dateOptions" ng-required="true"
+                                       close-text="Close" ng-model="newChampionship.final_date" disabled>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event,2)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                            <!--input type="hidden" id="inputIdFinDate"  ng-model="newChampionship._id"-->
+                        </div>
+                        <div class="form-group" id='datetimepicker3'>
+                            <label>Fecha inicio de inscripción</label>
+                            <p class="input-group">
+                                <input type="text" placeholder="dd/mm/yyyy" id="inputIncrIniDate" class="form-control" datepicker-popup="{{format}}" is-open="opened3" min-date="minDate"
+                                       datepicker-options="dateOptions" ng-required="true"
+                                       close-text="Close" ng-model="newChampionship.initial_inscription_date" disabled>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                            <!--input type="hidden" id="inputIdIncrIniDate"  ng-model="newChampionship._id"-->
+                        </div>
+                        <div class="form-group" id='datetimepicker4'>
+                            <label>Fecha fin de inscripción</label>
+                            <p class="input-group">
+                                <input type="text" placeholder="dd/mm/yyyy" id="inputIncrFinDate" class="form-control" datepicker-popup="{{format}}" is-open="opened4" min-date="minDate"
+                                       datepicker-options="dateOptions" ng-required="true"
+                                       close-text="Close" ng-model="newChampionship.final_inscription_date" disabled>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event,4)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                            <!--input type="hidden" id="inputIdIncrFinDate"  ng-model="newChampionship._id"-->
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="createChampionship()" ng-if="createMode">Crear campeonato</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="editChampionship()" ng-if="editMode">Actualizar campeonato</button>
+                    <button class="btn btn-lg btn-info btn-block" type="submit" data-dismiss="modal" ng-click="closeModal()">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" type="submit" data-toggle="modal" data-target="#create-championship" ng-click="formCreateChampionship()">Crear campeonato</button></div>
+<div class="col-md-12">
+    <h2 class="form-signin-heading">Lista de campeonatos</h2>
+    <div class="row">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Nombre campeonato</th>
+                <th>Fecha inicio</th>
+                <th>Fecha fin</th>
+                <th>Fecha inicio de inscripción</th>
+                <th>Fecha fin de incripción</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+            </thead>
+            <tbody ng-repeat="championship in Championships">
+            <tr>
+                <td>{{championship.name}}</td>
+                <td>{{obtainFormatDate(championship.initial_date)}}</td>
+                <td>{{obtainFormatDate(championship.final_date)}}</td>
+                <td>{{obtainFormatDate(championship.initial_inscription_date)}}</td>
+                <td>{{obtainFormatDate(championship.final_inscription_date)}}</td>
+                <!--td><button type="button" class="btn btn-primary" ng-click="formTeams(club)">Ver Club</button></td-->
+                <td><button type="button" class="btn btn-warning" ng-click="formEditChampionship(championship)" data-toggle="modal" data-target="#create-championship">Editar</button></td>
+                <td><button type="button" class="btn btn-danger" ng-click="formDeleteChampionship(championship, $index)">Eliminar</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

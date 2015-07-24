@@ -63,7 +63,7 @@ var MedicalRecordRoute = (function (){
         var medicalRecordId = request.params.medicalId;
         MedicalRecordModel.remove({_id: medicalRecordId}, function(err, doc){
             if(err){
-                response.status(500).json(error.message);
+                response.status(500).json(err.message);
             } else {
                 response.status(200).send({medicalRecordId: medicalRecordId});
             }
@@ -78,7 +78,7 @@ var MedicalRecordRoute = (function (){
         if(medicalId !== undefined && medicalRecord !== undefined){
             MedicalRecordModel.findById(medicalId, function(error, record) {
                 if(error){
-                    response.status(500).json(err.message);
+                    response.status(500).json(error.message);
                 }
                 else{
                     for(var key in medicalRecord){
@@ -88,7 +88,7 @@ var MedicalRecordRoute = (function (){
                     }
                     record.save(function(err, recordUpdated){
                         if(err){
-                            response.status(500).json(err.message);
+                            response.status(500).json(error.message);
                         }
                         else{
                             response.status(200).json(recordUpdated);

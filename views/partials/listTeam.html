@@ -20,32 +20,32 @@
                 </div>
                 <div class="modal-body">
                     <form role="form">
-                        <div>
+                        <div class="form-group">
                             <label>Nombre(*)</label>
                             <label for="inputName" class="sr-only">Nombre</label>
                             <input type="text" id="inputName" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Nombre"
                                    required="True" autofocus="1" ng-model="newTeam.name">
                             <span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span>
                         </div>
-                        <br>
+                        <div class="form-group">
+                            <label>Campeonato(*)</label>
+                            <select ng-model="newTeam.championship" ng-options="championship._id as championship.name for championship in Championships"></select>
+                        </div>
                         <div class="form-group">
                             <label>Rama(*)</label>
-                            <select ng-options="item for item in branchValues" ng-model="newTeam.branch"></select>
+                            <select ng-options="branch for branch in branchValues" ng-model="newTeam.branch"></select>
                         </div>
 
                         <div class="form-group">
                             <label>Categoria(*)</label>
-                            <select ng-options="item for item in categoryValues" ng-model="newTeam.category"></select>
+                            <select ng-options="cat for cat in categoryValues" ng-model="newTeam.category"></select>
                         </div>
 
                         <div class="form-group">
                             <label>Division(*)</label>
-                            <select ng-if="newTeam.category == 'Mayores'" ng-options="item for item in majorCategoryValues" ng-model="newTeam.division"></select>
-                            <select ng-if="newTeam.category == 'Menores'" ng-options="item for item in minorCategoryValues" ng-model="newTeam.division"></select>
+                            <select ng-if="newTeam.category == 'Mayores'" ng-options="major for major in majorCategoryValues" ng-model="newTeam.major"></select>
+                            <select ng-if="newTeam.category == 'Menores'" ng-options="minor for minor in minorCategoryValues" ng-model="newTeam.minor"></select>
                         </div>
-
-
-
                         <br>
                     </form>
                 </div>
@@ -65,6 +65,7 @@
                 <thead>
                 <tr>
                     <th>Nombre Equipo</th>
+                    <th>Campeonato</th>
                     <th>Rama</th>
                     <th>Categoria</th>
                     <th>Division</th>
@@ -75,6 +76,7 @@
                 <tbody ng-repeat="team in Teams | filter:searchText track by $index ">
                 <tr>
                     <td>{{team.name}}</td>
+                    <td>{{team.nameChampionship}} </td>
                     <td>{{team.branch}}</td>
                     <td>{{team.category}}</td>
                     <td>{{team.division}}</td>

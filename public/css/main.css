@@ -168,3 +168,11 @@ body {
     vertical-align: middle;
     padding: 0 10px 0 15px;
 }
+.h1-title {
+    font-family: "Roboto";
+    font-size: 20px;
+    line-height: 20px;
+    height: 20px;
+    text-align: left;
+    color: #337ab7;
+}

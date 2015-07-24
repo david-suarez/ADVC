@@ -64,6 +64,11 @@ advcApp.config(["$routeProvider",
                 templateUrl: 'partials/changePassword',
                 controller: "changePasswordCtrl"
             }
+        ).when("/clubInfo",
+            {
+                templateUrl: 'partials/clubInfo',
+                controller: "clubInfoCtrl"
+            }
         ).otherwise(
             {
                 redirectTo: "/mainBoard"

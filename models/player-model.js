@@ -108,9 +108,7 @@ var PlayerSchema = new Schema({
         'type': String,
         'index': true,
         'required': true,
-        'default': "---------",
         'enum': [
-            "---------",
             "Femenino",
             "Masculino"
         ]

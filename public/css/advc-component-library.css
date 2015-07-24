@@ -164,7 +164,17 @@
     width: 100%;
     height: 100%;
 }
-
+[class*="advc-card"] .left-header,
+[class*="advc-rounded-card"] .left-header {
+    float: left;
+    width: 80px;
+    height: 100%;
+}
+[class*="advc-card"] .right-body,
+[class*="advc-rounded-card"] .right-body {
+    height: 100%;
+    overflow: hidden;
+}
 [class*="advc-rounded-card"] .right-counter-circumference {
     text-align: center;
     line-height: 60px;
@@ -227,6 +237,16 @@
     opacity: 0;
     cursor: pointer;
 }
+[class*="-highlight-mouse-over-card"]{
+    width: 226px;
+    height: 86px;
+    position: absolute;
+    border-radius: 6px;
+    margin: -3px;
+    border: #0082ff 3px solid;
+    opacity: 0;
+    cursor: pointer;
+}
 [class*="-highlight-mouse-over-rounded-card"] {
     width: 226px;
     height: 86px;
@@ -281,7 +301,7 @@
 /* Cards layout */
 [class*="-layout"] {
     float: left;
-    margin: 10px 0 0 20px;
+    margin: 10px 0 5px 20px;
 }
 /*
   Animations

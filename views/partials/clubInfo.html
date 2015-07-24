@@ -1,0 +1,140 @@
+<section class="main-board" xmlns="http://www.w3.org/1999/html">
+    <div id="clearance-main-frame" class="clean-frame" ng-controller="clubInfoCtrl">
+        <div class="top-menu">
+            <div class="left-header">
+                <div class="h1-title float-left">
+                    Club: {{clubName}}
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="left-menu-container">
+            <div class="left-menu-body">
+                <style>
+                    .custom-label{ font-size: 14px; padding-left: 5px; }
+                </style>
+                <div class="panel_content">
+                    <div class="advc-rounded-card-w220-h80 highlight-parent float-left space-top-10px">
+                        <div class="advc-highlight-mouse-over-rounded-card-animated" ng-click="openCreateDialog()" data-toggle="modal" data-target="#create-publication"></div>
+                        <div class="highlighted-rounded-container">
+                            <div class="left-body advc-font-semibold custom-label">
+                                <div class="advc-vertical-align-container" >
+                                    <div class="advc-valign-middle ">
+                                        <div class="custom-text-overflow" ng-class="{'task-words':clearance.onProgress[clearance.type]}">
+                                            Crear equipo
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                </div>
+            </div>
+            <div ng-click="selectedTeam(team)"
+                 class="advc-rounded-card-w220-h80 highlight-parent float-left space-top-10px"
+                 ng-repeat="team in teams">
+                <div ng-model="team.selected"
+                     class="advc-highlight-mouse-over-rounded-card-animated"  ng-class="{'selected-highlight': team.selected}"
+                     over-clearance = "{{team.isOver}}"></div>
+                    <div class="highlighted-rounded-container" ng-class="{'advc-bg-{{team.color.code}}': team.selected}">
+                        <div class="left-body advc-font-semibold custom-label"
+                             ng-class="{'advc-{{team.color.code}}': !team.selected}">
+                            <div class="advc-vertical-align-container" >
+                                <div class="advc-valign-middle ">
+                                    <div class="custom-text-overflow" ng-class="{'task-words':team.onProgress[team.type]}" >
+                                        {{team.name}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="right-counter-circumference base-class-animation"
+                             ng-class="{'circunference':team.onProgress[team.type],
+                                  'low-opacity-black-bg':team.selected,
+                                  'advc-bg-{{team.colorlistPlayers.code}}': !team.selected}">
+                            <div class="advc-horizontal-align-container">
+                                {{team.players.length}}
+                            </div>
+                        </div>
+                        <div class="spinner-progress base-class-animation" ng-if="clearance.progress[clearance.type]">
+                            <div class="spinner-block advc-vertical-align-container ">
+                                <div class="advc-valign-middle" ng-class="{'advc-color-c':!clearance.hasError, 'advc-color-red':clearance.hasError}">
+                                    <div class="icon-align-left" ng-class="{'spinner icon-spinner-32px':!clearance.hasError, 'icon-clear_field-25px':clearance.hasError}" ></div>
+                                    <div class="font-task" ng-show="!clearance.hasError" >{{clearance.progress[clearance.type].length}}</div>
+                                    <div class="font-task" ng-show="clearance.hasError">0</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-content-container">
+            <div class="container-board-players">
+                <!-- People Content container -->
+                <div class="body" drag-helper-directive>
+                    <!-- Show a card for each player -->
+                    <style>
+                        .custom-label{ font-size: 14px; padding-left: 5px; padding-right: 5px; }
+                        .custom-add-container{ text-align: center; }
+                    </style>
+                    <div class="advc-card-w220-h80-layout">
+
+                        <div class="highligh-font-container-animated pointer">
+
+                            <div class="left-header">
+
+                                <div class="advc-vertical-align-container">
+                                    <div class="advc-valign-middle advc-font-ligth custom-add-container">
+                                        <div class="icon-add-40px"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="right-body">
+
+                                <div class="advc-vertical-align-container">
+                                    <div class="advc-valign-middle custom-label advc-font-semibold">
+                                        Añadir jugador
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div ng-repeat="player in filteredPlayers">
+                        <div class="advc-card-w220-h80-layout highlight-parent">
+                            <div class="advc-highlight-mouse-over-card-animated">
+                                <div class="float-right icon-delete-30px animated-opacity pointer custom-margin-icon-close"></div>
+                            </div>
+                            <div class="highlighted-container">
+                                <div class="left-header">
+                                    <div class="advc-vertical-align-container">
+                                        <div class="advc-valign-middle">
+                                            <div class="advc-small-person-pic-container">
+                                                <div class="advc-small-person-pic icon-person"></div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="right-body">
+                                    <div class="advc-vertical-align-container">
+                                        <div class="advc-valign-middle custom-label advc-font-semibold">
+                                            {{player.fullName}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>

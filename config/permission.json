@@ -9,10 +9,10 @@
     "Index": true,
     "ListUser": true,
     "ListClubs": true,
-    "ListTeam": true,
+    "ListTeams": true,
     "ListMedicalRecord": true
   },
-  "Administrador": {
+  "Directivo": {
     "Menu.MainBoard.Execute": true,
     "Menu.Users.Execute": true,
     "Menu.Clubs.Execute": true,
@@ -23,10 +23,10 @@
     "Index": true,
     "ListUser": true,
     "ListClubs": true,
-    "ListTeam": true,
+    "ListTeams": true,
     "ListMedicalRecord": true
   },
-  "Personal Apoyo": {
+  "Comsión Técnica": {
     "Menu.MainBoard.Execute": true,
     "Menu.Users.Execute": false,
     "Menu.Clubs.Execute": true,
@@ -36,8 +36,8 @@
     "Team.CUD": true,
     "Index": true,
     "ListUser": false,
-    "ListClub": true,
-    "ListTeam": true,
+    "ListClubs": true,
+    "ListTeams": true,
     "ListMedicalRecord": false
   },
   "Delegado": {
@@ -51,10 +51,10 @@
     "Index": true,
     "ListUser": false,
     "ListClubs": true,
-    "ListTeam": true,
+    "ListTeams": true,
     "ListMedicalRecord": false
   },
-  "Comision Medica": {
+  "Comisión Médica": {
     "Menu.MainBoard.Execute": true,
     "Menu.Users.Execute": false,
     "Menu.Clubs.Execute": false,
@@ -65,7 +65,7 @@
     "Index": true,
     "ListUser": false,
     "ListClubs": false,
-    "ListTeam": false,
+    "ListTeams": false,
     "ListMedicalRecord": true
   }
 }

@@ -4,6 +4,7 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
              SessionService) {
         $scope.Clubs = {};
         $scope.newClub = {};
+        $scope.formName = '';
         $scope.createMode = false;
         $scope.editMode = false;
         $scope.Users = {};
@@ -112,11 +113,13 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
         $scope.formCreateClub = function () {
             $scope.createMode = true;
             $scope.editMode = false;
+            $scope.formName = 'Formulario de creación de clubs';
         };
 
         $scope.formEditClub = function (club) {
             $scope.createMode = false;
             $scope.editMode = true;
+            $scope.formName = 'Formulario de edición de clubs';
             $scope.newClub.name = club.name;
             $scope.newClub.foundation = new Date(club.foundation);
             var index = 0;

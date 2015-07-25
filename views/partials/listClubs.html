@@ -9,7 +9,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" ng-click="closeModal()">&times;</button>
-                    <h4 class="modal-title">Formulario de creación de clubs</h4>
+                    <h4 class="modal-title">{{formName}}</h4>
                 </div>
                 <div class="modal-body">
                     <form role="form">
@@ -51,10 +51,10 @@
         </div>
     </div>
 
-    <div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" type="submit" data-toggle="modal" data-target="#create-club" ng-click="formCreateClub()" allow="Club.CUD">Crear club</button></div>
+    <div class="col-md-2" allow="Club.CUD"><button class="btn btn-lg btn-primary btn-block" type="submit" data-toggle="modal" data-target="#create-club" ng-click="formCreateClub()">Crear club</button></div>
     <div class="col-md-12">
         <h2 class="form-signin-heading">Lista de clubs</h2>
-        <label>Filtrar: <input id="inputSearch" ng-model="searchText" placeholder="Filtro"></label>
+        <label>Buscar  <input id="inputSearch" ng-model="searchText" placeholder="buscar"></label>
         <div class="row">
             <table id="searchTextResults" class="table table-bordered">
                 <thead>

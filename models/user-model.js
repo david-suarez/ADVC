@@ -32,10 +32,10 @@ var UserSchema = new Schema({
         'default': "Delegado",
         'enum': [
             "Super Admin",
-            "Administrador",
-            "Personal Apoyo",
+            "Diretivo",
+            "Comisión Técnica",
             "Delegado",
-            "Comision Medica"
+            "Comisión Médica"
         ]
     }
 });

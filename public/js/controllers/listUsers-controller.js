@@ -25,10 +25,10 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         );
 
         $scope.roles = [
-            'Administrador',
-            'Comision Medica',
-            'Delegado',
-            'Personal Apoyo'
+            'Directivo',
+            'Comisión Técnica',
+            'Comisión Médica',
+            'Delegado'
         ];
 
         $scope.formCreateUser = function () {

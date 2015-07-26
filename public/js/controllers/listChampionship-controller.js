@@ -12,6 +12,7 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
         $scope.opened3 = false;
         $scope.opened4 = false;
         $scope.newChampionship = {};
+        $scope.formChampName = '';
 
         listChampionshipSrv.get({},
             function(result){
@@ -22,11 +23,12 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
             }
         );
 
-        var restartValidationFields = function(){
+        $scope.restartValidationFields = function(){
             $scope.isNameValid = true;
+            $scope.newChampionship = {};
         };
 
-        restartValidationFields();
+        $scope.restartValidationFields();
 
         $scope.validateFields = function () {
             var name = $scope.newChampionship.name;
@@ -141,6 +143,7 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
         $scope.formCreateChampionship = function () {
             $scope.createMode = true;
             $scope.editMode = false;
+            $scope.formChampName = 'Formulario de creación de campeonatos';
         };
 
         $scope.createChampionship= function () {
@@ -158,7 +161,7 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
                 listChampionshipSrv.save({championship: newChampionship},
                         function (data) {
                             $scope.Championships.push(data);
-                            restartValidationFields();
+                            $scope.restartValidationFields();
                             $('#create-championship').modal('hide');//hide modal
                             $('body').removeClass('modal-open');
                             $('.modal-backdrop').remove();
@@ -174,6 +177,7 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
         $scope.formEditChampionship = function (championship) {
             $scope.createMode = false;
             $scope.editMode = true;
+            $scope.formChampName = 'Formulario de actualización de campeonatos';
             $scope.newChampionship.name = championship.name;
             $scope.newChampionship.initial_date =
                 new Date(championship.initial_date);
@@ -210,7 +214,7 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
                                 $scope.Championships[i] = data;
                             }
                         }
-                        restartValidationFields();
+                        $scope.restartValidationFields();
                         $('#create-championship').modal('hide'); //hide modal
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();

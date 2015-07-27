@@ -1,7 +1,7 @@
 'use strict';
 advcApp.service('SessionService', ["$http", function($http) {
+    var userlogged = sessionStorage.getItem('logged');
     return {
-
         //get a variable with 'key' key
         get: function(key) {
             return sessionStorage.getItem(key);
@@ -18,6 +18,10 @@ advcApp.service('SessionService', ["$http", function($http) {
         unsetAll: function() {
             sessionStorage.clear();
         },
+        //get is a user is authenticated to the app
+        isAuthenticated: function() {
+            return userlogged;
+        },
         //call server /logout route 
         logoutServer: function() {
             $http({method: 'GET', url: '/logout'}).
@@ -27,5 +31,6 @@ advcApp.service('SessionService', ["$http", function($http) {
                     alert('Ocurrio un error en la función de deslogueo.')
                 });
         }
+
     };
 }]);

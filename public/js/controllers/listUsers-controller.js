@@ -24,6 +24,13 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
             }
         );
 
+        $scope.roles = [
+            'Directivo',
+            'Comisión Técnica',
+            'Comisión Médica',
+            'Delegado'
+        ];
+
         $scope.formCreateUser = function () {
             $scope.newUser={};
             $scope.isNameValid = true;
@@ -36,7 +43,7 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         $scope.validateEditFields = function () {
             var name = $scope.newUser.name;
             var lastName = $scope.newUser.lastname;
-            var userName = $scope.newUser.user_name;
+            var userName = $scope.newUser.username;
             var nameRegEx = /^([a-z ñáéíóú]{2,60})$/i;
             var lastNameRegEx = /^([a-z ñáéíóú]{2,60})$/i;
             var userNameRegEx = /^[a-zA-Z0-9_]{3,16}$/;
@@ -70,7 +77,7 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         $scope.validateFields = function () {
             var name = $scope.newUser.name;
             var lastName = $scope.newUser.lastname;
-            var userName = $scope.newUser.user_name;
+            var userName = $scope.newUser.username;
             var pass = $scope.newUser.password;
             var passRegEx = /(?!^[0-9]*$)(?!^[a-zA-Z]*$)^([a-zA-Z0-9]{5,20})/;
             var nameRegEx = /^([a-z ñáéíóú]{2,60})$/i;
@@ -111,7 +118,8 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         $scope.createUser = function () {
             var pass = $scope.newUser.password;
             var confirmPass = $scope.newUser.confirmPassword;
-
+            $scope.newUser.club =
+                $scope.newUser.club ? $scope.newUser.club._id : '';
             if($scope.validateFields()){
                 if(pass === confirmPass){
                     var newUser = {
@@ -153,8 +161,10 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
             {
                 name: user.name,
                 lastname: user.lastname,
-                user_name: user.user_name,
-                user_id: user._id
+                username: user.username,
+                user_id: user._id,
+                role: user.role,
+                club: user.club
             }
         };
 
@@ -163,7 +173,9 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
             {
                 name: $scope.newUser.name,
                 lastname: $scope.newUser.lastname,
-                user_name: $scope.newUser.user_name
+                username: $scope.newUser.username,
+                role: $scope.newUser.role,
+                club: $scope.newUser.club ? $scope.newUser.club._id : ''
             };
             if($scope.validateEditFields()) {
                 listUsersSrv.update({user_id: $scope.newUser.user_id},
@@ -180,12 +192,24 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
                         $('.modal-backdrop').remove();
                     },
                     function (error) {
-                        $.noty.consumeAlert({layout: 'topCenter',
-                            type: 'warning', dismissQueue: true ,
-                            timeout:2000 });
-                        alert('Hubo un error al actualizar el usuario. ' +
-                            'Por favor intente mas tarde');
-                        $.noty.stopConsumeAlert();
+                        if(error.status === 403){
+                            $.noty.consumeAlert({layout: 'topCenter',
+                                type: 'warning', dismissQueue: true ,
+                                timeout:5000 });
+                            alert('Es posible que el usuario que intenta ' +
+                                'modificar esta asignado como delegado de un' +
+                                ' club y no se puede cambiar su rol por este ' +
+                                'motivo. Por favor comprueba esta relación e ' +
+                                'intente de nuevo.');
+                            $.noty.stopConsumeAlert();
+                        } else {
+                            $.noty.consumeAlert({layout: 'topCenter',
+                                type: 'warning', dismissQueue: true ,
+                                timeout:2000 });
+                            alert('Hubo un error al actualizar el usuario. ' +
+                                'Por favor intente mas tarde');
+                            $.noty.stopConsumeAlert();
+                        }
                     }
                 );
             }

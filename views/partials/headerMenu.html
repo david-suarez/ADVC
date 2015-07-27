@@ -6,6 +6,12 @@
     <div id="navbar" class="navbar-collapse collapse">
         <div class="navbar-header inline-menu">
             <ul class="nav navbar-nav">
+                <li>
+                    <a role="menuitem"  ng-href="#/mainBoard">Nosotros</a>
+                </li>
+                <li>
+                    <a role="menuitem"  ng-href="#/index">Noticias</a>
+                </li>
                 <li ng-repeat="item in items"
                     allow="{{item.allow}}">
                     <a role="menuitem" tabindex="-1"  ng-href="#{{item.href}}" ng-click="changeSelectedItem($index)">{{item.name}}</a>
@@ -32,44 +38,4 @@
             </div>
         </div>
     </div>
-    <!-- Drop down menu options -->
-    <!--<div id="div-display-menu" class="btn-group" allow="Menu.Read">-->
-    <!--<div id="div-display-menu" class="dropdown btn-group">-->
-    <!--<button class="btn  btn-primary btn-block dropdown-toggle"-->
-    <!--type="button"-->
-    <!--id="menu1"-->
-    <!--data-toggle="dropdown">-->
-    <!--<div class="text">{{ selectedItem.name}}</div>-->
-    <!--<span class="caret"></span></button>-->
-    <!--<ul class="dropdown-menu" role="menu" aria-labelledby="menu1">-->
-    <!--<li role="presentation"-->
-    <!--ng-repeat="item in items"-->
-    <!--allow="{{item.allow}}">-->
-    <!--<a role="menuitem" tabindex="-1"  ng-href="#{{item.href}}" ng-click="changeSelectedItem($index)">{{item.name}}</a>-->
-    <!--</li>-->
-    <!--</ul>-->
-    <!--</div>-->
-
-
-    <!-- Right menu container -->
-    <!--<div class="right-menu">-->
-    <!--<div class="login-logout-box">-->
-    <!--<div id="div-login-app" ng-if="userIsAuthenticated == false">-->
-    <!--<a id="div-login-app-a-login"-->
-    <!--ng-href="#{{autenticate.href}}"-->
-    <!--translate>-->
-    <!--{{autenticate.login}}-->
-    <!--</a>-->
-    <!--</div>-->
-
-    <!--<div id="div-logout-app" ng-if="userIsAuthenticated == true">-->
-    <!--<div class="loggedName"> {{loggedUser}} </div>-->
-    <!--<a id="div-logout-app-a-logout"-->
-    <!--ng-click="goToLogoutPage()">-->
-    <!--{{autenticate.logout}}-->
-    <!--</a>-->
-    <!--</div>-->
-    <!--</div>-->
-    <!--</div>-->
-
 </nav>

@@ -3,8 +3,10 @@
     <br>
     <h2>Club: {{currentClubName}}</h2>
     <div class="col-md-2">
-        <button class="btn btn-primary btn-block" style="width: 120px;" type="submit" data-toggle="modal" data-target="#create-team" ng-click="formCreateTeam()"><i class="glyphicon glyphicon-plus"></i>   Crear  Equipo
-        </button>
+        <div allow="Team.CUD">
+            <button class="btn btn-primary btn-block" style="width: 120px;" type="submit" data-toggle="modal" data-target="#create-team" ng-click="formCreateTeam()"><i class="glyphicon glyphicon-plus"></i>   Crear  Equipo
+            </button>
+        </div>
         <a type="button" class="btn btn-warning btn-block" style="width: 120px;" href="#/listClubs"><i class="glyphicon glyphicon-level-up"></i>   Volver</a>
     </div>
     <br>
@@ -28,10 +30,6 @@
                             <span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span>
                         </div>
                         <div class="form-group">
-                            <label>Campeonato(*)</label>
-                            <select ng-model="newTeam.championship" ng-options="championship._id as championship.name for championship in Championships"></select>
-                        </div>
-                        <div class="form-group">
                             <label>Rama(*)</label>
                             <select ng-options="branch for branch in branchValues" ng-model="newTeam.branch"></select>
                         </div>
@@ -46,12 +44,15 @@
                             <select ng-if="newTeam.category == 'Mayores'" ng-options="major for major in majorCategoryValues" ng-model="newTeam.major"></select>
                             <select ng-if="newTeam.category == 'Menores'" ng-options="minor for minor in minorCategoryValues" ng-model="newTeam.minor"></select>
                         </div>
-                        <br>
+                        <div class="form-group">
+                            <label>Campeonato(*)</label>
+                            <select ng-model="newTeam.championship" ng-options="championship._id as championship.name for championship in Championships"/>
+                        </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="createTeam()" ng-if="createMode">Crear Equipo</button>
-                        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="editTeam()" ng-if="editMode">Actualizar Equipo</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="editTeam()" ng-if="editMode">Actualizar Equipo</button>
                     <button class="btn btn-lg btn-info btn-block" type="submit" data-dismiss="modal" ng-click="closeModal()">Cancelar</button>
                 </div>
             </div>
@@ -60,7 +61,7 @@
 
     <div class="col-md-8">
         <div class="row">
-            <label>Filtrar: <input id="inputSearch" ng-model="searchText" placeholder="Filtro"></label>
+            <label>Buscar  <input id="inputSearch" ng-model="searchText" placeholder="buscar"></label>
             <table id="searchTextResults" class="table table-bordered">
                 <thead>
                 <tr>
@@ -69,8 +70,8 @@
                     <th>Rama</th>
                     <th>Categoria</th>
                     <th>Division</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
+                    <th allow="Team.CUD">Editar</th>
+                    <th allow="Team.CUD">Eliminar</th>
                 </tr>
                 </thead>
                 <tbody ng-repeat="team in Teams | filter:searchText track by $index ">
@@ -80,10 +81,10 @@
                     <td>{{team.branch}}</td>
                     <td>{{team.category}}</td>
                     <td>{{team.division}}</td>
-                    <td style="width: 120px;">
+                    <td style="width: 120px;"  allow="Team.CUD">
                         <button type="button" class="btn btn-warning btn-block" ng-click="formEditTeam(team, $index)" data-toggle="modal" data-target="#create-team"><i class="glyphicon glyphicon-pencil"></i>  Editar</button>
                     </td>
-                    <td style="width: 120px;">
+                    <td style="width: 120px;"  allow="Team.CUD">
                         <button type="button" class="btn btn-danger btn-block" ng-click="formDeleteTeam(team.id, $index)"><i class="glyphicon glyphicon-trash"></i>   Eliminar</button>
                     </td>
                 </tr>

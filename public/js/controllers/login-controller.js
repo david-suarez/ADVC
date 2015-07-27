@@ -1,6 +1,8 @@
 advcApp.controller('loginCtrl', [
     '$scope', '$location', '$rootScope', 'loginService', 'SessionService',
-    function($scope, $location, $rootScope, loginService, SessionService){
+    '$window',
+    function($scope, $location, $rootScope, loginService, SessionService,
+             $window){
         $scope.User = {};
         $scope.isAnyError = false;
         $scope.loginSystem = function(){
@@ -10,11 +12,12 @@ advcApp.controller('loginCtrl', [
                         var user = response.user;
                         SessionService.set('logged', true);
                         SessionService.set(
-                            'user', user.name + ' ' + user.lastname);
+                            'user', user.fullName);
                         SessionService.set('userId', user._id);
-                        SessionService.set('clubId', user._id);
+                        SessionService.set('userRole', user.role);
                         $rootScope.$emit('userAuthenticated', true);
-                        $location.path('/index');
+                        $window.location.reload();
+                        $location.path('/mainBoard');
                     }
                     else
                     {
@@ -29,10 +32,7 @@ advcApp.controller('loginCtrl', [
                     alert('El usuario o la contraseña son incorrectos. ' +
                         'Por favor intente de nuevo con credenciales ' +
                         'válidos.');
-                    $scope.User = {
-                        user_name: '',
-                        password: ''
-                    };
+                    $scope.User.password = '';
                     $location.path('/login');
                 }
             );

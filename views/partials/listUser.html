@@ -15,14 +15,14 @@
                 <div class="modal-body">
                     <form role="form">
                         <div class="form-group">
-                            <label>Nombres</label>
+                            <label>Nombres(*)</label>
                             <label for="inputName" class="sr-only">Nombres</label>
                             <input type="text" id="inputName" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Nombres"
                                    required="True" autofocus="1" ng-model="newUser.name">
                             <span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span>
                         </div>
                         <div class="form-group">
-                            <label>Apellidos</label>
+                            <label>Apellidos(*)</label>
                             <label for="inputLastName" class="sr-only">Apellidos</label>
                             <input type="text" id="inputLastName" class="form-control" ng-class="{'has-error':!isLastNameValid}" placeholder="Apellidos"
                                    required="True" autofocus="1" ng-model="newUser.lastname">
@@ -30,22 +30,27 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Nombre de usuario</label>
+                            <label>Nombre de usuario(*)</label>
                             <label for="inputUser" class="sr-only">Usuario</label>
                             <input type="text" id="inputUser" class="form-control" ng-class="{'has-error':!isUserNameValid}" placeholder="Usuario"
-                                   required="True" autofocus="1" ng-model="newUser.user_name">
+                                   required="True" autofocus="1" ng-model="newUser.username">
                             <span style="color: red;" ng-if="!isUserNameValid">* El nombre de usuario tiene caracteres no permitidos</span>
                         </div>
 
+                        <div class="form-group">
+                            <label>Rol de usuario(*)</label>
+                            <select ng-options="item for item in roles" ng-model="newUser.role"></select>
+                        </div>
+
                         <div ng-show="!editMode" class="form-group">
-                            <label>Contraseña</label>
+                            <label>Contraseña(*)</label>
                             <label for="inputPassword" class="sr-only">Password</label>
                             <input type="password" id="inputPassword" class="form-control" ng-class="{'has-error':!isPassValid}" placeholder="Password"
                                    required="True" ng-model="newUser.password">
                             <span style="color: red;" ng-if="!isPassValid">* La contraseña debe tener por lo menos una mayuscula y un numero</span>
                         </div>
 
-                        <label ng-show="!editMode">Confirmar contraseña</label>
+                        <label ng-show="!editMode">Confirmar contraseña(*)</label>
                         <label ng-show="!editMode" for="inputPassword" class="sr-only">Password</label>
                         <input ng-show="!editMode" type="password" id="inputConfirmPassword" class="form-control" placeholder="Password" required="" ng-model="newUser.confirmPassword">
                         <br>
@@ -64,7 +69,7 @@
     <div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#create-user" ng-click="formCreateUser()">Crear usuario</button></div>
     <div class="col-md-5">
         <h2 class="form-signin-heading">Lista de usuarios</h2>
-        <label>Filtrar: <input id="inputSearch" ng-model="searchText" placeholder="Filtro"></label>
+        <label>Buscar <input id="inputSearch" ng-model="searchText" placeholder="buscar"></label>
         <div class="row">
             <table id="searchTextResults" class="table table-bordered">
                 <tr>
@@ -73,6 +78,9 @@
                     </td>
                     <td>
                         Nombre de usuario
+                    </td>
+                    <td>
+                        Rol de usuario
                     </td>
                     <td>
                         Editar
@@ -87,7 +95,10 @@
                             {{$index + 1 }}.- {{user.name}} {{user.lastname}}
                         </td>
                         <td class="col-md-3" style="">
-                            {{user.user_name}}
+                            {{user.username}}
+                        </td>
+                        <td class="col-md-3" style="">
+                            {{user.role}}
                         </td>
                         <td class="col-md-1" style="">
                             <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#create-user" ng-click="editUser(user)">Editar</button>

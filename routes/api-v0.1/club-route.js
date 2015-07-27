@@ -15,7 +15,7 @@ var ClubRoute = (function (){
         this.getClub = __bind(this.getClub, this);
         this.getClubs = __bind(this.getClubs,this);
         this.saveClub = __bind(this.saveClub,this);
-        this.deleteClub = __bind(this.deleteClub,this);
+        this.removeClub = __bind(this.removeClub,this);
         this.updateClub = __bind(this.updateClub, this);
     }
 
@@ -33,7 +33,7 @@ var ClubRoute = (function (){
     };
 
     ClubRoute.prototype.getClubs = function(request, response){
-        var filter = request.body;
+        var filter = request.query;
         var query = ClubModel.find(filter).populate('delegate');
         query.exec(function(error, data) {
             if (error) {
@@ -108,6 +108,8 @@ var ClubRoute = (function (){
                     })
                 }
             });
+        } else {
+            response.status(400).json('Update data is undefined');
         }
     };
     return ClubRoute;

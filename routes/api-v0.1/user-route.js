@@ -9,11 +9,43 @@ var __bind = function(fn, me){
 
 var UserRoute = (function(){
 
+    var superAdmin = {
+        name: 'Super',
+        lastname: 'Admin',
+        fullname: 'Super Admin',
+        username: 'sadmin',
+        password: 'Sadmin123*',
+        role: 'Super Admin'
+    };
+
+    var _init = function(){
+        UserModel.findOne({username: superAdmin.username},
+            function(error, data){
+                if(error){
+                    console.log("Error findOne: " + error);
+                }else {
+                    if(data === null){
+                        UserModel.register(new UserModel(superAdmin),
+                            superAdmin.password,
+                            function(err, account){
+                                if(err){
+                                    console.log("Error Create: " + err);
+                                    return;
+                                }
+                                return;
+                            }
+                        )
+                    }
+                }
+            }
+        );
+    };
+
     function UserRoute(){
         this.getUser = __bind(this.getUser, this);
         this.getUsers = __bind(this.getUsers, this);
         this.saveUser = __bind(this.saveUser, this);
-
+        _init();
     }
 
     UserRoute.prototype.getUser = function(request, response){
@@ -29,13 +61,21 @@ var UserRoute = (function(){
     };
 
     UserRoute.prototype.getUsers = function(request, response){
-        var filter = request.body;
-        var query = UserModel.find(filter);
-        //query.sort(sortBy);
+        var filter = request.query;
+        var query = UserModel
+            .find(filter)
+            .select('_id name lastname fullname username role');
         query.exec(function(error, data) {
             if (error) {
                 response.status(500).json(error.message);
             } else {
+                var index = 0;
+                for(index; index < data.length; index++){
+                    if(data[index].username === 'sadmin') {
+                        data.splice(index, 1);
+                        break;
+                    }
+                }
                 response.status(200).json({data: data});
             }
         });
@@ -43,18 +83,22 @@ var UserRoute = (function(){
 
     UserRoute.prototype.saveUser = function(request, response){
         var newUser;
-        newUser = request.body.user;
-        if(newUser !== undefined) {
-            UserModel.create(newUser, function (error, data) {
-                if (error) {
-                    response.status(500).json(error.message);
+        newUser = {
+            username: request.body.user.username,
+            name: request.body.user.name,
+            lastname: request.body.user.lastname,
+            fullname: request.body.user.name + ' ' + request.body.user.lastname,
+            role: request.body.user.role
+        };
+
+        UserModel.register(new UserModel(newUser), request.body.user.password,
+            function(err, account) {
+                if (err) {
+                    response.status(500).json(err.message);
                 } else {
-                    response.status(201).json(data);
+                    response.status(201).json(account);
                 }
-            });
-        } else {
-            response.json(400, {'message': 'Bad Request'});
-        }
+        });
     };
 
     UserRoute.prototype.removeUser = function(request, response) {
@@ -75,7 +119,11 @@ var UserRoute = (function(){
         if(user_id !== undefined && newDataUser !== undefined){
             UserModel.findById(user_id, function(error, user) {
                 if(error){
-                    response.status(500).json(err.message);
+                    if(error.code){
+                        response.status(error.code).json(error.message);
+                    } else {
+                        response.status(500).json(error.message);
+                    }
                 }
                 else{
                     for(var key in newDataUser){
@@ -85,7 +133,11 @@ var UserRoute = (function(){
                     }
                     user.save(function(err, userUpdated){
                         if(err){
-                            response.status(500).json(err.message);
+                            if(err.code){
+                                response.status(err.code).json(err.message);
+                            } else {
+                                response.status(500).json(err.message);
+                            }
                         }
                         else{
                             response.status(200).json(userUpdated);

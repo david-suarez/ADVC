@@ -7,10 +7,10 @@
         <div class="left-menu-body">
             <div class="panel_content">
 
-                <div class="advc-rounded-card-w220-h80 highlight-parent float-left space-top-10px"
-                        ng-if="userCanCreatePub">
+                <div class="advc-rounded-card-w220-h50 highlight-parent float-left space-top-10px"
+                        ng-if="userCanCreatePub" allow="Publications.CUD">
 
-                    <div class="advc-highlight-mouse-over-rounded-card-animated" ng-click="openCreateDialog()" data-toggle="modal" data-target="#create-publication"></div>
+                    <div class="advc-highlight-mouse-over-rounded-card-button-animated" ng-click="openCreateDialog()" data-toggle="modal" data-target="#create-publication"></div>
                     <div class="highlighted-rounded-container">
                         <div class="left-body advc-font-semibold advc-color-b   custom-lablel-size">
                             <div class="advc-vertical-align-container" >
@@ -32,7 +32,7 @@
                       ng-repeat="publication in downPublications">
 
                     <div class="advc-highlight-mouse-over-rounded-animated"
-                         over-clearance = "{{publication.isOver}}" ng-if="userCanCreatePub">
+                         over-clearance = "{{publication.isOver}}" ng-if="userCanCreatePub" allow="Publications.CUD">
                         <div>
                             <div id="div-remove-publication-{{$index}}"
                                  ng-click="removePublication(publication)"
@@ -73,7 +73,7 @@
                  ng-repeat="pub in mainPublications"
                  card>
                 <div class="advc-highlight-mouse-over-rounded-main-pub"
-                     ng-if="userCanCreatePub">
+                     ng-if="userCanCreatePub" allow="Publications.CUD">
                     <div>
                         <div id="div-remove-pub-{{$index}}"
                              ng-click="removePublication(pub)"

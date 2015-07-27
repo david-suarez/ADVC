@@ -1,8 +1,10 @@
 advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
-    '$location', 'listClubsSrv','listUsersSrv',
-    function($scope, $routeParams, $location, listClubsSrv, listUsersSrv) {
+    '$location', 'listClubsSrv','listUsersSrv', 'SessionService',
+    function($scope, $routeParams, $location, listClubsSrv, listUsersSrv,
+             SessionService) {
         $scope.Clubs = {};
         $scope.newClub = {};
+        $scope.formName = '';
         $scope.createMode = false;
         $scope.editMode = false;
         $scope.Users = {};
@@ -11,6 +13,9 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
         $scope.Division = {};
         $scope.today = new Date();
         $scope.format = 'dd/MM/yyyy';
+        var userRole = SessionService.get('userRole');
+        var userId = SessionService.get('userId');
+        var filterclub = {};
 
         var restartValidationFields = function(){
             $scope.isNameValid = true;
@@ -18,9 +23,8 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
 
         restartValidationFields();
 
-        listUsersSrv.get({},
+        listUsersSrv.get({role: 'Delegado'},
             function(result){
-                //console.log(result);
                 for(var index in result.data){
                     var user = result.data[index];
                     var fullName = user.name + ' ' + user.lastname;
@@ -33,7 +37,10 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
             }
         );
 
-        listClubsSrv.get({},
+        if(userRole === 'Delegado') {
+            filterclub = {delegate: userId}
+        }
+        listClubsSrv.get(filterclub,
             function(result){
                $scope.Clubs = result.data;
             },
@@ -64,7 +71,7 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
                     $.noty.consumeAlert({layout: 'topCenter',
                         type: 'warning', dismissQueue: true ,
                         timeout:2000 });
-                    alert('ingrese una fecha de creación valida.');
+                    alert('Ingrese una fecha de creación valida.');
                     $.noty.stopConsumeAlert();
                     return false;
                 }
@@ -106,11 +113,13 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
         $scope.formCreateClub = function () {
             $scope.createMode = true;
             $scope.editMode = false;
+            $scope.formName = 'Formulario de creación de clubs';
         };
 
         $scope.formEditClub = function (club) {
             $scope.createMode = false;
             $scope.editMode = true;
+            $scope.formName = 'Formulario de edición de clubs';
             $scope.newClub.name = club.name;
             $scope.newClub.foundation = new Date(club.foundation);
             var index = 0;
@@ -138,7 +147,6 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
         $scope.editClub= function () {
             var self = this;
             var newClub = {
-                clubId: $scope.newClub._id,
                 name: $scope.newClub.name,
                 foundation: $scope.newClub.foundation,
                 delegate: $scope.newClub.delegate ?
@@ -146,7 +154,7 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
             };
             if($scope.validateFields()) {
                 listClubsSrv.update({clubId: $scope.newClub._id},
-                    {championship: newClub},
+                    {newDataClub: newClub},
                     function (data) {
                         $scope.showModal = !$scope.showModal;
                         $scope.newClub = {};

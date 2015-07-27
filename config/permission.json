@@ -1,0 +1,71 @@
+{
+  "Super Admin": {
+    "Menu.MainBoard.Execute": true,
+    "Menu.Users.Execute": true,
+    "Menu.Clubs.Execute": true,
+    "Menu.Medical.Execute": true,
+    "Publications.CUD": true,
+    "Club.CUD": true,
+    "Index": true,
+    "ListUser": true,
+    "ListClubs": true,
+    "ListTeams": true,
+    "ListMedicalRecord": true
+  },
+  "Directivo": {
+    "Menu.MainBoard.Execute": true,
+    "Menu.Users.Execute": true,
+    "Menu.Clubs.Execute": true,
+    "Menu.Medical.Execute": true,
+    "Publications.CUD": true,
+    "Club.CUD": true,
+    "Team.CUD": true,
+    "Index": true,
+    "ListUser": true,
+    "ListClubs": true,
+    "ListTeams": true,
+    "ListMedicalRecord": true
+  },
+  "Comisión Técnica": {
+    "Menu.MainBoard.Execute": true,
+    "Menu.Users.Execute": false,
+    "Menu.Clubs.Execute": true,
+    "Menu.Medical.Execute": false,
+    "Publications.CUD": true,
+    "Club.CUD": false,
+    "Team.CUD": false,
+    "Index": true,
+    "ListUser": false,
+    "ListClubs": true,
+    "ListTeams": true,
+    "ListMedicalRecord": false
+  },
+  "Delegado": {
+    "Menu.MainBoard.Execute": true,
+    "Menu.Users.Execute": false,
+    "Menu.Clubs.Execute": true,
+    "Menu.Medical.Execute": false,
+    "Publications.CUD": false,
+    "Club.CUD": false,
+    "Team.CUD": true,
+    "Index": true,
+    "ListUser": false,
+    "ListClubs": true,
+    "ListTeams": true,
+    "ListMedicalRecord": false
+  },
+  "Comisión Médica": {
+    "Menu.MainBoard.Execute": true,
+    "Menu.Users.Execute": false,
+    "Menu.Clubs.Execute": false,
+    "Menu.Medical.Execute": true,
+    "Publications.CUD": false,
+    "Club.CUD": false,
+    "Team.CUD": false,
+    "Index": true,
+    "ListUser": false,
+    "ListClubs": false,
+    "ListTeams": false,
+    "ListMedicalRecord": true
+  }
+}

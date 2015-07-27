@@ -71,11 +71,18 @@ var PublicationRoute = (function () {
                         response.status(500).json(err.message);
                     } else if(publication.file){
                         pathFile += publication.file;
-                        fs.unlink(pathFile, function (error) {
-                            if (error) response.status(500).json(error.message);
-                            response.status(200).
-                                json({publicationId: publicationId});
-                        });
+                        try {
+                            fs.unlink(pathFile, function (error) {
+                                if (error)
+                                    console.log('There was an error trying ' +
+                                        'to delete file ' + pathFile);
+                            });
+                        } catch (e) {
+                            console.log('File ' + pathFile + ' has been ' +
+                                'deleted before');
+                        }
+                        response.status(200).
+                            json({publicationId: publicationId});
                     } else {
                         response.status(200).
                             json({publicationId: publicationId});

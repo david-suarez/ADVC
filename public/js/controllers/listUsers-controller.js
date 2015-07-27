@@ -192,12 +192,24 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
                         $('.modal-backdrop').remove();
                     },
                     function (error) {
-                        $.noty.consumeAlert({layout: 'topCenter',
-                            type: 'warning', dismissQueue: true ,
-                            timeout:2000 });
-                        alert('Hubo un error al actualizar el usuario. ' +
-                            'Por favor intente mas tarde');
-                        $.noty.stopConsumeAlert();
+                        if(error.status === 403){
+                            $.noty.consumeAlert({layout: 'topCenter',
+                                type: 'warning', dismissQueue: true ,
+                                timeout:5000 });
+                            alert('Es posible que el usuario que intenta ' +
+                                'modificar esta asignado como delegado de un' +
+                                ' club y no se puede cambiar su rol por este ' +
+                                'motivo. Por favor comprueba esta relación e ' +
+                                'intente de nuevo.');
+                            $.noty.stopConsumeAlert();
+                        } else {
+                            $.noty.consumeAlert({layout: 'topCenter',
+                                type: 'warning', dismissQueue: true ,
+                                timeout:2000 });
+                            alert('Hubo un error al actualizar el usuario. ' +
+                                'Por favor intente mas tarde');
+                            $.noty.stopConsumeAlert();
+                        }
                     }
                 );
             }

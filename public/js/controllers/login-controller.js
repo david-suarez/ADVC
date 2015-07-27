@@ -32,10 +32,7 @@ advcApp.controller('loginCtrl', [
                     alert('El usuario o la contraseña son incorrectos. ' +
                         'Por favor intente de nuevo con credenciales ' +
                         'válidos.');
-                    $scope.User = {
-                        username: '',
-                        password: ''
-                    };
+                    $scope.User.password = '';
                     $location.path('/login');
                 }
             );

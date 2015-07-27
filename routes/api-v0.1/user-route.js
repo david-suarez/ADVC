@@ -61,7 +61,7 @@ var UserRoute = (function(){
     };
 
     UserRoute.prototype.getUsers = function(request, response){
-        var filter = request.body;
+        var filter = request.query;
         var query = UserModel
             .find(filter)
             .select('_id name lastname fullname username role');
@@ -119,7 +119,11 @@ var UserRoute = (function(){
         if(user_id !== undefined && newDataUser !== undefined){
             UserModel.findById(user_id, function(error, user) {
                 if(error){
-                    response.status(500).json(err.message);
+                    if(error.code){
+                        response.status(error.code).json(error.message);
+                    } else {
+                        response.status(500).json(error.message);
+                    }
                 }
                 else{
                     for(var key in newDataUser){
@@ -129,7 +133,11 @@ var UserRoute = (function(){
                     }
                     user.save(function(err, userUpdated){
                         if(err){
-                            response.status(500).json(err.message);
+                            if(err.code){
+                                response.status(err.code).json(err.message);
+                            } else {
+                                response.status(500).json(err.message);
+                            }
                         }
                         else{
                             response.status(200).json(userUpdated);

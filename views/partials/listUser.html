@@ -80,6 +80,9 @@
                         Nombre de usuario
                     </td>
                     <td>
+                        Rol de usuario
+                    </td>
+                    <td>
                         Editar
                     </td>
                     <td>
@@ -93,6 +96,9 @@
                         </td>
                         <td class="col-md-3" style="">
                             {{user.username}}
+                        </td>
+                        <td class="col-md-3" style="">
+                            {{user.role}}
                         </td>
                         <td class="col-md-1" style="">
                             <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#create-user" ng-click="editUser(user)">Editar</button>

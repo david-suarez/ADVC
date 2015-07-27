@@ -26,14 +26,14 @@
     "ListTeams": true,
     "ListMedicalRecord": true
   },
-  "Comsión Técnica": {
+  "Comisión Técnica": {
     "Menu.MainBoard.Execute": true,
     "Menu.Users.Execute": false,
     "Menu.Clubs.Execute": true,
     "Menu.Medical.Execute": false,
-    "Publications.CUD": false,
+    "Publications.CUD": true,
     "Club.CUD": false,
-    "Team.CUD": true,
+    "Team.CUD": false,
     "Index": true,
     "ListUser": false,
     "ListClubs": true,
@@ -47,7 +47,7 @@
     "Menu.Medical.Execute": false,
     "Publications.CUD": false,
     "Club.CUD": false,
-    "Team.CUD": false,
+    "Team.CUD": true,
     "Index": true,
     "ListUser": false,
     "ListClubs": true,

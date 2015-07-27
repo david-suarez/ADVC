@@ -2,6 +2,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var passportLocalMongoose = require('passport-local-mongoose');
+var Q = require('q');
+var ClubModel = require('./club-model');
 
 var UserSchema = new Schema({
     'username' : {
@@ -32,7 +34,7 @@ var UserSchema = new Schema({
         'default': "Delegado",
         'enum': [
             "Super Admin",
-            "Diretivo",
+            "Directivo",
             "Comisión Técnica",
             "Delegado",
             "Comisión Médica"
@@ -42,5 +44,48 @@ var UserSchema = new Schema({
 
 UserSchema.plugin(passportLocalMongoose);
 
+UserSchema.pre('save', function(next){
+    var self = this;
+    if(self._id){
+        _validateChangeRole(self)
+            .then(function(isValid) {
+                if(isValid)
+                return next();
+            })
+            .fail(function(error){
+                return next(error);
+            });
+    }
+});
+
+
 var UserModel = mongoose.model('User', UserSchema);
+var _validateChangeRole = function(user){
+    var deferred = Q.defer();
+    var userId = user._id;
+    UserModel.findById(userId, function(err, userData) {
+        if(err){
+            deferred.reject(err);
+        } else {
+            if(userData.role === 'Delegado' ){
+               ClubModel.find({delegate: user._id}, function(error, club){
+                   if(error){
+                       deferred.reject(err);
+                   } else{
+                       if(club && userData.role !== user.role){
+                           var errorUser = new Error('User associated to a ' +
+                               'club as Delegate');
+                           errorUser.code = 403;
+                           deferred.reject(errorUser);
+                       } else {
+                           deferred.resolve(true);
+                       }
+                   }
+               })
+            }
+        }
+    });
+    return deferred.promise;
+};
+
 module.exports = UserModel;

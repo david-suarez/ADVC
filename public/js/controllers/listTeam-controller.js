@@ -31,11 +31,11 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
         ];
 
          $scope.majorCategoryValues = [
-            'Primera Honor',
-            'Primera Ascenso',
-            'Segunda Ascenso',
-            'Tercera Ascenso',
-            'Maxi Voleibol'
+            "Primera Honor",
+            "Primera Ascenso",
+            "Segunda Ascenso",
+            "Tercera Ascenso",
+            "Maxi Voleibol"
         ];
 
          $scope.minorCategoryValues = [
@@ -211,6 +211,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
         );
 
         $scope.formCreateTeam = function () {
+            restartValidationFields();
             $scope.createMode = true;
             $scope.editMode = false;
         };

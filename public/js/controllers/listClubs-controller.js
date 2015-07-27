@@ -23,7 +23,7 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
 
         restartValidationFields();
 
-        listUsersSrv.get({},
+        listUsersSrv.get({role: 'Delegado'},
             function(result){
                 for(var index in result.data){
                     var user = result.data[index];
@@ -147,7 +147,6 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
         $scope.editClub= function () {
             var self = this;
             var newClub = {
-                clubId: $scope.newClub._id,
                 name: $scope.newClub.name,
                 foundation: $scope.newClub.foundation,
                 delegate: $scope.newClub.delegate ?
@@ -155,7 +154,7 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
             };
             if($scope.validateFields()) {
                 listClubsSrv.update({clubId: $scope.newClub._id},
-                    {championship: newClub},
+                    {newDataClub: newClub},
                     function (data) {
                         $scope.showModal = !$scope.showModal;
                         $scope.newClub = {};

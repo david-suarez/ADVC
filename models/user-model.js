@@ -46,16 +46,14 @@ UserSchema.plugin(passportLocalMongoose);
 
 UserSchema.pre('save', function(next){
     var self = this;
-    if(self._id){
-        _validateChangeRole(self)
-            .then(function(isValid) {
-                if(isValid)
-                return next();
-            })
-            .fail(function(error){
-                return next(error);
-            });
-    }
+    _validateChangeRole(self)
+        .then(function(isValid) {
+            if(isValid)
+            return next();
+        })
+        .fail(function(error){
+            return next(error);
+        });
 });
 
 
@@ -66,7 +64,7 @@ var _validateChangeRole = function(user){
     UserModel.findById(userId, function(err, userData) {
         if(err){
             deferred.reject(err);
-        } else {
+        } else if(userData){
             if(userData.role === 'Delegado'){
                ClubModel.find({delegate: userData._id}, function(error, club){
                    if(error){
@@ -85,6 +83,8 @@ var _validateChangeRole = function(user){
             } else {
                 deferred.resolve(true);
             }
+        } else {
+            deferred.resolve(true);
         }
     });
     return deferred.promise;

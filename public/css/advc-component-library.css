@@ -412,3 +412,27 @@
     border-radius: 32px;
     color: black;
 }
+
+.add-photo-circle {
+    display: block;
+    text-align: center;
+    width: 140px;
+    height: 140px;
+    border: solid 2px #3988D8;
+    -webkit-border-radius: 35px;
+    -ms-border-radius: 35px;
+    -moz-border-radius: 35px;
+    border-radius: 35px;
+    margin-top: 20px;
+    margin-left: 30px;
+    margin-bottom: 2px;
+}
+
+.add-photo-circle div{
+    text-align: center;
+    width: 140px;
+    height: 140px;
+    display: table-cell;
+    vertical-align:middle;
+    cursor: pointer;
+}

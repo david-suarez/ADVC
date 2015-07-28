@@ -5,8 +5,9 @@ advcApp = angular.module(
     [
         'ngRoute',
         'ngResource',
-        'ui.bootstrap',
-        'rbac'
+        'rbac',
+        'ngAnimate',
+        'ui.bootstrap'
     ]
 );
 
@@ -68,6 +69,11 @@ advcApp.config(["$routeProvider",
             {
                 templateUrl: 'partials/clubInfo',
                 controller: "clubInfoCtrl"
+            }
+        ).when("/listClubs/:clubName/:clubId/clubInfo",
+            {
+                templateUrl: 'partials/clubInfo',
+                controller: 'clubInfoCtrl'
             }
         ).otherwise(
             {

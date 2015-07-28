@@ -207,7 +207,8 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
         };
 
         $scope.formTeams = function(club){
-            var path = '/listClubs/' + club.name +'/'+ club._id + '/listTeams';
+            //var path = '/listClubs/' + club.name +'/'+ club._id + '/listTeams';
+            var path = '/listClubs/'+ club.name +'/'+ club._id + '/clubInfo';
             $location.path(path);
         };
 

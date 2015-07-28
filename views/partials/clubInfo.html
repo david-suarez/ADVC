@@ -70,62 +70,64 @@
             </div>
         </div>
         <div class="main-content-container">
-            <div class="container-board-players">
-                <!-- People Content container -->
-                <div class="body" drag-helper-directive>
-                    <!-- Show a card for each player -->
-                    <style>
-                        .custom-label{ font-size: 14px; padding-left: 5px; padding-right: 5px; }
-                        .custom-add-container{ text-align: center; }
-                    </style>
-                    <div class="advc-card-w220-h80-layout">
+            <div ng-controller="listPlayersCtrl">
+                <div class="container-board-players">
+                    <!-- People Content container -->
+                    <div class="body" drag-helper-directive>
+                        <!-- Show a card for each player -->
+                        <style>
+                            .custom-label{ font-size: 14px; padding-left: 5px; padding-right: 5px; }
+                            .custom-add-container{ text-align: center; }
+                        </style>
+                        <div class="advc-card-w220-h80-layout">
 
-                        <div class="highligh-font-container-animated pointer">
+                            <div class="highligh-font-container-animated pointer" ng-click="open()">
 
-                            <div class="left-header">
+                                <div class="left-header">
 
-                                <div class="advc-vertical-align-container">
-                                    <div class="advc-valign-middle advc-font-ligth custom-add-container">
-                                        <div class="icon-add-40px"></div>
+                                    <div class="advc-vertical-align-container">
+                                        <div class="advc-valign-middle advc-font-ligth custom-add-container">
+                                            <div class="icon-add-40px"></div>
+                                        </div>
                                     </div>
+
                                 </div>
 
-                            </div>
+                                <div class="right-body">
 
-                            <div class="right-body">
-
-                                <div class="advc-vertical-align-container">
-                                    <div class="advc-valign-middle custom-label advc-font-semibold">
-                                        Añadir jugador
+                                    <div class="advc-vertical-align-container">
+                                        <div class="advc-valign-middle custom-label advc-font-semibold">
+                                            Añadir jugador
+                                        </div>
                                     </div>
+
                                 </div>
 
                             </div>
 
                         </div>
 
-                    </div>
+                        <div ng-repeat="player in filteredPlayers">
+                            <div class="advc-card-w220-h80-layout highlight-parent">
+                                <div class="advc-highlight-mouse-over-card-animated">
+                                    <div class="float-right icon-delete-30px animated-opacity pointer custom-margin-icon-close"></div>
+                                </div>
+                                <div class="highlighted-container">
+                                    <div class="left-header">
+                                        <div class="advc-vertical-align-container">
+                                            <div class="advc-valign-middle">
+                                                <div class="advc-small-person-pic-container">
+                                                    <div class="advc-small-person-pic icon-person"></div>
+                                                </div>
 
-                    <div ng-repeat="player in filteredPlayers">
-                        <div class="advc-card-w220-h80-layout highlight-parent">
-                            <div class="advc-highlight-mouse-over-card-animated">
-                                <div class="float-right icon-delete-30px animated-opacity pointer custom-margin-icon-close"></div>
-                            </div>
-                            <div class="highlighted-container">
-                                <div class="left-header">
-                                    <div class="advc-vertical-align-container">
-                                        <div class="advc-valign-middle">
-                                            <div class="advc-small-person-pic-container">
-                                                <div class="advc-small-person-pic icon-person"></div>
                                             </div>
-
                                         </div>
                                     </div>
-                                </div>
-                                <div class="right-body">
-                                    <div class="advc-vertical-align-container">
-                                        <div class="advc-valign-middle custom-label advc-font-semibold">
-                                            {{player.fullName}}
+                                    <div class="right-body">
+                                        <div class="advc-vertical-align-container">
+                                            <div class="advc-valign-middle custom-label advc-font-semibold">
+                                                {{player.fullName}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -134,7 +136,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </section>

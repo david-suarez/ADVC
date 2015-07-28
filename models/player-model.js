@@ -8,11 +8,11 @@ var CvSchema = new Schema({
         "type":Number,
         "default":""
     },
-    "club_name":{
+    "clubName":{
         "type":String,
         "default":""
     },
-    "asociation":{
+    "association":{
         "type":String,
         "default":""
     },
@@ -31,8 +31,8 @@ var CvSchema = new Schema({
         'default': "Club",
         'enum': [
             "Club",
-            "Seleccion",
-            "Seleccion Nacional"
+            "Selección Departamental",
+            "Selección Nacional"
         ]
     }
 });
@@ -63,12 +63,12 @@ var PlayerSchema = new Schema({
         'default': "",
         'required': true
     },
-    'date_of_birth': {
+    'dateOfBirth': {
         'type': Date,
         'default': "",
         'required': true
     },
-    'phone_number': {
+    'phoneNumber': {
         'type': Number,
         'default': ""
     },
@@ -84,22 +84,22 @@ var PlayerSchema = new Schema({
         'type': String,
         'default': ""
     },
-    'ofice_birth_cert':{
+    'officeBirthCert':{
         'type': String,
         'default': "",
         'required': true
     },
-    'book_birth_cert':{
+    'bookBirthCert':{
         'type': String,
         'default': "",
         'required': true
     },
-    'departure_birth_cert':{
+    'departureBirthCert':{
         'type': String,
         'default': "",
         'required': true
     },
-    'departure_date_birth_cert':{
+    'departureDateBirthCert':{
         'type': Date,
         'default': "",
         'required': true
@@ -117,7 +117,7 @@ var PlayerSchema = new Schema({
         'type':String,
         "required":true
     },
-    'cv_player':{
+    'cvPlayer':{
         "type":[CvSchema],
         "default":""
     }

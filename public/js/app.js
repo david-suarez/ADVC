@@ -68,7 +68,6 @@ advcApp.run([
         return $rootScope.$on(
             "$routeChangeStart",
             function(event, next, current) {
-                console.log(next);
                 if (SessionService.isAuthenticated()) {
                     var isUser = SessionService.get('idUSer');
                     $rbac.checkAccess(isUser).then(function(){

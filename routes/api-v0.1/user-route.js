@@ -145,6 +145,8 @@ var UserRoute = (function(){
                     })
                 }
             });
+        }else {
+            response.status(400).json('Bad request');
         }
     };
 

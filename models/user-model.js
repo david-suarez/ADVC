@@ -67,12 +67,12 @@ var _validateChangeRole = function(user){
         if(err){
             deferred.reject(err);
         } else {
-            if(userData.role === 'Delegado' ){
-               ClubModel.find({delegate: user._id}, function(error, club){
+            if(userData.role === 'Delegado'){
+               ClubModel.find({delegate: userData._id}, function(error, club){
                    if(error){
                        deferred.reject(err);
                    } else{
-                       if(club && userData.role !== user.role){
+                       if(club.length && userData.role !== user.role){
                            var errorUser = new Error('User associated to a ' +
                                'club as Delegate');
                            errorUser.code = 403;
@@ -82,6 +82,8 @@ var _validateChangeRole = function(user){
                        }
                    }
                })
+            } else {
+                deferred.resolve(true);
             }
         }
     });

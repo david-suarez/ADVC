@@ -72,7 +72,7 @@ var _validateChangeRole = function(user){
                    if(error){
                        deferred.reject(err);
                    } else{
-                       if(club && userData.role !== user.role){
+                       if(club.length && userData.role !== user.role){
                            var errorUser = new Error('User associated to a ' +
                                'club as Delegate');
                            errorUser.code = 403;

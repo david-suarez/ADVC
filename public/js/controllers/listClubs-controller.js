@@ -98,6 +98,7 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
                             }
                         }
                         $scope.Clubs.push(data);
+                        restartValidationFields();
                         $('#create-club').modal('hide'); //hide modal
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
@@ -168,6 +169,7 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
                                 $scope.Clubs[index] = data;
                             }
                         }
+                        restartValidationFields();
                         $('#create-club').modal('hide'); //hide modal
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();

@@ -128,6 +128,7 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
                     listUsersSrv.save(newUser,
                         function (data) {
                             $scope.Users.push(data);
+                            restartValidationFields();
                             $('#create-user').modal('hide'); //hide modal
                             $('body').removeClass('modal-open');
                             $('.modal-backdrop').remove();
@@ -187,6 +188,7 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
                                 break;
                             }
                         }
+                        restartValidationFields();
                         $('#create-user').modal('hide'); //hide modal
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();

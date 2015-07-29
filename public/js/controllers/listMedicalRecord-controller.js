@@ -78,7 +78,7 @@ advcApp.controller('listMedicalRecordCtrl', ['$scope', '$routeParams',
             var home= $scope.newMedicalRecord.home;
             var weightRegEx = /^-?[0-9]+([\.][0-9]*)?$/;
             var heightRegEx = /^-?[0-9]+([\.][0-9]*)?$/;
-            var homeRegEx = /[A-Za-z0-9_]{3,20}/;
+            var homeRegEx = /^[0-9a-zA-Zñ]+( ?[0-9a-zA-Zñ])+$/;
             if (!weight){
                 $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
@@ -140,6 +140,7 @@ advcApp.controller('listMedicalRecordCtrl', ['$scope', '$routeParams',
                             }
                         }
                         $scope.Medicals.push(data);
+                        restartValidationFields();
                         $('#create-medical').modal('hide'); //hide modal
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
@@ -177,10 +178,12 @@ advcApp.controller('listMedicalRecordCtrl', ['$scope', '$routeParams',
                             }
                         }
                         $scope.Medicals[indexRecord] = data;
+                        restartValidationFields();
                         $('#create-medical').modal('hide'); //hide modal
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
                         $scope.newMedicalRecord = {};
+
                     },
                     function (error) {
                         console.log(error);

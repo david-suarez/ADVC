@@ -4,23 +4,23 @@ var Schema = mongoose.Schema;
 var Q = require('q');
 
 var TeamSchema = new Schema({
-    'name': {
-       'type': String,
-       'required': true
+    name: {
+       type: String,
+       required: true
     },
-    'branch': {
-        'type': String,
-        'index': true,
-        'required': true,
-        'enum': [
+    branch: {
+        type: String,
+        index: true,
+        required: true,
+        enum: [
             "Femenino",
             "Masculino"
         ]
     },
-    'division': {
-        'type': String,
-        'required': true,
-        'enum': [
+    division: {
+        type: String,
+        required: true,
+        enum: [
             "Pre Mini",
             "Mini",
             "Infantil",
@@ -34,35 +34,46 @@ var TeamSchema = new Schema({
             "Maxi Voleibol"
         ]
     },
-    'category': {
-        'type': String,
-        'required': true,
-        'enum': [
+    category: {
+        type: String,
+        required: true,
+        enum: [
             "Mayores",
             "Menores"
         ]
     },
-    'club': {
-        'type': mongoose.Schema.Types.ObjectId,
-        'ref': 'Club',
-        'required': true
+    club: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Club',
+        required: true
     },
-    'players': [
+    players: [
         {
-            'type': mongoose.Schema.Types.ObjectId,
-            'ref': 'Player'
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Player'
         }
     ],
-    'championship':
+    championship:
         {
-            'type': mongoose.Schema.Types.ObjectId,
-            'ref': 'Championship'
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Championship'
         },
-    'sequence': {
-        'type': Number,
-        'default': 0
+    sequence: {
+        type: Number,
+        default: 0
+    },
+    color: {
+        type: {
+            code: {
+                type: String,
+                required: true
+            },
+            rgbHex: {
+                type: String,
+                required: true
+            }
+        }
     }
-
 });
 
 TeamSchema.pre('save', function(next){

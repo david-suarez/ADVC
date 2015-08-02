@@ -24,7 +24,8 @@
     "Transfers.CUD": true,
     "No.Change.Dest.Club": false,
     "Change.Dest.Club": true,
-    "AcceptTransfers": true
+    "AcceptTransfers": true,
+    "ClubInfo": true
   },
   "Directivo": {
     "Menu.MainBoard.Execute": true,
@@ -51,7 +52,8 @@
     "No.Change.Dest.Club": false,
     "Change.Dest.Club": true,
     "Transfers.CUD": false,
-    "AcceptTransfers":true
+    "AcceptTransfers":true,
+    "ClubInfo": true
   },
   "Comisión Técnica": {
     "Menu.MainBoard.Execute": true,
@@ -70,7 +72,8 @@
     "ListTeams": true,
     "ListMedicalRecord": false,
     "ChangePassword":true,
-    "ListChampionship": false
+    "ListChampionship": false,
+    "ClubInfo": true
   },
   "Delegado": {
     "Menu.MainBoard.Execute": true,
@@ -96,7 +99,8 @@
     "Transfers.CUD": true,
     "AcceptTransfers":false,
     "No.Change.Dest.Club": true,
-    "Change.Dest.Club": false
+    "Change.Dest.Club": false,
+    "ClubInfo": true
   },
   "Comisión Médica": {
     "Menu.MainBoard.Execute": true,
@@ -114,6 +118,7 @@
     "ListTeams": false,
     "ListMedicalRecord": true,
     "ChangePassword":true,
-    "ListChampionship": false
+    "ListChampionship": false,
+    "ClubInfo": false
   }
 }

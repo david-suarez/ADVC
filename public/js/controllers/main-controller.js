@@ -63,8 +63,8 @@ advcApp.controller('mainCtrl', [
 
         $scope.savePublication = function(){
             var file;
-            if($scope.newPublication.file) {
-                file = $scope.newPublication.file[0];
+            if($scope.file) {
+                file = $scope.file[0];
                 return $scope.uploadFile(file, $scope.saveCallback);
             } else {
                 return $scope.saveCallback();
@@ -258,16 +258,16 @@ advcApp.controller('mainCtrl', [
             if(resp){
                 var pubId = $scope.newPublication.id;
                 deleteFileSrv.delete({publicationId: pubId},
-                    {fileName: $scope.newPublication.file},
+                    {fileName: $scope.file},
                     function(data){
                         var index = $scope.newPublication.index;
                         var type = $scope.newPublication.type;
                         if(type === 'main' &&
                             $scope.mainPublications[index].file ===
-                            $scope.newPublication.file) {
+                            $scope.file) {
                             $scope.mainPublications[index] = data;
                         } else if($scope.downPublications[index].file ===
-                            $scope.newPublication.file){
+                            $scope.file){
                             $scope.downPublications.splice(index, 1);
                             $scope.mainPublications.unshift(data);
                         }
@@ -277,7 +277,7 @@ advcApp.controller('mainCtrl', [
                         alert('Se elimino el archivo correctamente');
                         $.noty.stopConsumeAlert();
                         $scope.newPublication.fileName = '';
-                        $scope.newPublication.file = '';
+                        $scope.file = '';
                         $scope.newPublication.type = 'main';
                     },
                     function(error){
@@ -293,8 +293,8 @@ advcApp.controller('mainCtrl', [
 
         $scope.updatePublication = function(){
             var file;
-            if(typeof($scope.newPublication.file) === 'object') {
-                file = $scope.newPublication.file[0];
+            if(typeof($scope.file) === 'object') {
+                file = $scope.file[0];
                 return $scope.uploadFile(file, $scope.updateCallback);
             } else {
                 return $scope.updateCallback();

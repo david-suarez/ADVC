@@ -11,6 +11,53 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
         $scope.createMode = false;
         $scope.editMode = false;
 
+        $scope.colors = [
+            {
+                "name": 'Color',
+                "color0": "#444"
+            },
+            {
+                "name": 'Color',
+                "color1"  : "#3366CC"
+            },
+            {
+                "name": 'Color',
+                "color2"  : "#FF6600"
+            },
+            {
+                "name": 'Color',
+                "color3"  : "#996633"
+            },
+            {
+                "name": 'Color',
+                "color4"  : "#009999"
+            },
+            {
+                "name": 'Color',
+                "color5"  : "#AA33AA"
+            },
+            {
+                "name": 'Color',
+                "color6"  : "#9933FF"
+            },
+            {
+                "name": 'Color',
+                "color7"  : "#999900"
+            },
+            {
+                "name": 'Color',
+                "color8"  : "#FF3399"
+            },
+            {
+                "name": 'Color',
+                "color9"  : "#3399CC"
+            },
+            {
+                "name": 'Color',
+                "color10": "#888"
+            }
+        ];
+
         listChampionshipSrv.get({},
             function(result){
                 $scope.Championships = result.data;
@@ -42,7 +89,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
             'Pre Mini',
             'Mini',
             'Infantil',
-            'Cadete',
+            'Cadetes',
             'Juvenil',
             'Sub-23'
         ];
@@ -61,7 +108,11 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
                     $scope.newTeam.major : $scope.newTeam.minor,
                 branch: $scope.newTeam.branch,
                 category: $scope.newTeam.category,
-                club: currentClubId
+                club: currentClubId,
+                color: {
+                    code: $scope.newTeam.color.code,
+                    rgbHex: $scope.newTeam.color.rgbHex
+                }
             };
             console.log(newTeam);
             if($scope.validateFields(newTeam)){
@@ -75,6 +126,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
                                     $scope.Championships[index].name;
                                 team.idChampionship =
                                     $scope.Championships[index]._id;
+
                                 break;
                             }
                         }
@@ -204,6 +256,9 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
         listTeamSrv.get({ club: currentClubId },
             function(result){
                 $scope.Teams = result.data;
+                for(var index = 0; index < $scope.Teams.length; index++){
+                    $scope.setLocalAttributesClearance($scope.Teams[index]);
+                }
             },
             function(error){
                 console.log(error);
@@ -247,6 +302,16 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
                 id: team.id,
                 index: index
             };
-        }
+        };
+
+        $scope.setLocalAttributesClearance = function(team) {
+            team.selected = false;
+            if (!team.players) {
+                team.players = [];
+            }
+            if (!team.color) {
+                team.color = {code: 'color1'}
+            }
+        };
     }
 ]);

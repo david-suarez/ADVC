@@ -1,9 +1,10 @@
-<section class="main-board" xmlns="http://www.w3.org/1999/html">
-    <div id="clearance-main-frame" class="clean-frame" ng-controller="clubInfoCtrl">
+<!--<section class="main-board" xmlns="http://www.w3.org/1999/html">-->
+<section>
+    <div id="clearance-main-frame" class="clean-frame" ng-controller="listTeamsCtrl">
         <div class="top-menu">
             <div class="left-header">
                 <div class="h1-title float-left">
-                    Club: {{clubName}}
+                    Club: {{currentClubName}}
                 </div>
             </div>
         </div>
@@ -14,8 +15,8 @@
                     .custom-label{ font-size: 14px; padding-left: 5px; }
                 </style>
                 <div class="panel_content">
-                    <div class="advc-rounded-card-w220-h80 highlight-parent float-left space-top-10px">
-                        <div class="advc-highlight-mouse-over-rounded-card-animated" ng-click="openCreateDialog()" data-toggle="modal" data-target="#create-publication"></div>
+                    <div class="advc-rounded-card-w220-h50 highlight-parent float-left space-top-10px">
+                        <div class="advc-highlight-mouse-over-rounded-card-button-animated" data-toggle="modal" data-target="#create-team" ng-click="formCreateTeam()"></div>
                         <div class="highlighted-rounded-container">
                             <div class="left-body advc-font-semibold custom-label">
                                 <div class="advc-vertical-align-container" >
@@ -33,7 +34,7 @@
             </div>
             <div ng-click="selectedTeam(team)"
                  class="advc-rounded-card-w220-h80 highlight-parent float-left space-top-10px"
-                 ng-repeat="team in teams">
+                 ng-repeat="team in Teams">
                 <div ng-model="team.selected"
                      class="advc-highlight-mouse-over-rounded-card-animated"  ng-class="{'selected-highlight': team.selected}"
                      over-clearance = "{{team.isOver}}"></div>
@@ -42,8 +43,16 @@
                              ng-class="{'advc-{{team.color.code}}': !team.selected}">
                             <div class="advc-vertical-align-container" >
                                 <div class="advc-valign-middle ">
-                                    <div class="custom-text-overflow" ng-class="{'task-words':team.onProgress[team.type]}" >
+                                    <div class="custom-texCvSchemat-overflow">
                                         {{team.name}}
+                                    </div>
+                                    <br>
+                                    <div class="custom-text-overflow division">
+                                        {{team.division}}
+                                    </div>
+                                    <br>
+                                    <div class="custom-text-overflow branch" >
+                                        {{team.branch}}
                                     </div>
                                 </div>
                             </div>
@@ -51,14 +60,14 @@
                         <div class="right-counter-circumference base-class-animation"
                              ng-class="{'circunference':team.onProgress[team.type],
                                   'low-opacity-black-bg':team.selected,
-                                  'advc-bg-{{team.colorlistPlayers.code}}': !team.selected}">
+                                  'advc-bg-{{team.color.code}}': !team.selected}">
                             <div class="advc-horizontal-align-container">
                                 {{team.players.length}}
                             </div>
                         </div>
-                        <div class="spinner-progress base-class-animation" ng-if="clearance.progress[clearance.type]">
+                        <div class="spinner-progress base-class-animation">
                             <div class="spinner-block advc-vertical-align-container ">
-                                <div class="advc-valign-middle" ng-class="{'advc-color-c':!clearance.hasError, 'advc-color-red':clearance.hasError}">
+                                <div class="advc-valign-middle" ng-class="advc-color-c">
                                     <div class="icon-align-left" ng-class="{'spinner icon-spinner-32px':!clearance.hasError, 'icon-clear_field-25px':clearance.hasError}" ></div>
                                     <div class="font-task" ng-show="!clearance.hasError" >{{clearance.progress[clearance.type].length}}</div>
                                     <div class="font-task" ng-show="clearance.hasError">0</div>
@@ -73,7 +82,7 @@
             <div ng-controller="listPlayersCtrl">
                 <div class="container-board-players">
                     <!-- People Content container -->
-                    <div class="body" drag-helper-directive>
+                    <div drag-helper-directive>
                         <!-- Show a card for each player -->
                         <style>
                             .custom-label{ font-size: 14px; padding-left: 5px; padding-right: 5px; }
@@ -117,7 +126,10 @@
                                         <div class="advc-vertical-align-container">
                                             <div class="advc-valign-middle">
                                                 <div class="advc-small-person-pic-container">
-                                                    <div class="advc-small-person-pic icon-person"></div>
+                                                    <div class="advc-small-person-pic icon-person" ng-if="!player.image"></div>
+                                                    <div class="advc-small-person-pic" ng-if="player.image">
+                                                        <img ng-src="{{getImage(player.image)}}" style="margin: -65px 0px 0px 5px !important;" class = "photo-circle-mask" err-src="{{defaulImage}}"/>
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -126,7 +138,7 @@
                                     <div class="right-body">
                                         <div class="advc-vertical-align-container">
                                             <div class="advc-valign-middle custom-label advc-font-semibold">
-                                                {{player.fullName}}
+                                                {{player.name}} {{player.lastname}}
                                             </div>
                                         </div>
                                     </div>
@@ -137,5 +149,89 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="create-team" role="dialog" data-backdrop="static" data-keyboard="false">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" ng-click="closeModal()">&times;</button>
+                        <h4 class="modal-title">Formulario de creación de Equipos</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p role="form">
+                            <div class="form-group">
+                                <label>Nombre(*)</label>
+                                <label for="inputName" class="sr-only">Nombre</label>
+                                <input type="text" id="inputName" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Nombre"
+                                       required="True" autofocus="1" ng-model="newTeam.name">
+                                <span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span>
+                            </div>
+                            <div class="form-group">
+                                <label>Rama(*)</label>
+                                <select ng-options="branch for branch in branchValues" ng-model="newTeam.branch"></select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Categoria(*)</label>
+                                <select ng-options="cat for cat in categoryValues" ng-model="newTeam.category"></select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Division(*)</label>
+                                <select ng-if="newTeam.category == 'Mayores'" ng-options="major for major in majorCategoryValues" ng-model="newTeam.major"></select>
+                                <select ng-if="newTeam.category == 'Menores'" ng-options="minor for minor in minorCategoryValues" ng-model="newTeam.minor"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Campeonato(*)</label>
+                                <select ng-model="newTeam.championship" ng-options="championship._id as championship.name for championship in Championships"/>
+                            </div>
+                            <div>
+                                <label>Color(*)</label>
+                                <div class="dropdown" ng-model="query" >
+                                    <div data-toggle="dropdown">
+                                        <div class="combobox-colors-button-left">
+                                            <span class="dot-color"  ng-style = "{ 'background-color' :newTeam.color.rgbHex}"></span>
+                                        </div>
+                                        <input id = "new-group-visitor-color"
+                                               name = "newClearanceColor"
+                                               class="form-control font-customize combobox-colors-input"
+                                               type="text"
+                                               autocomplete="off"
+                                               placeholder="{{'CLEARANCE.CREATE.COLOR_PLACEHOLDER'}}"
+                                               validators="isNotEmpty"
+                                               ng-readonly="true"
+                                               ng-style = "{color:newClearanceData.color.rgbHex} "
+                                               value = "{{newTeam.color.name}}"/>
+                                        <a id = "data-toggle-dropdown"  >
+                                            <div class="combobox-colors-button" >
+                                                <span class="caret"></span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <ul id="list-colors" class="dropdown-menu dropdown-groups-visitors" role="menu" aria-labelledby="dLabel">
+                                        <li ng-repeat="color in colors">
+                                            <div id="div-decorator-color-{{$index}}" class="decorator-color"
+                                                 ng-style = "{ 'background-color' :color.rgbHex}">
+                                            </div>
+                                            <a id="a-option-color-{{$index}}" class="option-color" href="javascript:void(0);" ng-click="selectColor(color)"
+                                               ng-style = "{color:color.rgbHex} " change-text-ident color = {{color.rgbHex}}>
+                                                {{color.code.toUpperCase()}}
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="createTeam()" ng-if="createMode">Crear Equipo</button>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="editTeam()" ng-if="editMode">Actualizar Equipo</button>
+                        <button class="btn btn-lg btn-info btn-block" type="submit" data-dismiss="modal" ng-click="closeModal()">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 </section>

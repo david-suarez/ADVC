@@ -31,3 +31,7 @@
 .wave.ng-leave-active {
   left:100%;
 }
+
+.wave .row {
+  margin-left: -15px;
+}

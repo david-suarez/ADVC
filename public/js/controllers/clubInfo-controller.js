@@ -8,26 +8,10 @@ advcApp.controller('clubInfoCtrl', ['$scope', '$routeParams', 'SessionService',
                 color: {
                     code: 'color6'
                 },
-                selected: true,
-                colorlistPlayers: {
-                    code: 'color6'
-                }
+                selected: true
             },
             '2',
-            '3']
-        $scope.filteredPlayers = [
-            {
-                fullName: 'David Suarez Aliendre'
-            },
-            {
-                fullName: 'Bhavanna Ruth Palomino Pardo'
-            },
-            {
-                fullName: 'Adriana Meliz Berrios Arnez'
-            },
-            {
-                fullName: 'Mariano Antonio Melgarejo Salvatierra'
-            }
-        ]
+            '3'];
+
     }
 ]);

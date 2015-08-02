@@ -10,7 +10,7 @@ advcApp.directive('uploadFile', function() {
                     if (changeEvent.target && scope.fileIsValid(changeEvent.target.files[0])) {
                         if (changeEvent.target && changeEvent.target.files) {
                             files = element.prop("files");
-                            scope.$apply(scope.newPublication.file = [files][0]);
+                            scope.$apply(scope.file = [files][0]);
                             image = window.URL.createObjectURL(changeEvent.target.files[0]);
                             return $("#newFile").attr("src", image);
                         }

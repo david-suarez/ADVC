@@ -1,12 +1,12 @@
 <div class="modal-header">
-	<button type="button" class="close" ng-click="modal.dismiss()" aria-hidden="true">&times;</button>
-	<h4 class="modal-title">{{modal.formPlayerName}}</h4>
+	<button type="button" class="close" ng-click="dismiss()" aria-hidden="true">&times;</button>
+	<h4 class="modal-title">{{formPlayerName}}</h4>
 </div>
 <div class="modal-body">
 		<div class="btn-group">
-			<button class="btn" ng-class="{'btn-primary':modal.isCurrentStep($index)}" ng-click="modal.setCurrentStep($index)" ng-repeat="step in modal.steps">{{step.name}}</button>
+			<button class="btn" ng-class="{'btn-primary':isCurrentStep($index)}" ng-click="setCurrentStep($index)" ng-repeat="step in steps">{{step.name}}</button>
 		</div>
-		<div ng-switch="modal.getCurrentStep()" class="slide-frame">
+		<div ng-switch="getCurrentStep()" class="slide-frame">
 			<div ng-switch-when="one" class="wave">
 				<div class="row">
 					<div class="col-xs-4">
@@ -15,62 +15,126 @@
 							   name="fileElement"
 							   style="display:none"
 							   accept="image/jpeg, image/png"
-							   upload-file
-								>
+							   upload-file>
 
 						<div id="div-photo-new-employee"
 							 class="add-photo-circle"
-							 ng-click = "modal.doClick()" >
+							 ng-click = "doClick()" >
 
-							<div ng-show="modal.hasTmpImage()"  >
-								<img style="margin: -2px" class = "add-photo-circle"
-									 id = "newImage" ng-src="{{defaulImage}}" width="140" height="140" />
+							<div ng-show="isTmpImage"  >
+								<img style="margin: -2px 0 0 -2px" class = "add-photo-circle"
+									 id = "newFile" ng-src="{{defaulImage}}" width="140" height="140" />
 
 							</div>
 							<div>
-								<label ng-show="!modal.hasTmpImage()" id="add-photo-label"
+								<label ng-show="!isTmpImage" id="add-photo-label"
 									   ng-cloak >Añadir Foto</label>
 							</div>
-
-
 						</div>
 					</div>
 					<div class="col-xs-6">
 						<div class="form-group">
-							<label class="control-label" for="firstName">Nombres(*)</label>
+							<label class="control-label" for="firstName" >Nombres(*)</label>
 							<div>
-								<input class="form-control" type="text" class="input-xlarge" id="firstName" ng-model="modal.wizard.name">
+								<input class="form-control" type="text" class="input-xlarge" id="firstName" ng-model="wizard.name">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="control-label" for="lastName">Apellidos(*)</label>
 							<div>
-								<input class="form-control" type="text" class="input-xlarge" id="lastName" ng-model="modal.wizard.lastname">
+								<input class="form-control" type="text" class="input-xlarge" id="lastName" ng-model="wizard.lastname">
 							</div>
 						</div>
 						<div class="form-group">
+							<label class="control-label" for="sex">Sexo(*)</label>
+							<div>
+								<select ng-options="branch for branch in branches" id="sex" ng-model="wizard.sex"></select>
+							</div>
+						</div><div class="form-group">
 							<label class="control-label" for="ci">Documento de identidad(*)</label>
 							<div>
-								<input class="form-control" type="text" class="input-xlarge" id="ci" ng-model="modal.wizard.ci">
+								<p class="input-group">
+									<input type="number" class="form-control" id="ci" ng-model="wizard.ci">
+                                <span class="input-group-addon">
+                                    <select ng-options="extension for extension in extensions"  ng-model="wizard.ext"></select>
+                                </span>
+								</p>
 							</div>
 						</div>
 					</div>
 				</div>
-
-				<div class="form-group">
-
-				</div>
 			</div>
 			<div ng-switch-when="two" class="wave">
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group" id='datetimepicker'>
+							<label>Fecha de nacimiento(*)</label>
+							<p class="input-group">
+								<input type="text" placeholder="dd/mm/yyyy" id="inputDate" class="form-control" datepicker-popup="{{format}}" is-open="opened" mindate="minDate" max-date="{{today}}"
+									   datepicker-options="dateOptions" ng-required="true"
+									   close-text="Close" ng-model="wizard.dateOfBirth">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="openDate($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+							</p>
+						</div>
+						<div class="form-group">
+							<label>Oficina de registro de nacimiento</label>
+							<input class="form-control" type="number" ng-model="wizard.office">
+						</div>
+						<div class="form-group">
+							<label>Libro de registro de nacimiento</label>
+							<input class="form-control" type="number" ng-model="wizard.book">
+						</div>
+						<div class="form-group">
+							<label>Partida de nacimiento</label>
+							<input class="form-control" type="number" ng-model="wizard.part">
+						</div>
+						<br>
+						<br>
+						<br>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label>Nacionalidad(*)</label>
+							<input class="form-control" type="text" ng-model="wizard.nationality">
+						</div>
+						<div class="form-group">
+							<label>Ciudad de nacimiento(*)</label>
+							<input class="form-control" type="text" ng-model="wizard.cityOfBirth">
+						</div>
+					</div>
+				</div>
 
 			</div>
 			<div ng-switch-when="three" class="wave">
-
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label>Direccion</label>
+							<input class="form-control" type="text" ng-model="wizard.address">
+						</div>
+						<div class="form-group">
+							<label>Código Postal</label>
+							<input class="form-control" type="number" ng-model="wizard.postCode">
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label>Zona</label>
+							<input class="form-control" type="text" ng-model="wizard.zone">
+						</div>
+						<div class="form-group">
+							<label>Número de teléfono</label>
+							<input class="form-control" type="number" ng-model="wizard.phone">
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 </div>
 <div class="modal-footer">
-	<a class="btn btn-default" ng-click="modal.handlePrevious()" ng-show="!modal.isFirstStep()">Atras</a>
-	<a class="btn btn-primary" ng-click="modal.handleNext()">{{modal.getNextLabel()}}</a>
+	<a class="btn btn-default" ng-click="handlePrevious()" ng-show="!isFirstStep()">Atras</a>
+	<a class="btn btn-primary" ng-click="handleNext()">{{getNextLabel()}}</a>
 </div>
 

@@ -48,7 +48,7 @@ var PlayerSchema = new Schema({
         'default': "",
         'required': true
     },
-    'city_of_birth': {
+    'cityOfBirth': {
         'type': String,
         'default': "",
         'required': true
@@ -60,13 +60,33 @@ var PlayerSchema = new Schema({
     },
     'ci': {
         'type': String,
-        'default': "",
-        'required': true
+        'default': ""
     },
     'dateOfBirth': {
         'type': Date,
         'default': "",
         'required': true
+    },
+    'bookBirthCert':{
+        'type': String,
+        'default': ""
+    },
+    'departureBirthCert':{
+        'type': String,
+        'default': ""
+    },
+    'branch': {
+        'type': String,
+        'index': true,
+        'required': true,
+        'enum': [
+            "Femenino",
+            "Masculino"
+        ]
+    },
+    'image': {
+        'type': String,
+        'default': ""
     },
     'phoneNumber': {
         'type': Number,
@@ -86,40 +106,34 @@ var PlayerSchema = new Schema({
     },
     'officeBirthCert':{
         'type': String,
-        'default': "",
-        'required': true
+        'default': ""
     },
-    'bookBirthCert':{
-        'type': String,
-        'default': "",
-        'required': true
+    'team': [
+        {
+            'type': mongoose.Schema.Types.ObjectId,
+            'ref': 'Team'
+        }
+    ],
+    'cvPlayer':{
+        "type": [CvSchema]
     },
-    'departureBirthCert':{
-        'type': String,
-        'default': "",
-        'required': true
+    'club': {
+        'type': mongoose.Schema.Types.ObjectId,
+        'ref': 'Club'
     },
-    'departureDateBirthCert':{
-        'type': Date,
-        'default': "",
-        'required': true
-    },
-    'branch': {
+    'status': {
         'type': String,
         'index': true,
-        'required': true,
+        'default': "No Habilitado",
         'enum': [
-            "Femenino",
-            "Masculino"
+            "No habilidato",
+            "Habilidato",
+            "Libre"
         ]
     },
-    'club':{
-        'type':String,
-        "required":true
-    },
-    'cvPlayer':{
-        "type":[CvSchema],
-        "default":""
+    'majorCategory': {
+        'type': mongoose.Schema.Types.ObjectId,
+        'ref': 'Team'
     }
 });
 

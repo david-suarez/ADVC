@@ -17,5 +17,7 @@
     "passport-local-mongoose": "^1.0.1",
     "q": "^1.4.1"
   },
-  "scripts": {}
+  "scripts": {
+    "start": "node app.js"
+  }
 }

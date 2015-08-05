@@ -29,6 +29,11 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$route', '$routeParams',
             {
                 name: 'Campeonatos',
                 href: '/listChampionship'
+            },
+            {
+                name: 'Cuenta',
+                href: '/changePassword',
+                allow: "Menu.Change.Execute"
             }
 
         ];

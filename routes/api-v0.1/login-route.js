@@ -9,7 +9,6 @@ var __bind = function(fn, me){
 };
 
 var LoginRoute = (function(){
-
     function LoginRoute(){
         this.loginUser = __bind(this.loginUser, this);
         this.logoutUser = __bind(this.logoutUser, this);
@@ -33,7 +32,8 @@ var LoginRoute = (function(){
                         var data = {
                             _id: user._id,
                             fullName: user.fullname,
-                            role: user.role
+                            role: user.role,
+                            username: user.username
                         };
                         response.status(200).json({success:true, user: data});
                     }

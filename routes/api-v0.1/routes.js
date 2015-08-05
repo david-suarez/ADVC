@@ -11,6 +11,7 @@ var BASE_PUB_ROUTE = '/publications';
 var BASE_MEDICAL_ROUTE = '/medicals';
 var BASE_CHAMPIONSHIP_ROUTE = '/championships';
 var BASE_RBAC_ROUTE = '/rbac';
+var BASE_CHANGE_PASS_ROUTE = '/users/changePass';
 
 /*
  Api for Users
@@ -116,3 +117,6 @@ exports.PubDeleteFile = PUB_ROUTE + '/:publicationId/filedelete';
 var RBAC_ROUTE = API + BASE_RBAC_ROUTE;
 
 exports.RbacRoute = RBAC_ROUTE;
+
+var CHANGE_PASS_ROUTE = API + BASE_CHANGE_PASS_ROUTE;
+exports.UserChangePass = CHANGE_PASS_ROUTE + '/:user_id';

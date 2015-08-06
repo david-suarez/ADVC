@@ -24,7 +24,15 @@ cloudinary.config({
     secret_key: 'vm59m4wRPoithgOXOz0mj6hytjc'
 });
 
-mongoose.connect('mongodb://localhost/advc-db');
+//provide a sensible default for local development
+var db_name = 'advc-db';
+var mongodb_connection_string = 'mongodb://127.0.0.1:27017/' + db_name;
+//take advantage of openshift env vars when available:
+if(process.env.OPENSHIFT_MONGODB_DB_URL){
+    mongodb_connection_string = process.env.OPENSHIFT_MONGODB_DB_URL + db_name;
+}
+
+mongoose.connect(mongodb_connection_string);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -57,8 +65,9 @@ passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
-var port = process.env.PORT || '3000';
+var server_port = process.env.OPENSHIFT_NODEJS_PORT || '3000';
+var server_ip_address = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
 
-app.listen(port);
-
-console.log('EL servidor esta corriendo en el puerto ' + port);
+app.listen(server_port, server_ip_address, function () {
+    console.log( "Listening on " + server_ip_address + ", server_port " + server_port )
+});

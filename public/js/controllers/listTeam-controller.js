@@ -924,14 +924,14 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             $.each(table, function(i,row){
                 $.each(row,function(j,cell){
                     if(j=="Nombre Completo"){
-                        doc.cell(50,285,120,20,cell,i);
+                        doc.cell(50,285,90,20,cell,i);
                         doc.setFont("helvetica");
                         doc.setFillColor(250,0,0);
 
                         //doc.setTextColor(255, 24, 13);
                         //doc.setFontType("italic");
                     }else if(j=="Fecha de Nac."){
-                        doc.cell(50,285,75,20,cell,i);
+                        doc.cell(50,285,60,20,cell,i);
                         doc.setFont("helvetica");
                         doc.setFillColor(250,0,0);
 
@@ -987,7 +987,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                     //doc.setTextColor(255, 24, 13);
                     //doc.setFontType("italic");
                     }else{
-                        doc.cell(50,285,22,20,cell,i);
+                        doc.cell(50,285,20,20,cell,i);
                         doc.setFillColor(221,221,221);
                     }
                 });

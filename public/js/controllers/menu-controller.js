@@ -28,7 +28,8 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$route', '$routeParams',
             },
             {
                 name: 'Campeonatos',
-                href: '/listChampionship'
+                href: '/listChampionship',
+                allow: "Menu.Champ.Execute"
             },
             {
                 name: 'Cuenta',

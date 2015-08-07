@@ -81,7 +81,7 @@
         </div>
     </div>
 
-<div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" type="submit" data-toggle="modal" data-target="#create-championship" ng-click="formCreateChampionship()">Crear campeonato</button></div>
+<div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" type="submit" data-toggle="modal" data-target="#create-championship" ng-click="formCreateChampionship()" allow="Champ.CUD">Crear campeonato</button></div>
 <div class="col-md-12">
     <h2 class="form-signin-heading">Lista de campeonatos</h2>
     <div class="row">
@@ -93,8 +93,8 @@
                 <th>Fecha fin</th>
                 <th>Fecha inicio de inscripción</th>
                 <th>Fecha fin de incripción</th>
-                <th>Editar</th>
-                <th>Eliminar</th>
+                <th allow="Champ.CUD">Editar</th>
+                <th allow="Champ.CUD">Eliminar</th>
             </tr>
             </thead>
             <tbody ng-repeat="championship in Championships">
@@ -105,8 +105,8 @@
                 <td>{{obtainFormatDate(championship.initial_inscription_date)}}</td>
                 <td>{{obtainFormatDate(championship.final_inscription_date)}}</td>
                 <!--td><button type="button" class="btn btn-primary" ng-click="formTeams(club)">Ver Club</button></td-->
-                <td><button type="button" class="btn btn-warning" ng-click="formEditChampionship(championship)" data-toggle="modal" data-target="#create-championship">Editar</button></td>
-                <td><button type="button" class="btn btn-danger" ng-click="formDeleteChampionship(championship, $index)">Eliminar</button></td>
+                <td allow="Champ.CUD"><button type="button" class="btn btn-warning" ng-click="formEditChampionship(championship)" data-toggle="modal" data-target="#create-championship">Editar</button></td>
+                <td allow="Champ.CUD"><button type="button" class="btn btn-danger" ng-click="formDeleteChampionship(championship, $index)">Eliminar</button></td>
             </tr>
             </tbody>
         </table>

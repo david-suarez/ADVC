@@ -7,6 +7,7 @@
     "Publications.CUD": true,
     "Menu.Change.Execute":true,
     "Menu.Champ.Execute": true,
+    "Menu.ListTransfers.Execute":true,
     "Club.CUD": true,
     "Team.CUD": true,
     "Champ.CUD": true,
@@ -16,7 +17,8 @@
     "ListTeams": true,
     "ListMedicalRecord": true,
     "ChangePassword":true,
-    "ListChampionship": true
+    "ListChampionship": true,
+    "ListTransfers":true
   },
   "Directivo": {
     "Menu.MainBoard.Execute": true,
@@ -26,6 +28,7 @@
     "Publications.CUD": true,
     "Menu.Change.Execute":true,
     "Menu.Champ.Execute": true,
+    "Menu.ListTransfers.Execute":true,
     "Club.CUD": true,
     "Team.CUD": true,
     "Champ.CUD": true,
@@ -35,7 +38,8 @@
     "ListTeams": true,
     "ListMedicalRecord": true,
     "ChangePassword":true,
-    "ListChampionship": true
+    "ListChampionship": true,
+    "ListTransfers":true
   },
   "Comisión Técnica": {
     "Menu.MainBoard.Execute": true,
@@ -64,6 +68,7 @@
     "Menu.Champ.Execute": false,
     "Publications.CUD": false,
     "Menu.Change.Execute":true,
+    "Menu.ListTransfers.Execute":true,
     "Club.CUD": false,
     "Team.CUD": true,
     "Index": true,
@@ -72,7 +77,8 @@
     "ListTeams": true,
     "ListMedicalRecord": false,
     "ChangePassword":true,
-    "ListChampionship": false
+    "ListChampionship": false,
+    "ListTransfers":true
   },
   "Comisión Médica": {
     "Menu.MainBoard.Execute": true,

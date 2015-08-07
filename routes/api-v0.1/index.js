@@ -7,6 +7,7 @@ var PublicationRoutes = require('./publication-route');
 var MedicalRecordRoutes = require('./medical-record-route');
 var ChampionshipRoutes = require('./championship-route');
 var RBACRoutes = require('./rbac-route');
+var TransfersRoutes = require('./transfers-route');
 
 module.exports = function(app, cloudinary){
     UserRoutes(app);
@@ -18,4 +19,5 @@ module.exports = function(app, cloudinary){
     MedicalRecordRoutes(app);
     ChampionshipRoutes(app);
     RBACRoutes(app);
+    TransfersRoutes(app);
 };

@@ -72,6 +72,7 @@
                     <th>Division</th>
                     <th allow="Team.CUD">Editar</th>
                     <th allow="Team.CUD">Eliminar</th>
+                    <th>Reporte</th>
                 </tr>
                 </thead>
                 <tbody ng-repeat="team in Teams | filter:searchText track by $index ">
@@ -87,6 +88,7 @@
                     <td style="width: 120px;"  allow="Team.CUD">
                         <button type="button" class="btn btn-danger btn-block" ng-click="formDeleteTeam(team.id, $index)"><i class="glyphicon glyphicon-trash"></i>   Eliminar</button>
                     </td>
+                    <td><a type="button" class="btn btn-info" style="width: 100px;" ng-click="generateReport(team, $index)"><i class="glyphicon glyphicon-list-alt"></i>   Mayores</a> <a type="button" class="btn btn-info" style="width: 100px;" ng-click="generateReport2(team, $index)"><i class="glyphicon glyphicon-list-alt"></i>   Menores</a></td>
                 </tr>
                 </tbody>
             </table>

@@ -1,5 +1,6 @@
 var route = require('./routes');
 var UserModel = require('../../models/user-model');
+var passport = require('passport')
 var Q = require('q');
 var __bind = function(fn, me){
     return function(){
@@ -46,6 +47,7 @@ var UserRoute = (function(){
         this.getUsers = __bind(this.getUsers, this);
         this.saveUser = __bind(this.saveUser, this);
         _init();
+        this.setPassword = __bind(this.setPassword, this);
     }
 
     UserRoute.prototype.getUser = function(request, response){
@@ -150,6 +152,33 @@ var UserRoute = (function(){
         }
     };
 
+    UserRoute.prototype.setPassword = function(request, response){
+        var user_id = request.params.user_id;
+        var newPass = request.body.newPass;
+        console.log(newPass);
+        UserModel.findById(user_id, function(error, user) {
+            if (!error) {
+                user.setPassword(newPass, function(err, account) {
+                    if(err){
+                        response.status(500).json(err.message);
+                    } else {
+                        user.save(function(err1, data){
+                            if(!err1) {
+                                response.status(201).json(account);
+                            }
+                            else {
+                                response.status(500).json(err1.message);
+                            }
+                        })
+                    }
+                });
+            }else{
+                console.log(error);
+                response.status(500).json(error.message);
+            }
+        });
+    };
+
     return UserRoute;
 })();
 
@@ -161,4 +190,6 @@ module.exports = function(app) {
     app.put(route.UserRoute, userRoute.updateUser);
     app.post(route.UsersRoute, userRoute.saveUser);
     app.delete(route.UserRoute, userRoute.removeUser);
+    app.put(route.UserChangePass, passport.authenticate('local'),
+        userRoute.setPassword);
 };

@@ -1111,7 +1111,7 @@ a:focus {
 }
 a:focus {
   outline: thin dotted;
-  outline: 5px auto -webkit-focus-ring-color;
+  outline: 0px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
 figure {
@@ -3891,7 +3891,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav > li > a:hover,
 .nav > li > a:focus {
   text-decoration: none;
-  background-color: #eee;
+  background-color: black;
 }
 .nav > li.disabled > a {
   color: #777;

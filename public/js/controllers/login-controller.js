@@ -15,6 +15,7 @@ advcApp.controller('loginCtrl', [
                             'user', user.fullName);
                         SessionService.set('userId', user._id);
                         SessionService.set('userRole', user.role);
+                        SessionService.set('username', user.username);
                         $rootScope.$emit('userAuthenticated', true);
                         $window.location.reload();
                         $location.path('/mainBoard');

@@ -8,13 +8,13 @@ var MedicalRecordRoutes = require('./medical-record-route');
 var ChampionshipRoutes = require('./championship-route');
 var RBACRoutes = require('./rbac-route');
 
-module.exports = function(app){
+module.exports = function(app, cloudinary){
     UserRoutes(app);
     TeamRoutes(app);
     PlayerRoutes(app);
     ClubRoutes(app);
     LoginRoutes(app);
-    PublicationRoutes(app);
+    PublicationRoutes(app, cloudinary);
     MedicalRecordRoutes(app);
     ChampionshipRoutes(app);
     RBACRoutes(app);

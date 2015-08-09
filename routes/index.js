@@ -9,10 +9,10 @@ var appRoutes = require('./app');
    api* = require './api*'
    api* app
 */
-module.exports = function(app, mongoose){
+module.exports = function(app, mongoose, cloudinary){
     // Initialize routes for the application
     appRoutes(app);
 
     // Initialize routes for REST api v0.1
-    apiRoutes(app);
+    apiRoutes(app, cloudinary);
 };

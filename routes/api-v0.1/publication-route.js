@@ -159,9 +159,10 @@ var PublicationRoute = (function () {
     return PublicationRoute;
 })();
 
-module.exports = function(app){
+module.exports = function(app, cloudinary){
     var pubRoute;
     pubRoute = new PublicationRoute();
+    pubRoute.cloudinary = cloudinary;
     app.get(route.PubRoute, pubRoute.getPublication);
     app.get(route.PubsRoute, pubRoute.getPublications);
     app.put(route.PubRoute, pubRoute.updatePublication);

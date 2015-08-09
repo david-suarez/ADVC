@@ -59,9 +59,9 @@ app.use(expressSession({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(multer({dest: './public/uploads'}));
+app.use(multer({dest: __dirname + '/public/uploads'}));
 
-routes(app, mongoose);
+routes(app, mongoose, cloudinary);
 
 // passport config
 var Account = require('./models/user-model');

@@ -702,7 +702,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             var headers = [];
             var cont = 0;
 
-            data.push({Nro:'Nro', 'Nombre Completo':'Apellidos y Nombres', 'Fecha de Nacimiento':'Fecha de Nacimiento',
+            data.push({Nro:'Nro', 'Nombre Completo':'Apellidos y Nombres', 'Fecha de Nacimiento':'Fecha de Nac.',
                 'Club Origen':'Club Origen', 'Registro':'Registro Asociación'});
             for(var i = 0; i < $scope.Teams.length; i++){
                 var tableRow = $scope.Teams[i];
@@ -736,7 +736,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             var today = new Date();
             var todayYear = today.getFullYear();
 
-            var doc = new jsPDF({},'pt','letter',true);
+            var doc = new jsPDF({},'pt','legal',true);
             doc.addImage(imgData, 'JPEG', 70, 10, 70, 70);
 
             doc.setFont("helvetica");
@@ -792,12 +792,12 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             $.each(table, function(i,row){
                 $.each(row,function(j,cell){
                     if(j=="Nombre Completo"){
-                        doc.cell(70,285,160,29,cell,i);
+                        doc.cell(70,285,190,29,cell,i);
                         doc.setFont("helvetica");
                         doc.setFillColor(250,0,0);
 
                     }else if(j=="Fecha de Nacimiento"){
-                        doc.cell(70,285,110,29,cell,i);
+                        doc.cell(70,285,90,29,cell,i);
                         doc.setFont("helvetica");
                         doc.setFillColor(250,0,0);
 
@@ -807,7 +807,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                         doc.setFillColor(250,0,0);
 
                     }else if(j=="Registro"){
-                        doc.cell(70,285,110,29,cell,i);
+                        doc.cell(70,285,105,29,cell,i);
                         doc.setFont("helvetica");
                         doc.setFillColor(250,0,0);
 
@@ -862,7 +862,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             var today = new Date();
             var todayYear = today.getFullYear();
 
-            var doc = new jsPDF({},'pt','letter',true);
+            var doc = new jsPDF({},'pt','legal',true);
             doc.addImage(imgData, 'JPEG', 35, 10, 70, 70);
 
             doc.setFont("helvetica");

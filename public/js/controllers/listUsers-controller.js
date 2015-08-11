@@ -271,7 +271,7 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
         $scope.generateReport = function(){
             var table = $scope.tableToJason();
             var imgData = imageConfig;
-            var doc = new jsPDF({},'pt','letter',true);
+            var doc = new jsPDF({},'pt','legal',true);
             doc.addImage(imgData, 'JPEG', 50, 10, 70, 70);
 
             doc.setFont("helvetica");
@@ -291,12 +291,12 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
                 $.each(table, function(i,row){
                     $.each(row,function(j,cell){
                         if(j=="Nombre de Usuario"){
-                            doc.cell(50,155,150,29,cell,i);
+                            doc.cell(50,155,140,29,cell,i);
                             doc.setFont("helvetica");
                             doc.setFillColor(250,0,0);
 
                         }else if(j=="Nombre Completo"){
-                            doc.cell(50,155,200,29,cell,i);
+                            doc.cell(50,155,210,29,cell,i);
                             doc.setFont("helvetica");
                             doc.setFillColor(250,0,0);
 

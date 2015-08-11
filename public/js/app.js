@@ -75,6 +75,11 @@ advcApp.config(["$routeProvider",
                 templateUrl: 'partials/clubInfo',
                 controller: 'clubInfoCtrl'
             }
+        ).when("/listClubs/:clubId/players/:playerId/kardex",
+            {
+                templateUrl: 'partials/kardexPlayer',
+                controller: 'kardexPlayerCtrl'
+            }
         ).otherwise(
             {
                 redirectTo: "/mainBoard"

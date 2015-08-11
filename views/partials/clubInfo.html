@@ -29,48 +29,59 @@
                             </div>
                         </div>
                     </div>
-                    <div>
-                </div>
-            </div>
-            <div ng-click="selectedTeam(team)"
-                 class="advc-rounded-card-w220-h80 highlight-parent float-left space-top-10px"
-                 ng-repeat="team in Teams">
-                <div ng-model="team.selected"
-                     class="advc-highlight-mouse-over-rounded-card-animated"  ng-class="{'selected-highlight': team.selected}"
-                     over-clearance = "{{team.isOver}}"></div>
-                    <div class="highlighted-rounded-container" ng-class="{'advc-bg-{{team.color.code}}': team.selected}">
-                        <div class="left-body advc-font-semibold custom-label"
-                             ng-class="{'advc-{{team.color.code}}': !team.selected}">
-                            <div class="advc-vertical-align-container" >
-                                <div class="advc-valign-middle ">
-                                    <div class="custom-texCvSchemat-overflow">
-                                        {{team.name}}
-                                    </div>
-                                    <br>
-                                    <div class="custom-text-overflow division">
-                                        {{team.division}}
-                                    </div>
-                                    <br>
-                                    <div class="custom-text-overflow branch" >
-                                        {{team.branch}}
+                    <div ng-click="selectedFirstTeam()"
+                         class="advc-rounded-card-w220-h80 highlight-parent float-left space-top-10px">
+                        <div class="advc-highlight-mouse-over-rounded-card-animated"  ng-class="{'selected-highlight': isFirstTeamSelected}"></div>
+                        <div class="highlighted-rounded-container" ng-class="{'advc-bg-color10': isFirstTeamSelected}">
+                            <div class="left-body advc-font-semibold custom-label"
+                                 ng-class="{'advc-color10': !isFirstTeamSelected}">
+                                <div class="advc-vertical-align-container" >
+                                    <div class="advc-valign-middle ">
+                                        <div class="custom-texCvSchemat-overflow">
+                                            Todos los jugadores
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="right-counter-circumference base-class-animation"
-                             ng-class="{'circunference':team.onProgress[team.type],
-                                  'low-opacity-black-bg':team.selected,
-                                  'advc-bg-{{team.color.code}}': !team.selected}">
-                            <div class="advc-horizontal-align-container">
-                                {{team.players.length}}
+                            <div class="right-counter-circumference base-class-animation"
+                                 ng-class="{'low-opacity-black-bg': isFirstTeamSelected,
+                                  'advc-bg-color10': !isFirstTeamSelected}">
+                                <div class="advc-horizontal-align-container">
+                                    {{players.length}}
+                                </div>
                             </div>
                         </div>
-                        <div class="spinner-progress base-class-animation">
-                            <div class="spinner-block advc-vertical-align-container ">
-                                <div class="advc-valign-middle" ng-class="advc-color-c">
-                                    <div class="icon-align-left" ng-class="{'spinner icon-spinner-32px':!clearance.hasError, 'icon-clear_field-25px':clearance.hasError}" ></div>
-                                    <div class="font-task" ng-show="!clearance.hasError" >{{clearance.progress[clearance.type].length}}</div>
-                                    <div class="font-task" ng-show="clearance.hasError">0</div>
+                    </div>
+                    <div ng-click="selectedTeam(team)"
+                         class="advc-rounded-card-w220-h80 highlight-parent float-left space-top-10px"
+                         ng-repeat="team in Teams">
+                        <div ng-model="team.selected"
+                             class="advc-highlight-mouse-over-rounded-card-animated"  ng-class="{'selected-highlight': team.selected}"
+                             over-clearance = "{{team.isOver}}"></div>
+                        <div class="highlighted-rounded-container" ng-class="{'advc-bg-{{team.color.code}}': team.selected}">
+                            <div class="left-body advc-font-semibold custom-label"
+                                 ng-class="{'advc-{{team.color.code}}': !team.selected}">
+                                <div class="advc-vertical-align-container" >
+                                    <div class="advc-valign-middle ">
+                                        <div class="custom-texCvSchemat-overflow">
+                                            {{team.name}}
+                                        </div>
+                                        <div class="custom-text-overflow division">
+                                            {{team.division}}
+                                        </div>
+                                        <br>
+                                        <div class="custom-text-overflow branch" >
+                                            {{team.branch}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="right-counter-circumference base-class-animation"
+                                 ng-class="{'circunference':team.onProgress[team.type],
+                                  'low-opacity-black-bg':team.selected,
+                                  'advc-bg-{{team.color.code}}': !team.selected}">
+                                <div class="advc-horizontal-align-container">
+                                    {{team.players.length}}
                                 </div>
                             </div>
                         </div>
@@ -88,10 +99,8 @@
                             .custom-label{ font-size: 14px; padding-left: 5px; padding-right: 5px; }
                             .custom-add-container{ text-align: center; }
                         </style>
-                        <div class="advc-card-w220-h80-layout">
-
-                            <div class="highligh-font-container-animated pointer" ng-click="open()">
-
+                        <div class="advc-card-w220-h80-layout" ng-if="isFirstTeamSelected">
+                            <div class="highligh-font-container-animated pointer" data-toggle="modal" data-target="#create-player">
                                 <div class="left-header">
 
                                     <div class="advc-vertical-align-container">
@@ -99,27 +108,22 @@
                                             <div class="icon-add-40px"></div>
                                         </div>
                                     </div>
-
                                 </div>
 
                                 <div class="right-body">
-
                                     <div class="advc-vertical-align-container">
                                         <div class="advc-valign-middle custom-label advc-font-semibold">
                                             Añadir jugador
                                         </div>
                                     </div>
-
                                 </div>
-
                             </div>
-
                         </div>
 
-                        <div ng-repeat="player in filteredPlayers">
+                        <div ng-repeat="player in filteredPlayers = (players | filter:currentSelectedTeam.id)">
                             <div class="advc-card-w220-h80-layout highlight-parent">
-                                <div class="advc-highlight-mouse-over-card-animated">
-                                    <div class="float-right icon-delete-30px animated-opacity pointer custom-margin-icon-close"></div>
+                                <div class="advc-highlight-mouse-over-card-animated" ng-dblclick="goToKardex(player)">
+                                    <div class="float-right icon-close-30px animated-opacity pointer custom-margin-icon-close"  ng-show="!isFirstTeamSelected" tooltip="Remover del equipo."></div>
                                 </div>
                                 <div class="highlighted-container">
                                     <div class="left-header">
@@ -147,8 +151,198 @@
                         </div>
                     </div>
                 </div>
+                <div class="modal fade" id="create-player" role="dialog" data-backdrop="static" data-keyboard="false">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" ng-click="handleCancel()">&times;</button>
+                                <h4 class="modal-title">{{formPlayerName}}</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form role="form">
+                                    <div class="btn-group">
+                                        <button class="btn" ng-class="{'btn-primary':isCurrentStep($index)}" ng-click="setCurrentStep($index)" ng-repeat="step in steps">{{step.name}}</button>
+                                    </div>
+                                    <div ng-show="getCurrentStep() == 'one'" class="wave">
+                                        <div class="row">
+                                            <div class="col-xs-4">
+                                                <input type="file"
+                                                       id="fileElement"
+                                                       name="fileElement"
+                                                       style="display:none"
+                                                       accept="image/jpeg, image/png"
+                                                       upload-file>
+
+                                                <div id="div-photo-new-employee"
+                                                     class="add-photo-circle"
+                                                     ng-click = "doClick()" >
+
+                                                    <div ng-show="hasTmpImage()"  >
+                                                        <img style="margin: -2px 0 0 -2px" class="add-photo-circle" ng-show="!tmpImage"
+                                                             id = "newFile" ng-src="{{defaultImage}}" width="140" height="140" />
+                                                        <img style="margin: -2px 0 0 -2px" class="add-photo-circle" ng-show="tmpImage"
+                                                             ng-src="{{tmpImage}}" width="140" height="140" />
+
+                                                    </div>
+                                                    <div>
+                                                        <label ng-show="!hasTmpImage()" id="add-photo-label"
+                                                               ng-cloak >Añadir Foto</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="firstName" >Nombres</label>
+                                                    <div>
+                                                        <input class="form-control" type="text" class="input-xlarge" id="firstName" ng-model="wizard.name">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label" for="lastName">Apellidos Paterno</label>
+                                                    <div>
+                                                        <input class="form-control" type="text" class="input-xlarge" id="lastName" ng-model="wizard.lastname">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label" for="secondLastName">Apellidos Materno</label>
+                                                    <div>
+                                                        <input class="form-control" type="text" class="input-xlarge" id="secondLastName" ng-model="wizard.secondlastname">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div ng-show="getCurrentStep() == 'two'" class="wave">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="form-group" id='datetimepicker'>
+                                                    <label>Fecha de nacimiento(*)</label>
+                                                    <p class="input-group">
+                                                        <input type="text" placeholder="dd/mm/yyyy" id="inputDate" class="form-control" datepicker-popup="{{format}}" is-open="opened" mindate="minDate" max-date="{{today}}"
+                                                               datepicker-options="dateOptions" ng-required="true"
+                                                               close-text="Close" ng-model="wizard.dateOfBirth" ng-change="dateOfBirthChange()" ng-click="open($event)" disabled>
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label" for="ci">Documento de identidad (**)</label>
+                                                    <div>
+                                                        <p class="input-group">
+                                                            <input type="number" tabindex="1" class="form-control" id="ci" ng-model="wizard.ci">
+                                                            <span class="input-group-addon">
+                                                                <select ng-options="extension for extension in extensions"  ng-model="wizard.ext"></select>
+                                                            </span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Lugar de nacimiento(*)</label>
+                                                    <input class="form-control" tabindex="4" type="text" ng-model="wizard.cityOfBirth">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label class="control-label" for="age">Edad</label>
+                                                    <div>
+                                                        <input type="number" class="form-control" id="age" ng-model="wizard.age" disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Nacionalidad(*)</label>
+                                                    <input class="form-control" tabindex="3" type="text" ng-model="wizard.nationality">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <label>Certificado de Nacimiento</label>
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label>Oficialía</label>
+                                                    <input class="form-control" type="text" tabindex="4"  ng-model="wizard.office">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Libro</label>
+                                                    <input class="form-control" type="number" tabindex="6" ng-model="wizard.book">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label>Lugar</label>
+                                                    <input class="form-control" type="number" tabindex="5" ng-model="wizard.place">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Partida</label>
+                                                    <input class="form-control" type="number" tabindex="7" ng-model="wizard.part">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p>(*) Campos Requeridos</p>
+                                        <p>(**) Requerido para jugadores mayores de 10 años</p>
+                                    </div>
+                                    <div ng-show="getCurrentStep() == 'three'" class="wave">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label>Dirección(*)</label>
+                                                    <input class="form-control" type="text" tabindex="1" ng-model="wizard.address">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Código Postal</label>
+                                                    <input class="form-control" type="number" tabindex="3" ng-model="wizard.postCode">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label>Zona(*)</label>
+                                                    <input class="form-control" type="text" tabindex="2" ng-model="wizard.zone">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Número de teléfono(*)</label>
+                                                    <input class="form-control" type="number" tabindex="4" ng-model="wizard.phone">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p>(*) Campos Requeridos</p>
+                                    </div>
+                                    <div ng-show="getCurrentStep() == 'four'" class="wave">
+                                        <div class="row">
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label>Asociación de origen(*)</label>
+                                                    <input class="form-control" type="text" ng-model="wizard.asoOrigin">
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label" for="branch">Rama(*)</label>
+                                                    <div>
+                                                        <select ng-options="branch for branch in branches" id="branch" ng-model="wizard.branch"></select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-6">
+                                                <div class="form-group">
+                                                    <label>Club al que pertenece el jugador(a)</label>
+                                                    <input class="form-control" type="text" ng-model="currentClubName" disabled>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <a class="btn btn-default" ng-click="handlePrevious()" ng-show="!isFirstStep()">Atras</a>
+                                <a class="btn btn-info" class="close" data-dismiss="modal" ng-click="handleCancel()">Cancelar</a>
+                                <a class="btn btn-primary" ng-click="handleNext()">{{getNextLabel()}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+
         <div class="modal fade" id="create-team" role="dialog" data-backdrop="static" data-keyboard="false">
             <div class="modal-dialog">
 
@@ -185,42 +379,6 @@
                             <div class="form-group">
                                 <label>Campeonato(*)</label>
                                 <select ng-model="newTeam.championship" ng-options="championship._id as championship.name for championship in Championships"/>
-                            </div>
-                            <div>
-                                <label>Color(*)</label>
-                                <div class="dropdown" ng-model="query" >
-                                    <div data-toggle="dropdown">
-                                        <div class="combobox-colors-button-left">
-                                            <span class="dot-color"  ng-style = "{ 'background-color' :newTeam.color.rgbHex}"></span>
-                                        </div>
-                                        <input id = "new-group-visitor-color"
-                                               name = "newClearanceColor"
-                                               class="form-control font-customize combobox-colors-input"
-                                               type="text"
-                                               autocomplete="off"
-                                               placeholder="{{'CLEARANCE.CREATE.COLOR_PLACEHOLDER'}}"
-                                               validators="isNotEmpty"
-                                               ng-readonly="true"
-                                               ng-style = "{color:newClearanceData.color.rgbHex} "
-                                               value = "{{newTeam.color.name}}"/>
-                                        <a id = "data-toggle-dropdown"  >
-                                            <div class="combobox-colors-button" >
-                                                <span class="caret"></span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <ul id="list-colors" class="dropdown-menu dropdown-groups-visitors" role="menu" aria-labelledby="dLabel">
-                                        <li ng-repeat="color in colors">
-                                            <div id="div-decorator-color-{{$index}}" class="decorator-color"
-                                                 ng-style = "{ 'background-color' :color.rgbHex}">
-                                            </div>
-                                            <a id="a-option-color-{{$index}}" class="option-color" href="javascript:void(0);" ng-click="selectColor(color)"
-                                               ng-style = "{color:color.rgbHex} " change-text-ident color = {{color.rgbHex}}>
-                                                {{color.code.toUpperCase()}}
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
                             </div>
                         </form>
                     </div>

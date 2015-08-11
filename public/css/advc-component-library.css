@@ -529,3 +529,6 @@
     background-color: #7fffd4;
     display: inline-block;
 }
+.advc-row {
+    margin: 0 15px !important;
+}

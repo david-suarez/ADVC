@@ -21,44 +21,42 @@
 							 class="add-photo-circle"
 							 ng-click = "doClick()" >
 
-							<div ng-show="isTmpImage"  >
-								<img style="margin: -2px 0 0 -2px" class = "add-photo-circle"
-									 id = "newFile" ng-src="{{defaulImage}}" width="140" height="140" />
+							<div ng-show="hasTmpImage()"  >
+								<img style="margin: -2px 0 0 -2px" class="add-photo-circle" ng-show="!tmpImage"
+									 id = "newFile" ng-src="{{defaultImage}}" width="140" height="140" />
+								<img style="margin: -2px 0 0 -2px" class="add-photo-circle" ng-show="tmpImage"
+									 ng-src="{{tmpImage}}" width="140" height="140" />
 
 							</div>
 							<div>
-								<label ng-show="!isTmpImage" id="add-photo-label"
+								<label ng-show="!hasTmpImage()" id="add-photo-label"
 									   ng-cloak >Añadir Foto</label>
 							</div>
 						</div>
 					</div>
 					<div class="col-xs-6">
 						<div class="form-group">
-							<label class="control-label" for="firstName" >Nombres(*)</label>
+							<label class="control-label" for="firstName" >Nombres</label>
 							<div>
 								<input class="form-control" type="text" class="input-xlarge" id="firstName" ng-model="wizard.name">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label" for="lastName">Apellidos(*)</label>
+							<label class="control-label" for="lastName">Apellidos Paterno</label>
 							<div>
 								<input class="form-control" type="text" class="input-xlarge" id="lastName" ng-model="wizard.lastname">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label" for="sex">Sexo(*)</label>
+							<label class="control-label" for="secondLastName">Apellidos Materno</label>
+							<div>
+								<input class="form-control" type="text" class="input-xlarge" id="secondLastName" ng-model="wizard.secondlastname">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label" for="sex">Sexo</label>
 							<div>
 								<select ng-options="branch for branch in branches" id="sex" ng-model="wizard.sex"></select>
-							</div>
-						</div><div class="form-group">
-							<label class="control-label" for="ci">Documento de identidad(*)</label>
-							<div>
-								<p class="input-group">
-									<input type="number" class="form-control" id="ci" ng-model="wizard.ci">
-                                <span class="input-group-addon">
-                                    <select ng-options="extension for extension in extensions"  ng-model="wizard.ext"></select>
-                                </span>
-								</p>
 							</div>
 						</div>
 					</div>
@@ -72,42 +70,105 @@
 							<p class="input-group">
 								<input type="text" placeholder="dd/mm/yyyy" id="inputDate" class="form-control" datepicker-popup="{{format}}" is-open="opened" mindate="minDate" max-date="{{today}}"
 									   datepicker-options="dateOptions" ng-required="true"
-									   close-text="Close" ng-model="wizard.dateOfBirth">
+									   close-text="Close" ng-model="wizard.dateOfBirth" ng-change="dateOfBirthChange()" disabled>
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default" ng-click="openDate($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                                 </span>
 							</p>
 						</div>
 						<div class="form-group">
-							<label>Oficina de registro de nacimiento</label>
-							<input class="form-control" type="number" ng-model="wizard.office">
+							<label>Ciudad de nacimiento(*)</label>
+							<input class="form-control" type="text" ng-model="wizard.cityOfBirth">
 						</div>
 						<div class="form-group">
-							<label>Libro de registro de nacimiento</label>
+							<label>Cert. de nacimiento Oficialia</label>
+							<input class="form-control" type="text" ng-model="wizard.office">
+						</div>
+						<div class="form-group">
+							<label>Libro</label>
 							<input class="form-control" type="number" ng-model="wizard.book">
 						</div>
-						<div class="form-group">
-							<label>Partida de nacimiento</label>
-							<input class="form-control" type="number" ng-model="wizard.part">
-						</div>
-						<br>
-						<br>
-						<br>
 					</div>
 					<div class="col-xs-6">
+						<div class="form-group">
+							<label class="control-label" for="ci">Documento de identidad</label>
+							<div>
+								<p class="input-group">
+									<input type="number" class="form-control" id="ci" ng-model="wizard.ci">
+                                <span class="input-group-addon">
+                                    <select ng-options="extension for extension in extensions"  ng-model="wizard.ext"></select>
+                                </span>
+								</p>
+							</div>
+						</div>
 						<div class="form-group">
 							<label>Nacionalidad(*)</label>
 							<input class="form-control" type="text" ng-model="wizard.nationality">
 						</div>
 						<div class="form-group">
-							<label>Ciudad de nacimiento(*)</label>
-							<input class="form-control" type="text" ng-model="wizard.cityOfBirth">
+							<label>Lugar</label>
+							<input class="form-control" type="text" ng-model="wizard.place">
+						</div>
+
+						<div class="form-group">
+							<label>Partida</label>
+							<input class="form-control" type="number" ng-model="wizard.part">
 						</div>
 					</div>
 				</div>
-
+				<br>
+				<br>
+				<br>
 			</div>
 			<div ng-switch-when="three" class="wave">
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label>Direccion</label>
+							<input class="form-control" type="text" ng-model="wizard.address">
+						</div>
+						<div class="form-group">
+							<label>Código Postal</label>
+							<input class="form-control" type="number" ng-model="wizard.postCode">
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label>Zona</label>
+							<input class="form-control" type="text" ng-model="wizard.zone">
+						</div>
+						<div class="form-group">
+							<label>Número de teléfono</label>
+							<input class="form-control" type="number" ng-model="wizard.phone">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ng-switch-when="four" class="wave">
+				<div class="row">
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label>Direccion</label>
+							<input class="form-control" type="text" ng-model="wizard.address">
+						</div>
+						<div class="form-group">
+							<label>Código Postal</label>
+							<input class="form-control" type="number" ng-model="wizard.postCode">
+						</div>
+					</div>
+					<div class="col-xs-6">
+						<div class="form-group">
+							<label>Zona</label>
+							<input class="form-control" type="text" ng-model="wizard.zone">
+						</div>
+						<div class="form-group">
+							<label>Número de teléfono</label>
+							<input class="form-control" type="number" ng-model="wizard.phone">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div ng-switch-when="five" class="wave">
 				<div class="row">
 					<div class="col-xs-6">
 						<div class="form-group">

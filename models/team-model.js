@@ -61,18 +61,6 @@ var TeamSchema = new Schema({
     sequence: {
         type: Number,
         default: 0
-    },
-    color: {
-        type: {
-            code: {
-                type: String,
-                required: true
-            },
-            rgbHex: {
-                type: String,
-                required: true
-            }
-        }
     }
 });
 

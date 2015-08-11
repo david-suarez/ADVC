@@ -1,15 +1,25 @@
-advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
-    '$location', 'listTeamSrv', 'listChampionshipSrv',
-    function($scope, $routeParams, $location, listTeamSrv,
-             listChampionshipSrv) {
+advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
+    '$location', 'listTeamSrv', 'listChampionshipSrv', 'listPlayersSrv',
+    function($scope, $rootScope, $routeParams, $location, listTeamSrv,
+             listChampionshipSrv, listPlayersSrv) {
         var currentClubId = $routeParams.clubId;
         $scope.currentClubName = $routeParams.clubName;
 
         $scope.Teams = [];
         $scope.newTeam = {};
+        $scope.isFirstTeamSelected = true;
         $scope.Championships = [];
         $scope.createMode = false;
         $scope.editMode = false;
+
+        listPlayersSrv.get({ club: currentClubId },
+            function(players){
+                $scope.players = players.data;
+            },
+            function(error){
+                console.log(error);
+            }
+        );
 
         $scope.colors = [
             {
@@ -108,13 +118,8 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
                     $scope.newTeam.major : $scope.newTeam.minor,
                 branch: $scope.newTeam.branch,
                 category: $scope.newTeam.category,
-                club: currentClubId,
-                color: {
-                    code: $scope.newTeam.color.code,
-                    rgbHex: $scope.newTeam.color.rgbHex
-                }
+                club: currentClubId
             };
-            console.log(newTeam);
             if($scope.validateFields(newTeam)){
                 listTeamSrv.save({team: newTeam},
                     function (teams) {
@@ -130,7 +135,8 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
                                 break;
                             }
                         }
-                        $scope.Teams.push(team);
+                        $scope.setLocalAttributesClearance(team);
+                        $scope.Teams.unshift(team);
                         $('#create-team').modal('hide'); //hide modal
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
@@ -313,5 +319,44 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$routeParams',
                 team.color = {code: 'color1'}
             }
         };
+
+        $scope.currentSelectedTeam = null;
+        $scope.selectedTeam = function(team) {
+            if(!$scope.currentSelectedTeam){
+                $scope.currentSelectedTeam = team;
+                $scope.$broadcast('cleanSelectedPlayers',
+                    $scope.currentSelectedTeam);
+                team.selected = true;
+                $scope.isFirstTeamSelected = false;
+                console.log($scope.currentSelectedTeam);
+                $scope.$broadcast('updateTeam', $scope.currentSelectedTeam);
+            } else {
+                $scope.currentSelectedTeam.selected = false;
+                $scope.$broadcast('cleanSelectedPlayers',
+                    $scope.currentSelectedTeam);
+                $scope.currentSelectedTeam = team;
+                console.log($scope.currentSelectedTeam);
+                team.selected = true;
+                $scope.isFirstTeamSelected = false;
+                $scope.$broadcast('updateTeam', $scope.currentSelectedTeam);
+            }
+
+        };
+
+        $scope.selectedFirstTeam = function(){
+            if(!$scope.currentSelectedTeam){
+                $scope.currentSelectedTeam = null;
+                $scope.isFirstTeamSelected = true;
+                $scope.$broadcast('updateTeam', $scope.currentSelectedTeam);
+            } else{
+                $scope.currentSelectedTeam.selected = false;
+                $scope.$broadcast('cleanSelectedPlayers',
+                    $scope.currentSelectedTeam);
+                $scope.currentSelectedTeam = null;
+                $scope.isFirstTeamSelected = true;
+                $scope.$broadcast('updateTeam', $scope.currentSelectedTeam);
+            }
+
+        }
     }
 ]);

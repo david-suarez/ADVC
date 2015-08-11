@@ -48,8 +48,6 @@ var PlayerRoute = (function() {
     PlayerRoute.prototype.savePlayer = function(request, response){
         var newPlayer;
         newPlayer = request.body.player;
-
-        console.log(newPlayer);
         if(newPlayer !== undefined) {
 
             PlayerModel.create(newPlayer, function (error, data) {

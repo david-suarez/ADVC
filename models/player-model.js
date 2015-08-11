@@ -124,16 +124,20 @@ var PlayerSchema = new Schema({
     'status': {
         'type': String,
         'index': true,
-        'default': "No Habilitado",
+        'default': "No habilitado",
         'enum': [
-            "No habilidato",
-            "Habilidato",
+            "No habilitado",
+            "Habilitado",
             "Libre"
         ]
     },
     'majorCategory': {
         'type': mongoose.Schema.Types.ObjectId,
         'ref': 'Team'
+    },
+    'asoOrigin': {
+        'type': String,
+        'required': true
     }
 });
 

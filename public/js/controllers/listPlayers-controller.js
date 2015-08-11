@@ -2,12 +2,11 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
     '$location', 'listPlayersSrv', '$modal', 'fileUploadSrv',
     function($scope, $routeParams, $location, listPlayersSrv, $modal,
              fileUploadSrv) {
+        $scope.currentClubId = $routeParams.clubId;
         $scope.filteredPlayers = {};
-        $scope.defaulImage = 'img/default-avatar.png';
+        $scope.defaultImage = 'img/default-avatar.png';
+        $scope.ciRequired = false;
 
-        $scope.closeAlert = function () {
-            $scope.reason = null;
-        };
         /*
          Refreshes the local variables in angular.
          */
@@ -18,22 +17,7 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
             }
         };
 
-        $scope.open = function () {
-            this.modalInstance = $modal.open({
-                templateUrl: 'partials/wizard.html',
-                controller: 'listPlayersCtrl'
-            });
-
-            this.modalInstance.result
-                .then(function (data) {
-                    $scope.closeAlert();
-                    $scope.summary = data;
-                }, function (reason) {
-                    $scope.reason = reason;
-                });
-        };
-
-        listPlayersSrv.get({},
+        listPlayersSrv.get({ club: $scope.currentClubId },
             function(result){
                 $scope.filteredPlayers = result.data;
             },
@@ -53,6 +37,7 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
             'Masculino'
         ];
         $scope.extensions = [
+            'EXT',
             'BN',
             'CB',
             'CH',
@@ -65,16 +50,20 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
         ];
         $scope.steps = [
             {
-                name: 'Información personal',
+                name: 'Inf. personal',
                 indicator: 'one'
             },
             {
-                name: 'Lugar y partida de nacimiento',
+                name: 'Nacimiento e Identificación',
                 indicator: 'two'
             },
             {
                 name: 'Dirección',
                 indicator: 'three'
+            },
+            {
+                name: 'Ord. técnico',
+                indicator: 'four'
             }
         ];
         $scope.step = 0;
@@ -99,6 +88,9 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
             }else if($scope.step === 2 && addressIsValid()) {
                 $scope.step = step;
             }
+            else if($scope.step === 3 && orderIsValid()) {
+                $scope.step = step;
+            }
         };
 
         $scope.getCurrentStep = function () {
@@ -114,6 +106,18 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
         };
 
         var addressIsValid = function(){
+            var address = $scope.wizard.address;
+            var phone = $scope.wizard.phone;
+            var zone = $scope.wizard.zone;
+            if(!address || !address.trim() || !phone
+                || !zone || !zone.trim()) {
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:2000 });
+                alert('Por favor llene todos los campos requeridos.');
+                $.noty.stopConsumeAlert();
+                return false;
+            }
             return true;
         };
 
@@ -135,7 +139,13 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
             startingDay: 1
         };
 
-        $scope.openDate = function($event) {
+        // Disable weekend selection
+        $scope.disabled = function(date, mode) {
+            return ( mode === 'day' &&
+            ( date.getDay() === 0 || date.getDay() === 6 ) );
+        };
+
+        $scope.open = function($event) {
             $event.preventDefault();
             $event.stopPropagation();
             $scope.opened = true;
@@ -144,38 +154,48 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
         var personalInfoIsValid = function(){
             var name = $scope.wizard.name;
             var lastName = $scope.wizard.lastname;
-            var sex = $scope.wizard.sex;
-            var ci = $scope.wizard.ci;
-            var ext = $scope.wizard.ext;
+            var secondLastName = $scope.wizard.secondlastname;
             var nameRegEx = /^([a-z ñáéíóú]{2,60})$/i;
-            if (!name || !name.trim() || !lastName || !lastName.trim()
-                || !sex || !ci) {
+            if (!name || !name.trim() || ((!lastName || !lastName.trim())
+                && (!secondLastName || !secondLastName.trim()))) {
                 $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
                     timeout:2000 });
-                alert('No se permiten campos vacíos!!!');
+                alert('Por favor llene todos los campos.');
                 $.noty.stopConsumeAlert();
                 return false;
-            }else if (!ext) {
-                $.noty.consumeAlert({layout: 'topCenter',
-                    type: 'warning', dismissQueue: true ,
-                    timeout:2000 });
-                alert('Tiene que seleccionar una extencion para el documento' +
-                    ' de identidad');
-                $.noty.stopConsumeAlert();
-                return false;
-            }else if (!nameRegEx.test(name)) {
+            }else if(!nameRegEx.test(name)) {
                 $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
                     timeout:2000 });
                 alert('El nombre tiene caracteres inválidos.');
                 $.noty.stopConsumeAlert();
                 return false;
-            }else if (!nameRegEx.test(lastName)) {
+            }
+            if(lastName) {
+                if(!nameRegEx.test(lastName)){
+                    $.noty.consumeAlert({layout: 'topCenter',
+                        type: 'warning', dismissQueue: true ,
+                        timeout:2000 });
+                    alert('El nombre tiene caracteres inválidos.');
+                    $.noty.stopConsumeAlert();
+                    return false;
+                }
+            }else if(secondLastName) {
+                if(!nameRegEx.test(secondLastName)){
+                    $.noty.consumeAlert({layout: 'topCenter',
+                        type: 'warning', dismissQueue: true ,
+                        timeout:2000 });
+                    alert('El nombre tiene caracteres inválidos.');
+                    $.noty.stopConsumeAlert();
+                    return false;
+                }
+            }
+            if(!$scope.file){
                 $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
                     timeout:2000 });
-                alert('El nombre tiene caracteres inválidos.');
+                alert('Tiene que agregar una foto para el jugador.');
                 $.noty.stopConsumeAlert();
                 return false;
             }
@@ -184,12 +204,46 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
 
         var placeBirthIsValid = function(){
             var regEx = /^([a-z ñáéíóú]{2,60})$/i;
+            var ci = $scope.wizard.ci;
+            var ext = $scope.wizard.ext;
             if(!$scope.wizard.dateOfBirth) {
                 $.noty.consumeAlert({
                     layout: 'topCenter',
                     type: 'warning', dismissQueue: true,
                     timeout: 2000
                 });
+                alert('La fecha de nacimiento es inválida.');
+                $.noty.stopConsumeAlert();
+                return false;
+            }else if ($scope.calculateAge($scope.wizard.dateOfBirth) > 10){
+                if (!ci){
+                    $.noty.consumeAlert({layout: 'topCenter',
+                        type: 'warning', dismissQueue: true ,
+                        timeout:2000 });
+                    alert('Tiene que ingresar un número de documento de ' +
+                        'identidad');
+                    $.noty.stopConsumeAlert();
+                    return false;
+                }else  if (ci < 10000){
+                    $.noty.consumeAlert({layout: 'topCenter',
+                        type: 'warning', dismissQueue: true ,
+                        timeout:2000 });
+                    alert('El número de documento de identidad es inválido');
+                    $.noty.stopConsumeAlert();
+                    return false;
+                }else if (!ext){
+                    $.noty.consumeAlert({layout: 'topCenter',
+                        type: 'warning', dismissQueue: true ,
+                        timeout:2000 });
+                    alert('Tiene que seleccionar una extencion para el documento' +
+                        ' de identidad');
+                    $.noty.stopConsumeAlert();
+                    return false;
+                }
+            }else if ($scope.calculateAge($scope.wizard.dateOfBirth) < 4){
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:2000 });
                 alert('La fecha de nacimiento es inválida.');
                 $.noty.stopConsumeAlert();
                 return false;
@@ -233,9 +287,34 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
             return true;
         };
 
+        var orderIsValid = function(){
+            var asoOrigin = $scope.wizard.asoOrigin;
+            var branch = $scope.wizard.branch;
+            if(!asoOrigin || !asoOrigin.trim()){
+                $.noty.consumeAlert({
+                    layout: 'topCenter',
+                    type: 'warning', dismissQueue: true,
+                    timeout: 2000
+                });
+                alert('La ciudad de nacimiento tiene caracteres invalidos.');
+                $.noty.stopConsumeAlert();
+                return false;
+            } else if(!branch){
+                $.noty.consumeAlert({
+                    layout: 'topCenter',
+                    type: 'warning', dismissQueue: true,
+                    timeout: 2000
+                });
+                alert('Por favor llene todos los campos requeridos.');
+                $.noty.stopConsumeAlert();
+                return false;
+            }
+            return true;
+        };
+
         $scope.handleNext = function () {
             if ($scope.isLastStep()) {
-                if(addressIsValid()){
+                if(orderIsValid()){
                     $scope.savePlayer();
                 }
             } else {
@@ -243,13 +322,10 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
                     $scope.step += 1;
                 }else if($scope.step === 1 && placeBirthIsValid()) {
                     $scope.step += 1;
+                }else if($scope.step === 2 && addressIsValid()) {
+                    $scope.step += 1;
                 }
-
             }
-        };
-
-        $scope.dismiss = function(reason) {
-            $scope.$close(reason);
         };
 
         /*
@@ -268,8 +344,7 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
                 alert('El formato de archivo que escogio es erroneo');
                 $.noty.stopConsumeAlert();
                 return false;
-            }
-            if (file && file.type !== "image/jpeg"
+            } else if (file && file.type !== "image/jpeg"
                 && file.type !== "image/png") {
                 $.noty.consumeAlert({layout: 'topCenter', type: 'warning',
                     dismissQueue: true , timeout:2000 });
@@ -277,9 +352,10 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
                 $.noty.stopConsumeAlert();
                 $("#fileElement").val('');
                 return false;
+            } else {
+                $scope.tmpImage = window.URL.createObjectURL(file);
+                return true;
             }
-            $scope.file = file;
-            return true;
         };
 
         $scope.getImage = function(image) {
@@ -296,7 +372,8 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
 
         $scope.savePlayer = function(){
             if($scope.file) {
-                return $scope.uploadFile($scope.file, $scope.saveCallback);
+                var file = $scope.file[0];
+                return $scope.uploadFile(file, $scope.saveCallback);
             } else {
                 return $scope.saveCallback();
             }
@@ -328,7 +405,7 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
 
         $scope.fieldsAreValid = function(){
             return personalInfoIsValid() && placeBirthIsValid()
-                && addressIsValid()
+                && addressIsValid() && orderIsValid()
         };
 
         $scope.saveCallback = function(idFile, fileName) {
@@ -338,7 +415,7 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
                 lastname: $scope.wizard.lastname,
                 dateOfBirth: $scope.wizard.dateOfBirth,
                 ci: $scope.wizard.ci + '' + $scope.wizard.ext,
-                branch: $scope.wizard.sex,
+                branch: $scope.wizard.branch,
                 nationality: $scope.wizard.nationality,
                 cityOfBirth: $scope.wizard.cityOfBirth,
                 bookBirthCert: $scope.wizard.book,
@@ -348,13 +425,19 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
                 address: $scope.wizard.address,
                 zone: $scope.wizard.zone,
                 postcode: $scope.wizard.postCode,
-                officeBirthCert: $scope.wizard.office
+                officeBirthCert: $scope.wizard.office,
+                // By the moment until create a view for players only
+                club: $scope.currentClubId ? $scope.currentClubId : null,
+                asoOrigin: $scope.wizard.asoOrigin
             };
             if ($scope.fieldsAreValid()) {
-                $scope.$close($scope.wizard);
                 listPlayersSrv.save({player: data},
                     function(data){
                         $scope.filteredPlayers.unshift(data);
+                        $('#create-player').modal('hide'); //hide modal
+                        $("#fileElement").val('');
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
                         $scope.refresh();
                     },
                     function(error){
@@ -367,6 +450,66 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
                         $.noty.stopConsumeAlert();
                     });
             }
+        };
+
+        $scope.calculateAge = function(dateOfBirth){
+            var today = new Date();
+            var todayYear = today.getYear();
+            var todayMonth = today.getMonth();
+            var todayDate = today.getDate();
+
+
+            var birthDate = new Date(dateOfBirth);
+
+            var date = birthDate.getDate();
+            var month = birthDate.getMonth();
+            var year = birthDate.getYear();
+            var age = (todayYear + 1900) - year;
+
+            if ( todayMonth < (month - 1)){
+                age--;
+            }
+            if (((month - 1) == todayMonth) && (todayDate < date)){
+                age--;
+            }
+            if (age >= 1900){
+                age -= 1900;
+            }
+            return age;
+        };
+
+        $scope.dateOfBirthChange = function(){
+            var age = $scope.calculateAge($scope.wizard.dateOfBirth);
+            if(age > 11){
+                $scope.ciRequired = true;
+            }else if(age < 4){
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:2000 });
+                alert('La fecha de nacimiento es inválida.');
+                $.noty.stopConsumeAlert();
+            }
+            $scope.wizard.age = age;
+        };
+
+        $scope.handleCancel = function(){
+            $scope.wizard = {};
+            $scope.file = null;
+            $scope.tmpImage = null;
+            $scope.step = 0;
+        };
+
+        /*
+         Redirects to people board. when press double click in a
+         person
+         @param person [Object] person selected
+         */
+
+        $scope.goToKardex = function(player) {
+            var url;
+            url = '/listClubs/'+ player.club._id +'/players/' + player._id +
+                '/kardex';
+            return $location.path(url);
         };
     }
 ]);

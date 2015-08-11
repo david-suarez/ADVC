@@ -296,7 +296,7 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
                     type: 'warning', dismissQueue: true,
                     timeout: 2000
                 });
-                alert('La ciudad de nacimiento tiene caracteres invalidos.');
+                alert('Por favor llene todos los campos requeridos.');
                 $.noty.stopConsumeAlert();
                 return false;
             } else if(!branch){

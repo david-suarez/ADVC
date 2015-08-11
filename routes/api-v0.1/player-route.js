@@ -31,7 +31,7 @@ var PlayerRoute = (function() {
 
     PlayerRoute.prototype.getPlayers = function(request, response){
         var self = this;
-        var filter = request.body;
+        var filter = request.query;
         var query = PlayerModel.find(filter);
         query.exec(function(error, data) {
             if (error) {

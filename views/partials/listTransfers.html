@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<div ng-controller="transfersCtrl">
+<div ng-controller="listTransfersCtrl">
     <div class="modal fade" id="create-transfer" role="dialog" data-backdrop="static"
          data-keyboard="false">
         <div class="modal-dialog">
@@ -11,37 +10,28 @@
                 <div class="modal-body">
                     <form role="form">
                         <div class="form-group">
-                            <label>Nombre</label>
-                            <label for="inputName" class="sr-only">Nombre</label>
-                            <input type="text" id="inputName" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Nombre"
-                                   required="True" autofocus="1" ng-model="newClub.name">
-                            <span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span>
-                        </div>
-                        <div class="form-group" id='datetimepicker1'>
-                            <label>Fundación</label>
-                            <p class="input-group">
-                                <input type="text" placeholder="dd/mm/yyyy" id="inputDate" class="form-control" datepicker-popup="{{format}}" is-open="opened" min-date="minDate" max-date="{{today}}"
-                                       datepicker-options="dateOptions" ng-required="true"
-                                       close-text="Close" ng-model="newClub.foundation" disabled>
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                            </p>
-                            <input type="hidden" id="inputId"  ng-model="newClub._id">
+                            <thead>
+                            <tr>
+                                <th><b>Club Origen &nbsp;
+                                    <label  for="inputOriginClub" class="sr-only">Club Origen</label>
+                                    <select id="inputOriginClub" ng-model="newTransfer.originClub" ng-options="clubOrigin.name for clubOrigin in Clubs | filter:newTransfer.clubOrigin._id"></select>
+                                </b></th>
+                                <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
+                                <th><b>Jugador &nbsp;</label>
+                                    <label for="inputName" class="sr-only">Jugador</label>
+                                    <select id="inputName" ng-model="newTransfer.player"  ng-disabled="!newTransfer.originClub" ng-options="player.fullName for player in Players | filter:newTransfer.originClub._id"></select>
+                                </b></th>
                         </div>
                         <div class="form-group">
-                            <label>Delegado</label>
-                            <label  for="inputDelegate" class="sr-only">Delegado</label>
-                            <select id="inputDelegate" ng-model="newClub.delegate" ng-options="user.fullName for user in Users"></select>
-
+                            <label>Club Destino</label>
+                            <label  for="inputNewClub" class="sr-only">Club Destino</label>
+                            <input type="text" class="form-control" id="inputNewClub" ng-model="newClub.name" disabled>
                         </div>
-                        <br>
-
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="createClub()" ng-if="createMode">Crear club</button>
-                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="editClub()" ng-if="editMode">Actualizar club</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="createTransfer()" ng-if="createMode">Crear transferencia</button>
+                    <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="editTransfer()" ng-if="editMode">Actualizar transferencia</button>
                     <button class="btn btn-lg btn-info btn-block" type="submit" data-dismiss="modal" ng-click="closeModal()">Cancelar</button>
                 </div>
             </div>
@@ -49,9 +39,14 @@
     </div>
 
     <br>
-    <div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" type="submit" data-toggle="modal"
-          ng-click="formCreateTransfer()">Crear Transferecia</button></div>
-    <div class="col-md-10">
+    <div class="col-md-3">
+        <div allow="Transfers.CUD">
+            <button class="btn btn-lg btn-primary btn-block" data-target="#create-transfer" type="submit" data-toggle="modal"
+            ng-click="formCreateTransfer()">Registro Transferencia</button>
+        </div>
+    </div>
+
+    <div class="col-md-12">
         <h2 class="form-signin-heading">Transferencias</h2>
         <label>Buscar  <input id="inputSearch" ng-model="searchText" placeholder="buscar"></label>
         <div class="row">
@@ -60,18 +55,25 @@
                 <tr>
                     <th>Jugador</th>
                     <th>Club Origen</th>
+                    <th>Club Destino</th>
                     <th>Fecha</th>
                     <th>Estado</th>
                     <th>Editar</th>
-                    <th>Eliminar</th>
+                    <th allow="AcceptTransfers">Transferir</th>
                 </tr>
                 </thead>
                 <tbody ng-repeat="transfer in Transfers | filter:searchText">
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><button type="button" class="btn btn-warning" ng-click="formEditClub(club)" data-toggle="modal">Editar</button></td>
+                    <td>{{transfer.player.name}} {{transfer.player.lastname}}</td>
+                    <td>{{transfer.originClub.name}}</td>
+                    <td>{{transfer.newClub.name}}</td>
+                    <td>{{obtainFormatDate(transfer.requestDate)}}</td>
+                    <td>{{transfer.status}}</td>
+                    <td><button type="button" class="btn btn-warning" ng-click="formEditTransfer(transfer, $index)" data-toggle="modal"
+                                data-target="#create-transfer">Editar</button></td>
+                    <td allow="AcceptTransfers">
+                        <button type="button" class="btn btn-primary" ng-click="transferPLayer(transfer._id, $index)" data-toggle="modal">
+                        Transferir</button></td>
                 </tr>
                 </tbody>
             </table>

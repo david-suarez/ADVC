@@ -1,10 +1,10 @@
 advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
-    '$location','SessionService','listTransfersSrv','listPlayersSrv', 'listClubsSrv',
-    function($scope, $routeParams, $location, SessionService, listTransfersSrv, listPlayersSrv,
-             listClubsSrv) {
+    '$location','SessionService','listTransfersSrv','listPlayersSrv',
+    'listClubsSrv',
+    function($scope, $routeParams, $location, SessionService, listTransfersSrv,
+             listPlayersSrv, listClubsSrv) {
         $scope.Transfers = {};
         $scope.newTransfer = {};
-        $scope.newClub = null;
         $scope.Players = [];
         $scope.Clubs = [];
         $scope.format = 'dd/MM/yyyy';
@@ -44,10 +44,11 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
         listClubsSrv.get({},
             function(result){
                 $scope.Clubs = result.data;
-                for(index in $scope.Clubs){
+                for(var index in $scope.Clubs){
                     if($scope.Clubs[index].delegate){
                         if($scope.Clubs[index].delegate._id === userId){
-                            $scope.newClub = $scope.Clubs[index];
+                            $scope.newTransfer.newClub = $scope.Clubs[index];
+                            $scope.Clubs.splice(index, 1);
                             break;
                         }
                     }
@@ -94,13 +95,14 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
                         $scope.newTransfer.player._id : null,
                 originClub: $scope.newTransfer.originClub ?
                             $scope.newTransfer.originClub._id : null,
-                newClub: $scope.newClub,
+                newClub: $scope.newTransfer.newClub,
                 delegate: userId,
                 requestDate: currentDate,
                 year : currentDate.getFullYear()
             };
             if ($scope.validateFields()){
-                if($scope.newTransfer.originClub._id !== $scope.newClub._id){
+                if($scope.newTransfer.originClub._id !==
+                    $scope.newTransfer.newClub){
                     listTransfersSrv.save({transfer: newTransfer},
                         function (data) {
                             $scope.Transfers.push(data);
@@ -138,7 +140,7 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
         $scope.validateFields = function () {
             var player = $scope.newTransfer.player;
             var originClub = $scope.newTransfer.originClub;
-            var newClub = $scope.newClub;
+            var newClub = $scope.newTransfer.newClub;
             if(!originClub){
                 $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
@@ -162,6 +164,14 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
                 alert('Debe seleccionar el nuevo club.');
                 $.noty.stopConsumeAlert();
                 return false;
+            } else if(newClub === originClub){
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:2000 });
+                alert('El club de origen tiene que ser diferente al' +
+                    ' club destino.');
+                $.noty.stopConsumeAlert();
+                return false;
             }
             return true;
         };
@@ -169,7 +179,6 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
         $scope.formEditTransfer = function(transfer, indexRecord){
             var index = 0;
             var indexClub = 0;
-            //var indexNewClub = 0;
 
             for(indexClub; indexClub < $scope.Clubs.length; indexClub++){
                 if($scope.Clubs[indexClub]._id === transfer.originClub._id)
@@ -199,42 +208,47 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
             listTransfersSrv.update({transfersId: transfersId},
                 {transfer: newDataTransfer},
                 function (data) {
+                    var newDataPlayer = data.newDataPlayer;
+                    data.delete('newDataPlayer');
                     $scope.Transfers[indexRecord] = data;
+                    for(var index = 0; index < $scope.Players.length; index++){
+                        if(newDataPlayer._id === $scope.Players[index]._id){
+                            $scope.Players[index] = newDataPlayer;
+                            break;
+                        }
+                    }
                     restartValidationFields();
                     $('#create-transfer').modal('hide'); //hide modal
                     $('body').removeClass('modal-open');
                     $('.modal-backdrop').remove();
                 },
                 function (error) {
-                    console.log(error);
+                    $.noty.consumeAlert({
+                        layout: 'topCenter',
+                        type: 'error', dismissQueue: true,
+                        timeout: 2000
+                    });
+                    alert('Hubo un problema en el servidor. Por favor intente' +
+                        ' mas tarde.');
+                    $.noty.stopConsumeAlert();
                 }
             );
         };
 
         $scope.editTransfer = function(){
-            var indexRecord = null;
-            var transfersId = null;
-            var newDataTransfer = {};
-            //if(changeState) {
-            //    indexRecord = indexRecordS;
-            //    transfersId = id;
-            //    newDataTransfer = {
-            //        status: 'Transferido'
-            //    }
-            //}else {
-                indexRecord = $scope.newTransfer.index;
-                transfersId = $scope.newTransfer._id;
-                newDataTransfer = {
-                    player: $scope.newTransfer.player ?
-                            $scope.newTransfer.player._id : null,
-                    originClub: $scope.newTransfer.originClub ?
-                                $scope.newTransfer.originClub._id : null,
-                    newClub: $scope.newClub ?
-                             $scope.newClub._id : null
-                };
-            //}
+            var indexRecord = $scope.newTransfer.index;
+            var transfersId = $scope.newTransfer._id;
+            var newDataTransfer = {
+                player: $scope.newTransfer.player ?
+                        $scope.newTransfer.player._id : null,
+                originClub: $scope.newTransfer.originClub ?
+                            $scope.newTransfer.originClub._id : null,
+                newClub: $scope.newTransfer.newClub ?
+                         $scope.newTransfer.newClub : null
+            };
             if ($scope.validateFields()) {
-                if ($scope.newTransfer.originClub._id !== $scope.newClub._id) {
+                if ($scope.newTransfer.originClub._id !==
+                    $scope.newTransfer.newClub) {
                     listTransfersSrv.update({transfersId: transfersId},
                         {transfer: newDataTransfer},
                         function (data) {
@@ -245,14 +259,25 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
                             $('.modal-backdrop').remove();
                         },
                         function (error) {
-                            console.log(error);
-                            $.noty.consumeAlert({
-                                layout: 'topCenter',
-                                type: 'error', dismissQueue: true,
-                                timeout: 2000
-                            });
-                            alert('ERROR DE DUPLICIDAD.');
-                            $.noty.stopConsumeAlert();
+                            if(error.code === 409){
+                                $.noty.consumeAlert({
+                                    layout: 'topCenter',
+                                    type: 'error', dismissQueue: true,
+                                    timeout: 2000
+                                });
+                                alert('Error de duplicidad');
+                                $.noty.stopConsumeAlert();
+                            }else {
+                                $.noty.consumeAlert({
+                                    layout: 'topCenter',
+                                    type: 'warning', dismissQueue: true,
+                                    timeout: 2000
+                                });
+                                alert('Hub un problema en el servidor. Por ' +
+                                    'favor intente mas tarde');
+                                $.noty.stopConsumeAlert();
+                            }
+
                         }
                     );
                 } else {
@@ -272,6 +297,10 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
             if (r === true){
                 $scope.editStatusTransfer(id, indexRecord);
             }
+        };
+
+        $scope.changeOriginClub = function(){
+            $scope.newTransfer.player = null;
         };
     }
 ]);

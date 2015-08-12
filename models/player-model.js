@@ -1,6 +1,7 @@
 "use strict";
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var Q = require('q');
 
 var CvSchema = new Schema({
     "year": {
@@ -123,6 +124,20 @@ var PlayerSchema = new Schema({
         "default":""
     }
 });
+
+PlayerSchema.methods.changeClub = function(clubId) {
+    var deferred;
+    deferred = Q.defer();
+    this.club = clubId;
+    this.save(function(error, player) {
+        if (error) {
+            return deferred.reject(error);
+        } else {
+            return deferred.resolve(player);
+        }
+    });
+    return deferred.promise;
+};
 
 var PlayerModel = mongoose.model('Player', PlayerSchema);
 module.exports = PlayerModel;

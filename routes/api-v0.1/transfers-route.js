@@ -1,5 +1,6 @@
 var route = require('./routes');
 var TransfersModel = require('../../models/transfers-model');
+var PlayerModel = require('../../models/player-model');
 var __bind =function(fn, me){
     return function(){
         return fn.apply(me, arguments);
@@ -8,38 +9,25 @@ var __bind =function(fn, me){
 var TransfersRoute = (function (){
 
     function TransfersRoute(){
+        this.getTransfers = __bind(this.getTransfers, this);
         this.getTransfer = __bind(this.getTransfer, this);
-        //this.getTransfers = __bind(this.getTransfers, this);
         this.saveTransfers = __bind(this.saveTransfers,this);
         this.updateTransfers = __bind(this.updateTransfers, this);
     }
 
-    //TransfersRoute.prototype.getTransfer = function(request, response){
-    //    var transfer_id = request.params.transfer_id;
-    //    TransfersModel.findById(transfer_id, function(error, data) {
-    //        if(error){
-    //            response.status(500).json(error.message);
-    //        }
-    //        else{
-    //            response.status(200).json(data);
-    //        }
-    //    });
-    //};
-
-    //TransfersRoute.prototype.getTransfer = function(request, response){
-    //    var filter = request.query;
-    //    console.log(filter);
-    //    var query = TransfersModel.find(filter).sort({date: 1});
-    //    query.exec(function(error, data) {
-    //        if (error) {
-    //            response.status(500).json(error.message);
-    //        } else {
-    //            response.status(200).json({data: data});
-    //        }
-    //    });
-    //};
-
     TransfersRoute.prototype.getTransfer = function(request, response){
+        var transferId = request.params.transfersId;
+        TransfersModel.findById(transferId, function(error, data) {
+            if(error){
+                response.status(500).json(error.message);
+            }
+            else{
+                response.status(200).json(data);
+            }
+        });
+    };
+
+    TransfersRoute.prototype.getTransfers = function(request, response){
         var filter = request.query;
         var path =  [{path:'player'}, {path:'originClub'}, {path:'newClub'}];
         var query = TransfersModel.find(filter).sort({date: 1}).populate(path);
@@ -128,54 +116,100 @@ var TransfersRoute = (function (){
 
     TransfersRoute.prototype.updateTransfers = function (request, response){
         var transferId = request.params.transfersId;
-        var transfer = request.body.transfer;
-        if(transferId !== undefined && transfer !== undefined){
-            TransfersModel.findById(transferId, function(error, record) {
+        var newTransferData = request.body.transfer;
+        var newClubAssigned = {};
+        var self = this;
+        if(transferId !== undefined && newTransferData !== undefined){
+            TransfersModel.findById(transferId, function(error, transfer) {
                 if(error){
                     response.status(500).json(error.message);
                 }
                 else{
-                    for(var key in transfer){
-                        if(typeof(record[key]) !== 'undefined'){
-                            record[key] = transfer[key];
+                    for(var key in newTransferData){
+                        if(typeof(transfer[key]) !== 'undefined'){
+                            transfer[key] = newTransferData[key];
                         }
                     }
-                    record.save(function(err, recordUpdated){
-                        if(err){
-                            response.status(500).json(error.message);
+                    if(typeof(transfer['status']) !== 'undefined'){
+                        console.log(transfer['status']);
+                        if(transfer['status'] === 'Transferido'){
+                            newClubAssigned.change = true;
+                            newClubAssigned.clubId = transfer['newClub'];
+                            newClubAssigned.playerId = transfer['player'];
                         }
-                        else{
+                    }
+                    transfer.save(function(err, recordUpdated){
+                        if(err){
+                            if (err.code)
+                                response.status(err.code).json(err.message);
+                            else
+                                response.status(500).json(err.message);
+                        }else{
                             var path =  [{path:'player'}, {path:'originClub'},
                                 {path:'newClub'}];
                             TransfersModel.findById(recordUpdated._id).populate(path)
                                 .exec(function(error1, populateTransfer){
-                                    var resultData = {
-                                        _id: populateTransfer._id,
-                                        player: {
-                                            _id: populateTransfer.player._id,
-                                            name: populateTransfer.player.name,
-                                            lastname: populateTransfer.player.lastname
-                                        },
-                                        originClub: {
-                                            _id: populateTransfer.originClub._id,
-                                            name: populateTransfer.originClub.name
-                                        },
-                                        newClub: {
-                                            _id: populateTransfer.newClub._id,
-                                            name: populateTransfer.newClub.name
-                                        },
-                                        year: populateTransfer.year,
-                                        requestDate: populateTransfer.requestDate,
-                                        status: populateTransfer.status
-                                    };
-                                    response.status(200).json(resultData);
+                                    if(error1){
+                                        response.status(500).json(error.message);
+                                    } else {
+                                        var resultData = {
+                                            _id: populateTransfer._id,
+                                            player: {
+                                                _id: populateTransfer.player._id,
+                                                name: populateTransfer.player.name,
+                                                lastname: populateTransfer.player.lastname
+                                            },
+                                            originClub: {
+                                                _id: populateTransfer.originClub._id,
+                                                name: populateTransfer.originClub.name
+                                            },
+                                            newClub: {
+                                                _id: populateTransfer.newClub._id,
+                                                name: populateTransfer.newClub.name
+                                            },
+                                            year: populateTransfer.year,
+                                            requestDate: populateTransfer.requestDate,
+                                            status: populateTransfer.status
+                                        };
+                                        if(newClubAssigned.change){
+                                            self.changeClubPlayer(response,
+                                                resultData,newClubAssigned);
+                                        } else{
+                                            response.status(200).json(resultData);
+                                        }
+
+                                    }
                             });
 
                         }
                     })
                 }
             });
+        } else{
+            response.status(400).json('Bad request')
         }
+
+    };
+
+    TransfersRoute.prototype.changeClubPlayer = function(response,
+                                                         resultData,
+                                                         newClubAssigned){
+        var playerId = newClubAssigned.playerId;
+        var clubId = newClubAssigned.clubId;
+        PlayerModel.findById(playerId, function(error, player){
+            player.changeClub(clubId)
+                .then(function(player){
+                    console.log('--------------------------------');
+                    console.log('Change club to player ' +
+                        player.name + player.lastname);
+                    console.log('--------------------------------');
+                    resultData.newDataPlayer = player;
+                    response.status(200).json(resultData);
+                })
+                .fail(function(error){
+                    response.status(500).json(error.message);
+                })
+        });
     };
 
     return TransfersRoute;
@@ -184,7 +218,8 @@ var TransfersRoute = (function (){
 module.exports = function(app) {
     var transferRoute;
     transferRoute = new TransfersRoute(app);
-    app.get(route.TransfersRoute, transferRoute.getTransfer);
+    app.get(route.TransferRoute, transferRoute.getTransfer);
+    app.get(route.TransfersRoute, transferRoute.getTransfers);
     app.post(route.TransfersRoute, transferRoute.saveTransfers);
     app.put(route.TransferRoute, transferRoute.updateTransfers);
 };

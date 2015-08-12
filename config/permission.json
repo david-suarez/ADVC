@@ -21,7 +21,9 @@
     "ListTransfers":true,
     "ChangePassword": true,
     "ListTransfers": true,
-    "Transfers.CUD": false,
+    "Transfers.CUD": true,
+    "No.Change.Dest.Club": false,
+    "Change.Dest.Club": true,
     "AcceptTransfers": true
   },
   "Directivo": {
@@ -41,11 +43,13 @@
     "ListClubs": true,
     "ListTeams": true,
     "ListMedicalRecord": true,
-    "ChangePassword":true,
+    "ChangePassword": true,
     "ListChampionship": true,
-    "ListTransfers":true,
+    "ListTransfers": true,
     "ChangePassword": true,
     "ListTransfers": true,
+    "No.Change.Dest.Club": false,
+    "Change.Dest.Club": true,
     "Transfers.CUD": false,
     "AcceptTransfers":true
   },
@@ -90,7 +94,9 @@
     "ChangePassword": true,
     "ListTransfers": true,
     "Transfers.CUD": true,
-    "AcceptTransfers":false
+    "AcceptTransfers":false,
+    "No.Change.Dest.Club": true,
+    "Change.Dest.Club": false
   },
   "Comisión Médica": {
     "Menu.MainBoard.Execute": true,

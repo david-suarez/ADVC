@@ -136,7 +136,6 @@ var _validateMajorTeam = function(team){
         branch: branch,
         category: "Mayores"
     };
-    console.log(filter);
     TeamModel.find(filter).exec(function(error, teams) {
         var duplicateError;
         if(error){

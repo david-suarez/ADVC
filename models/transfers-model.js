@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var PlayerModel = require('./player-model');
 var Schema = mongoose.Schema;
 var Q = require('q');
 
@@ -53,43 +52,28 @@ TransfersSchema.pre('save', function(next){
             return next(error);
         });
 });
-//
-//TransfersSchema.post('save', function(next){
-//    var self = this;
-//    _updatePLayerTransfer(self)
-//        .then(function(result){
-//            return next();
-//        })
-//        .fail(function(error){
-//            return next(error);
-//        });
-//});
 
 var TransfersModel = mongoose.model('Transfer', TransfersSchema);
 
-//var _updatePLayerTransfer = function(transfer){
-//    var deferred = Q.defer();
-//    var transferId = transfer._id;
-//    var playerId = transfer.player;
-//    PlayerModel.find(playerId).exec(function(err,data){
-//    //    data.save()
-//    })
-//};
-
 var _validateYearTransfer = function(transfer){
     var deferred = Q.defer();
+    var errorYear = null;
     var filter  = {
         year: transfer.year,
         player: transfer.player
     };
-    TransfersModel.find(filter).exec(function(err, data){
+    TransfersModel.findOne(filter).exec(function(err, data){
         if(err){
             deferred.reject(err);
         }else {
-            if(data.length){
-                var errorYear = new Error('duplicate');
-                errorYear.code = 409;
-                deferred.reject(errorYear);
+            if(data){
+                if(!data._id.equals(transfer._id)) {
+                    errorYear = new Error('Duplicate transfer');
+                    errorYear.code = 409;
+                    deferred.reject(errorYear);
+                }else{
+                    deferred.resolve(true);
+                }
             } else{
                 deferred.resolve(true);
             }

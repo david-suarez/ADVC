@@ -12,9 +12,14 @@
                         <div class="form-group">
                             <thead>
                             <tr>
-                                <th><b>Club Origen &nbsp;
+                                <th ><b>Club Origen &nbsp;
                                     <label  for="inputOriginClub" class="sr-only">Club Origen</label>
-                                    <select id="inputOriginClub" ng-model="newTransfer.originClub" ng-options="clubOrigin.name for clubOrigin in Clubs | filter:newTransfer.clubOrigin._id"></select>
+                                    <div allow="No.Change.Dest.Club" style="display: inline;">
+                                        <select id="inputOriginClub" ng-model="newTransfer.originClub" ng-change="changeOriginClub()" ng-options="clubOrigin.name for clubOrigin in Clubs"></select>
+                                    </div>
+                                    <div allow="Change.Dest.Club" style="display: inline;">
+                                        <select id="inputOriginClub1" ng-model="newTransfer.originClub" ng-change="changeOriginClub()" ng-options="club.name for club in Clubs"></select>
+                                    </div>
                                 </b></th>
                                 <th>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</th>
                                 <th><b>Jugador &nbsp;</label>
@@ -25,7 +30,12 @@
                         <div class="form-group">
                             <label>Club Destino</label>
                             <label  for="inputNewClub" class="sr-only">Club Destino</label>
-                            <input type="text" class="form-control" id="inputNewClub" ng-model="newClub.name" disabled>
+                            <div allow="No.Change.Dest.Club" style="display: inline;">
+                                <input type="text" class="form-control" id="inputNewClub" ng-model="newClub.name" disabled>
+                            </div>
+                            <div allow="Change.Dest.Club">
+                                <select ng-model="newTransfer.newClub" ng-options="clubDest.name for clubDest in Clubs track by clubDest._id"></select>
+                            </div>
                         </div>
                     </form>
                 </div>
@@ -70,9 +80,9 @@
                     <td>{{obtainFormatDate(transfer.requestDate)}}</td>
                     <td>{{transfer.status}}</td>
                     <td><button type="button" class="btn btn-warning" ng-click="formEditTransfer(transfer, $index)" data-toggle="modal"
-                                data-target="#create-transfer">Editar</button></td>
+                                data-target="#create-transfer" ng-disabled="transfer.status == 'Transferido'">Editar</button></td>
                     <td allow="AcceptTransfers">
-                        <button type="button" class="btn btn-primary" ng-click="transferPLayer(transfer._id, $index)" data-toggle="modal">
+                        <button type="button" class="btn btn-primary" ng-click="transferPLayer(transfer._id, $index)" ng-disabled="transfer.status == 'Transferido'">
                         Transferir</button></td>
                 </tr>
                 </tbody>

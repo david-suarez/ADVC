@@ -54,6 +54,11 @@ advcApp.config(["$routeProvider",
                 templateUrl: 'partials/listChampionship',
                 controller: "listChampionshipCtrl"
             }
+        ).when("/listTransfers",
+            {
+                templateUrl: 'partials/listTransfers',
+                controller: "listTransfersCtrl"
+            }
         ).when("/changePassword",
             {
                 templateUrl: 'partials/changePassword',

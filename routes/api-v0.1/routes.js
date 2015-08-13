@@ -12,6 +12,7 @@ var BASE_MEDICAL_ROUTE = '/medicals';
 var BASE_CHAMPIONSHIP_ROUTE = '/championships';
 var BASE_RBAC_ROUTE = '/rbac';
 var BASE_CHANGE_PASS_ROUTE = '/users/changePass';
+var BASE_TRANSFERS_ROUTE = '/transfers';
 
 /*
  Api for Users
@@ -118,5 +119,22 @@ var RBAC_ROUTE = API + BASE_RBAC_ROUTE;
 
 exports.RbacRoute = RBAC_ROUTE;
 
+/*
+ Api for Change Passwords
+ @example define routes for changepass
+ /api/v0.1/changepass
+ */
+
 var CHANGE_PASS_ROUTE = API + BASE_CHANGE_PASS_ROUTE;
 exports.UserChangePass = CHANGE_PASS_ROUTE + '/:user_id';
+
+/*
+ Api for Transfers
+ @example define routes for transfers
+ /api/v0.1/transfers
+ */
+
+var TRANSFERS_ROUTE = API + BASE_TRANSFERS_ROUTE;
+exports.TransferRoute = TRANSFERS_ROUTE + '/:transfersId';
+exports.TransfersRoute = TRANSFERS_ROUTE;
+

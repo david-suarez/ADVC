@@ -32,6 +32,11 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$route', '$routeParams',
                 allow: "Menu.Champ.Execute"
             },
             {
+                name: 'Transferencias',
+                href: '/listTransfers',
+                allow: "Menu.ListTransfers.Execute"
+            },
+            {
                 name: 'Cuenta',
                 href: '/changePassword',
                 allow: "Menu.Change.Execute"

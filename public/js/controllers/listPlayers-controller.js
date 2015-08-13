@@ -9,6 +9,7 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
         $scope.currentPlayer = {};
         $scope.oldDataCurrentPlayer = {};
         $scope.wizard = {};
+        $scope.isSavingRecord = false;
         var playerId = $routeParams.playerId;
         /*
          Refreshes the local variables in angular.
@@ -194,16 +195,17 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
                     $.noty.consumeAlert({layout: 'topCenter',
                         type: 'warning', dismissQueue: true ,
                         timeout:2000 });
-                    alert('El nombre tiene caracteres inválidos.');
+                    alert('El apellido paterno tiene caracteres inválidos.');
                     $.noty.stopConsumeAlert();
                     return false;
                 }
-            }else if(secondLastName) {
+            }
+            if(secondLastName) {
                 if(!nameRegEx.test(secondLastName)){
                     $.noty.consumeAlert({layout: 'topCenter',
                         type: 'warning', dismissQueue: true ,
                         timeout:2000 });
-                    alert('El nombre tiene caracteres inválidos.');
+                    alert('El apellido materno tiene caracteres inválidos.');
                     $.noty.stopConsumeAlert();
                     return false;
                 }
@@ -301,6 +303,24 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
                 $.noty.stopConsumeAlert();
                 return false;
             }
+            if(ci || ext) {
+                if (ci < 10000){
+                    $.noty.consumeAlert({layout: 'topCenter',
+                        type: 'warning', dismissQueue: true ,
+                        timeout:2000 });
+                    alert('El número de documento de identidad es inválido');
+                    $.noty.stopConsumeAlert();
+                    return false;
+                }else if (!ext){
+                    $.noty.consumeAlert({layout: 'topCenter',
+                        type: 'warning', dismissQueue: true ,
+                        timeout:2000 });
+                    alert('Tiene que seleccionar una extencion para el ' +
+                        'documento de identidad');
+                    $.noty.stopConsumeAlert();
+                    return false;
+                }
+            }
             return true;
         };
 
@@ -332,6 +352,7 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
         $scope.handleNext = function () {
             if ($scope.isLastStep()) {
                 if(orderIsValid()){
+                    $scope.isSavingRecord = true;
                     $scope.savePlayer();
                 }
             } else {
@@ -452,6 +473,7 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
             if ($scope.fieldsAreValid()) {
                 listPlayersSrv.save({player: data},
                     function(data){
+                        $scope.handleCancel();
                         $scope.filteredPlayers.unshift(data);
                         $('#create-player').modal('hide'); //hide modal
                         $("#fileElement").val('');
@@ -518,6 +540,7 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
             $scope.file = null;
             $scope.tmpImage = null;
             $scope.step = 0;
+            $scope.isSavingRecord = false;
         };
 
         /*

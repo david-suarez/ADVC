@@ -1,6 +1,7 @@
 var route = require('./routes');
 var PlayerModel = require('../../models/player-model');
 var Q = require('q');
+var easyimg = require('easyimage');
 
 var __bind = function(fn, me){
     return function(){
@@ -15,18 +16,26 @@ var PlayerRoute = (function() {
         this.savePlayer = __bind(this.savePlayer, this);
         this.removePlayer = __bind(this.removePlayer, this);
         this.updatePlayer = __bind(this.updatePlayer, this);
+        this.removeImagePlayer = __bind(this.removeImagePlayer, this);
+        this.uploadImagePlayer = __bind(this.uploadImagePlayer, this);
     }
 
     PlayerRoute.prototype.getPlayer = function(request, response){
-        var player_id = request.params.player_id;
-        PlayerModel.findById(player_id, function(error, data) {
-            if(error){
-                response.status(500).json(error.message);
+        var playerId = request.params.playerId;
+        var populateQuery = [
+            {path:'club', select:'_id name'},
+            {path:'team', select:'_id category division name'}
+        ];
+        PlayerModel.findById(playerId).populate(populateQuery)
+            .exec(function(error, data) {
+                if(error){
+                    response.status(500).json(error.message);
+                }
+                else{
+                    response.status(200).json(data);
+                }
             }
-            else{
-                response.status(200).json(data);
-            }
-        });
+        );
     };
 
     PlayerRoute.prototype.getPlayers = function(request, response){
@@ -45,8 +54,6 @@ var PlayerRoute = (function() {
     PlayerRoute.prototype.savePlayer = function(request, response){
         var newPlayer;
         newPlayer = request.body.player;
-
-        console.log(newPlayer);
         if(newPlayer !== undefined) {
 
             PlayerModel.create(newPlayer, function (error, data) {
@@ -63,8 +70,8 @@ var PlayerRoute = (function() {
     };
 
     PlayerRoute.prototype.removePlayer = function(request, response) {
-        var player_id = request.params.player_id;
-        PlayerModel.remove({_id: player_id}, function(err, doc){
+        var playerId = request.params.playerId;
+        PlayerModel.remove({_id: playerId}, function(err, doc){
             if (err){
                 response.status(500).json(err.message);
             } else {
@@ -74,10 +81,10 @@ var PlayerRoute = (function() {
     };
 
     PlayerRoute.prototype.updatePlayer = function(request, response) {
-        var player_id = request.params.player_id;
+        var playerId = request.params.playerId;
         var newDataPlayer = request.body.newDataPlayer;
-        if(player_id !== undefined && newDataPlayer !== undefined) {
-            PlayerModel.findById(player_id, function(error, player) {
+        if(playerId !== undefined && newDataPlayer !== undefined) {
+            PlayerModel.findById(playerId, function(error, player) {
                 if(error){
                     response.status(500).json(error.message);
                 }
@@ -102,15 +109,48 @@ var PlayerRoute = (function() {
         }
     };
 
+    PlayerRoute.prototype.uploadImagePlayer = function(request, response){
+        if(request.files != undefined){
+            var file = request.files.file;
+            easyimg.rescrop({
+                src:'./public/uploads/' + file.name,
+                dst:'./public/uploads/thumbs/' + file.name,
+                width:640, height:480,
+                croopCoord: file.coords,
+                gravity: "NorthWest",
+                x:0, y:0
+            }).then(
+                function(image) {
+                    console.log('Resized and cropped: '
+                        + image.width + ' x ' + image.height);
+                    response.status(201).json({'result': file.name});
+                },
+                function (err) {
+                    console.log(err);
+                    response.status(500).json({'message': 'Internal error'});
+                }
+            );
+
+        } else{
+            response.status(400).json({'message': 'Bad Request'});
+        }
+    };
+
+    PlayerRoute.prototype.removeImagePlayer = function(request, response){
+
+    };
+
     return PlayerRoute;
 })();
 
 module.exports = function(app) {
     var playerRoute;
     playerRoute = new PlayerRoute(app);
-    app.get(route.Player_Route, playerRoute.getPlayer);
-    app.get(route.Players_Route, playerRoute.getPlayers);
-    app.post(route.Players_Route, playerRoute.savePlayer);
-    app.delete(route.Player_Route, playerRoute.removePlayer);
-    app.put(route.Player_Route, playerRoute.updatePlayer);
+    app.get(route.PlayerRoute, playerRoute.getPlayer);
+    app.get(route.PlayersRoute, playerRoute.getPlayers);
+    app.post(route.PlayersRoute, playerRoute.savePlayer);
+    app.delete(route.PlayerRoute, playerRoute.removePlayer);
+    app.put(route.PlayerRoute, playerRoute.updatePlayer);
+    app.post(route.PlayersUploadRoute, playerRoute.uploadImagePlayer);
+    app.delete(route.PlayersDeleteRoute, playerRoute.removeImagePlayer);
 };

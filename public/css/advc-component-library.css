@@ -32,6 +32,9 @@
 [class*="-h400"] {
     height: 410px;
 }
+[class*="-profile"] {
+    height: 1150px;
+}
 [class*="-h50"] {
     height: 50px;
 }
@@ -62,6 +65,7 @@
     height: 100%;
     width: 100%;
     margin-top: -5px;
+    color:white;
 }
 .advc-valign-middle {
     display: table-cell;
@@ -164,7 +168,17 @@
     width: 100%;
     height: 100%;
 }
-
+[class*="advc-card"] .left-header,
+[class*="advc-rounded-card"] .left-header {
+    float: left;
+    width: 80px;
+    height: 100%;
+}
+[class*="advc-card"] .right-body,
+[class*="advc-rounded-card"] .right-body {
+    height: 100%;
+    overflow: hidden;
+}
 [class*="advc-rounded-card"] .right-counter-circumference {
     text-align: center;
     line-height: 60px;
@@ -227,6 +241,16 @@
     opacity: 0;
     cursor: pointer;
 }
+[class*="-highlight-mouse-over-card"]{
+    width: 226px;
+    height: 86px;
+    position: absolute;
+    border-radius: 6px;
+    margin: -3px;
+    border: #0082ff 3px solid;
+    opacity: 0;
+    cursor: pointer;
+}
 [class*="-highlight-mouse-over-rounded-card"] {
     width: 226px;
     height: 86px;
@@ -281,7 +305,7 @@
 /* Cards layout */
 [class*="-layout"] {
     float: left;
-    margin: 10px 0 0 20px;
+    margin: 10px 0 5px 20px;
 }
 /*
   Animations
@@ -391,4 +415,123 @@
     background-color: orange;
     border-radius: 32px;
     color: black;
+}
+
+.add-photo-circle {
+    display: block;
+    text-align: center;
+    width: 140px;
+    height: 140px;
+    border: solid 2px #3988D8;
+    -webkit-border-radius: 35px;
+    -ms-border-radius: 35px;
+    -moz-border-radius: 35px;
+    border-radius: 35px;
+    margin-top: 20px;
+    margin-left: 30px;
+    margin-bottom: 2px;
+}
+
+.add-photo-circle div{
+    text-align: center;
+    width: 140px;
+    height: 140px;
+    display: table-cell;
+    vertical-align:middle;
+    cursor: pointer;
+}
+
+.photo-circle-mask {
+
+    width: 70px;
+    height: 70px;
+    border: solid 0px #3988D8;
+    -ms-border-radius: 35px;
+    -webkit-border-radius: 35px;
+    -moz-border-radius: 35px;
+    border-radius: 35px;
+    margin-top: 5px;
+    margin-left: 73px;
+    margin-bottom: 5px;
+
+}
+
+.photo-circle-mask-min{
+
+    width: 35px;
+    height: 35px;
+    border: solid 0px #3988D8;
+    -webkit-border-radius: 35px;
+    -moz-border-radius: 35px;
+    border-radius: 35px;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-bottom: 5px;
+
+}
+
+.photo-circle-mask-profile {
+
+    width: 120px;
+    height: 120px;
+    border: solid 0px #3988D8;
+    -webkit-border-radius: 120px;
+    -moz-border-radius: 120px;
+    border-radius: 120px;
+    margin-top: 0px;
+    margin-left: 0px;
+    margin-bottom: 0px;
+
+}
+
+#player-main-container .body {
+    height: 90%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #ccc;
+}
+
+.division {
+    font-size: 13px;
+    color: black;
+}
+.branch {
+    font-size: 12px;
+    color: #444;
+}
+
+.dropdown-menu .option-color {
+    height: 30px;
+    padding-left: 50px;
+    z-index: 200;
+    text-align: left;
+}
+.dropdown-groups-visitors {
+    height: 200px;
+    width: 100%;
+    overflow: auto;
+}
+.dropdown-menu>li>a:hover,
+.dropdown-menu>li>a:focus {
+    background-image: -webkit-gradient(linear, left 0, left 100%, from(#ebebeb), to(#ebebeb));
+    background-image: -webkit-linear-gradient(top, #ebebeb 0, #ebebeb 100%);
+    background-image: -moz-linear-gradient(top, #ebebeb 0, #ebebeb 100%);
+    background-image: linear-gradient(to bottom, #ebebeb 0, #ebebeb 100%);
+    background-repeat: repeat-x;
+}
+.dot-color {
+    width: 8px;
+    height: 8px;
+    margin-left: 5px;
+    margin-right: 10px;
+    margin-top: 12px;
+    -webkit-border-radius: 36px;
+    -ms-border-radius: 36px;
+    -moz-border-radius: 36px;
+    border-radius: 36px;
+    background-color: #7fffd4;
+    display: inline-block;
+}
+.advc-row {
+    margin: 0 15px !important;
 }

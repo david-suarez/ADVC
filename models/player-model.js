@@ -8,11 +8,11 @@ var CvSchema = new Schema({
         "type":Number,
         "default":""
     },
-    "club_name":{
+    "clubName":{
         "type":String,
         "default":""
     },
-    "asociation":{
+    "association":{
         "type":String,
         "default":""
     },
@@ -31,8 +31,8 @@ var CvSchema = new Schema({
         'default': "Club",
         'enum': [
             "Club",
-            "Seleccion",
-            "Seleccion Nacional"
+            "Selección Departamental",
+            "Selección Nacional"
         ]
     }
 });
@@ -45,10 +45,13 @@ var PlayerSchema = new Schema({
     },
     'lastname': {
         'type': String,
-        'default': "",
-        'required': true
+        'default': ""
     },
-    'city_of_birth': {
+    'secondlastname': {
+        'type': String,
+        'default': ""
+    },
+    'cityOfBirth': {
         'type': String,
         'default': "",
         'required': true
@@ -59,16 +62,40 @@ var PlayerSchema = new Schema({
         'required': true
     },
     'ci': {
-        'type': String,
-        'default': "",
-        'required': true
+        'type': Number,
+        'default': ""
     },
-    'date_of_birth': {
+    'ciExtension': {
+        'type': String,
+        'default': ""
+    },
+    'dateOfBirth': {
         'type': Date,
         'default': "",
         'required': true
     },
-    'phone_number': {
+    'bookBirthCert':{
+        'type': String,
+        'default': ""
+    },
+    'departureBirthCert':{
+        'type': String,
+        'default': ""
+    },
+    'branch': {
+        'type': String,
+        'index': true,
+        'required': true,
+        'enum': [
+            "Femenino",
+            "Masculino"
+        ]
+    },
+    'image': {
+        'type': String,
+        'default': ""
+    },
+    'phoneNumber': {
         'type': Number,
         'default': ""
     },
@@ -84,44 +111,40 @@ var PlayerSchema = new Schema({
         'type': String,
         'default': ""
     },
-    'ofice_birth_cert':{
+    'officeBirthCert':{
         'type': String,
-        'default': "",
-        'required': true
+        'default': ""
     },
-    'book_birth_cert':{
-        'type': String,
-        'default': "",
-        'required': true
+    'team': [
+        {
+            'type': mongoose.Schema.Types.ObjectId,
+            'ref': 'Team'
+        }
+    ],
+    'cvPlayer':{
+        "type": [CvSchema]
     },
-    'departure_birth_cert':{
-        'type': String,
-        'default': "",
-        'required': true
+    'club': {
+        'type': mongoose.Schema.Types.ObjectId,
+        'ref': 'Club'
     },
-    'departure_date_birth_cert':{
-        'type': Date,
-        'default': "",
-        'required': true
-    },
-    'branch': {
+    'status': {
         'type': String,
         'index': true,
-        'required': true,
-        'default': "---------",
+        'default': "No habilitado",
         'enum': [
-            "---------",
-            "Femenino",
-            "Masculino"
+            "No habilitado",
+            "Habilitado",
+            "Libre"
         ]
     },
-    'club':{
-        'type':String,
-        "required":true
+    'majorCategory': {
+        'type': mongoose.Schema.Types.ObjectId,
+        'ref': 'Team'
     },
-    'cv_player':{
-        "type":[CvSchema],
-        "default":""
+    'asoOrigin': {
+        'type': String,
+        'required': true
     }
 });
 

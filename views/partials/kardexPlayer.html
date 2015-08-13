@@ -1,0 +1,200 @@
+<section class="container-board-players container-whit-margin">
+    <style>
+        .custom-label{ font-size: 15px; padding-left: 5px; }
+        .cursor-hand{cursor: pointer !important;}
+    </style>
+
+    <div ng-controller="listPlayersCtrl" class="profile">
+        <div id="div-employee-profile-card" class="advc-rounded-card-pub-comp-profile highlight-parent float-left">
+            <div>
+                <!--<div allow="Player.Edit">-->
+                    <div id="div-cancel-edit-player"
+                         ng-click="cancelEditCurrentPlayer()"
+                         class="float-right opaque-icon animated"
+                         style="font-size:22px; margin: 12px 15px 0 0;"
+                         tooltip="Cancelar Edicion" ng-show="isEditing">
+                        <span class="glyphicon glyphicon-remove cursor-hand"></span>
+                    </div>
+                <!--</div>-->
+                <!--<div allow="Player.Edit">-->
+                    <div id="div-save-edit-player"
+                         ng-click="updateCurrentPlayer()"
+                         class="float-right opaque-icon animated"
+                         style="font-size:22px; margin: 12px 15px 0 0;"
+                         tooltip="Guardar Edicion" ng-show="isEditing">
+                        <span class="glyphicon glyphicon-floppy-disk cursor-hand"></span>
+                    </div>
+                <!--</div>-->
+                <!--<div allow="Player.Edit">-->
+                    <div id="div-edit-player"
+                         ng-click="editCurrentPlayer()"
+                         class="icon-edit_button-40px float-right opaque-icon animated cursor-hand"
+                         style="margin: 5px 15px 0 0;" tooltip="Editar Jugador" ng-show="!isEditing">
+                    </div>
+                <!--</div>-->
+
+                <div id="div-save-back-prev-page"
+                     ng-click="backPrevPage()"
+                     class="float-right opaque-icon animated"
+                     style="font-size:22px; margin: 12px 15px 0 0;"
+                     tooltip="Volver">
+                    <span class="glyphicon glyphicon-eject cursor-hand"></span>
+                </div>
+
+            </div>
+            <h2 style="text-align: center">Kardex individual de jugadores</h2>
+            <hr class="main-divider">
+            <form role="form">
+                <div class="row header-prof">
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <img class = "float-profile-left add-photo-circle"
+                                 ng-src="{{getImage(currentPlayer.image)}}"
+                                 err-src="{{defaulImage}}"
+                                 style="margin: 20px 30px 20px 45px; height: 160px; width: 160px;"/>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-5">
+                            <div class="form-group name-prof">
+                                <label class="custom-label">Nombre(s)</label>
+                                <input class="form-control" tabindex="1" type="text" ng-model="currentPlayer.name" ng-disabled="!isEditing">
+                            </div>
+                            <div class="form-group name-prof">
+                                <label class="custom-label">Apellido paterno</label>
+                                <input class="form-control" tabindex="2" type="text" ng-model="currentPlayer.lastname" ng-disabled="!isEditing">
+                            </div>
+                            <div class="form-group name-prof">
+                                <label class="custom-label">Apellido materno</label>
+                                <input class="form-control" tabindex="3" type="text" ng-model="currentPlayer.secondlastname" ng-disabled="!isEditing">
+                            </div>
+                    </div>
+                </div>
+                <hr class="main-divider">
+                <h3 style="text-align: center">Nacimiento</h3>
+                <div class="row birth-prof">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="custom-label">Lugar</label>
+                            <input class="form-control" tabindex="4" type="text" ng-model="currentPlayer.cityOfBirth" ng-disabled="!isEditing">
+                        </div>
+                        <div class="form-group">
+                            <label class="custom-label">Fecha</label>
+                            <p class="input-group">
+                                <input type="text" placeholder="dd/mm/yyyy" id="inputDate" class="form-control" datepicker-popup="{{format}}" is-open="opened" mindate="minDate" max-date="{{today}}"
+                                       datepicker-options="dateOptions" ng-required="true"
+                                       close-text="Close" ng-model="currentPlayer.dateOfBirth" ng-change="dateOfBirthChange()" ng-click="open($event)" disabled>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open($event)" ng-disabled="!isEditing"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="custom-label">Nacionalidad</label>
+                            <input class="form-control" tabindex="5" type="text" ng-model="currentPlayer.nationality" ng-disabled="!isEditing">
+                        </div>
+                        <div class="form-group">
+                            <label class="custom-label">Edad</label>
+                            <input class="form-control" type="text" disabled value="{{wizard.age}}">
+                        </div>
+                    </div>
+                </div>
+                <hr class="main-divider">
+                <h3 style="text-align: center">Dirección</h3>
+                <div class="row birth-prof">
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="custom-label">Domicilio actual</label>
+                            <input class="form-control" tabindex="7" type="text" ng-model="currentPlayer.address" ng-disabled="!isEditing">
+                        </div>
+                        <div class="form-group">
+                            <label class="custom-label">Zona</label>
+                            <input class="form-control" tabindex="8" type="text" ng-model="currentPlayer.zone" ng-disabled="!isEditing">
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group">
+                            <label class="custom-label">Telefono</label>
+                            <input class="form-control" tabindex="9" type="text" ng-model="currentPlayer.phoneNumber" ng-disabled="!isEditing">
+                        </div>
+                        <div class="form-group">
+                            <label class="custom-label">Casilla</label>
+                            <input class="form-control" tabindex="10" type="text" ng-model="currentPlayer.postcode" ng-disabled="!isEditing">
+                        </div>
+                    </div>
+                </div>
+                <hr class="main-divider">
+                <h3 style="text-align: center">Documentos de identificación</h3>
+                <div class="row" style="padding-left: 30px;">
+                    <div class="col-xs-6">
+                        <h5>Certificado de nacimiento</h5>
+                    </div>
+                    <div class="col-xs-4" style="padding-left: 70px;">
+                        <h5>Carne de identidad</h5>
+                    </div>
+                </div>
+                <div class="row identity-prof">
+                    <div class="col-xs-3">
+                        <label class="custom-label">Oficialia</label>
+                        <input class="form-control" tabindex="11" type="text" ng-model="currentPlayer.officeBirthCert" ng-disabled="!isEditing">
+                    </div>
+                    <div class="col-xs-2">
+                        <label class="custom-label">Libro</label>
+                        <input class="form-control" tabindex="12" type="text" ng-model="currentPlayer.bookBirthCert" ng-disabled="!isEditing">
+                    </div>
+                    <div class="col-xs-2">
+                        <label class="custom-label">Partida</label>
+                        <input class="form-control" tabindex="13" type="text" ng-model="currentPlayer.departureBirthCert" ng-disabled="!isEditing">
+                    </div>
+
+                    <div class="col-xs-4">
+                        <label class="custom-label">CI. Nº</label>
+                        <p class="input-group">
+                            <input type="number" tabindex="1" class="form-control" id="ci" ng-model="currentPlayer.ci" ng-disabled="!isEditing">
+                            <span class="input-group-addon">
+                                <select ng-options="extension for extension in extensions"  ng-model="currentPlayer.ciExtension" ng-disabled="!isEditing"></select>
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <hr class="main-divider">
+                <h3 style="text-align: center">Ordenamiento técnico</h3>
+                <div class="row birth-prof">
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label class="custom-label">Asociación de origen</label>
+                            <input class="form-control" tabindex="16" type="text" ng-model="currentPlayer.asoOrigin" ng-disabled="!isEditing">
+                        </div>
+                        <div class="form-group">
+                            <label class="custom-label">División</label>
+                            <input class="form-control" type="text" disabled ng-model="currentPlayer.team[0].division">
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label class="custom-label">Club al que pertenece</label>
+                            <input class="form-control" type="text" disabled ng-model="currentPlayer.club.name">
+                        </div>
+                        <div class="form-group">
+                            <label class="custom-label">Categoría</label>
+                            <input class="form-control" type="text" disabled ng-model="currentPlayer.team[0].category">
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="form-group">
+                            <label class="custom-label">Rama</label>
+                            <input class="form-control" type="text" ng-model="currentPlayer.branch" ng-disabled="!isEditing">
+                        </div>
+                        <div class="form-group">
+                            <label class="custom-label">Ficha Medica</label>
+                            <input class="form-control" type="text" disabled>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+

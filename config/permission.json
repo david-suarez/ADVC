@@ -4,6 +4,7 @@
     "Menu.Users.Execute": true,
     "Menu.Clubs.Execute": true,
     "Menu.Medical.Execute": true,
+    "Menu.Champ.Execute": true,
     "Publications.CUD": true,
     "Menu.Change.Execute":true,
     "Menu.Champ.Execute": true,
@@ -11,6 +12,7 @@
     "Club.CUD": true,
     "Team.CUD": true,
     "Champ.CUD": true,
+    "Player.Edit": true,
     "Index": true,
     "ListUser": true,
     "ListClubs": true,
@@ -24,13 +26,16 @@
     "Transfers.CUD": true,
     "No.Change.Dest.Club": false,
     "Change.Dest.Club": true,
-    "AcceptTransfers": true
+    "AcceptTransfers": true,
+    "ClubInfo": true,
+    "Kardex": true
   },
   "Directivo": {
     "Menu.MainBoard.Execute": true,
     "Menu.Users.Execute": true,
     "Menu.Clubs.Execute": true,
     "Menu.Medical.Execute": true,
+    "Menu.Champ.Execute": true,
     "Publications.CUD": true,
     "Menu.Change.Execute":true,
     "Menu.Champ.Execute": true,
@@ -38,6 +43,7 @@
     "Club.CUD": true,
     "Team.CUD": true,
     "Champ.CUD": true,
+    "Player.Edit": true,
     "Index": true,
     "ListUser": true,
     "ListClubs": true,
@@ -51,7 +57,9 @@
     "No.Change.Dest.Club": false,
     "Change.Dest.Club": true,
     "Transfers.CUD": false,
-    "AcceptTransfers":true
+    "AcceptTransfers":true,
+    "ClubInfo": true,
+    "Kardex": true
   },
   "Comisión Técnica": {
     "Menu.MainBoard.Execute": true,
@@ -64,13 +72,17 @@
     "Club.CUD": false,
     "Team.CUD": false,
     "Champ.CUD": false,
+    "Player.Edit": true,
     "Index": true,
     "ListUser": false,
     "ListClubs": true,
     "ListTeams": true,
     "ListMedicalRecord": false,
     "ChangePassword":true,
-    "ListChampionship": false
+    "ListChampionship": false,
+    "ClubInfo": true,
+    "ListChampionship": false,
+    "Kardex": true
   },
   "Delegado": {
     "Menu.MainBoard.Execute": true,
@@ -83,6 +95,7 @@
     "Menu.ListTransfers.Execute":true,
     "Club.CUD": false,
     "Team.CUD": true,
+    "Player.Edit": false,
     "Index": true,
     "ListUser": false,
     "ListClubs": true,
@@ -96,7 +109,9 @@
     "Transfers.CUD": true,
     "AcceptTransfers":false,
     "No.Change.Dest.Club": true,
-    "Change.Dest.Club": false
+    "Change.Dest.Club": false,
+    "ClubInfo": true,
+    "Kardex": true
   },
   "Comisión Médica": {
     "Menu.MainBoard.Execute": true,
@@ -108,12 +123,21 @@
     "Menu.Change.Execute":true,
     "Club.CUD": false,
     "Team.CUD": false,
+    "Player.Edit": false,
     "Index": true,
     "ListUser": false,
     "ListClubs": false,
     "ListTeams": false,
     "ListMedicalRecord": true,
     "ChangePassword":true,
-    "ListChampionship": false
+    "ListChampionship": false,
+    "ClubInfo": false,
+    "ListChampionship": false,
+    "Kardex": false
+  },
+  "Annonimus": {
+    "Menu.MainBoard.Execute": true,
+    "Index": true,
+    "Login": true
   }
 }

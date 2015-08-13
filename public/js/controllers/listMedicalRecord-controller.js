@@ -66,7 +66,7 @@ advcApp.controller('listMedicalRecordCtrl', ['$scope', '$routeParams',
                 if (((month - 1) == todayMonth) && (todayDate < date)){
                     age--;
                 }
-                if (age > 1900){
+                if (age >= 1900){
                     age -= 1900;
                 }
                 return age;
@@ -76,9 +76,10 @@ advcApp.controller('listMedicalRecordCtrl', ['$scope', '$routeParams',
             var weight = $scope.newMedicalRecord.weight;
             var height = $scope.newMedicalRecord.height;
             var home= $scope.newMedicalRecord.home;
-            var weightRegEx = /^-?[0-9]+([\.][0-9]*)?$/;
-            var heightRegEx = /^-?[0-9]+([\.][0-9]*)?$/;
-            var homeRegEx = /^[0-9a-zA-Zñ]+( ?[0-9a-zA-Zñ])+$/;
+            var weightRegEx = /^[0-9]+([\.][0-9]*)?$/;
+            var heightRegEx = /^[0-9]+([\.][0-9]*)?$/;
+            var homeRegEx = /[a-zA-Z1-9À-ÖØ-öø-ÿ]+\.?(( |\-)[a-zA-Z1-9À-ÖØ-öø-ÿ]+\.?)* (((#|[nN][oO]?º?\.?) ?)?\d{1,4}(( ?[a-zA-Z0-9\-]+)+)?)/;
+
             if (!weight){
                 $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
@@ -88,6 +89,11 @@ advcApp.controller('listMedicalRecordCtrl', ['$scope', '$routeParams',
                 return false;
             }else if (!weightRegEx.test(weight)) {
                 $scope.isWeightValid = false;
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:2000 });
+                alert('El peso del jugador es inválido');
+                $.noty.stopConsumeAlert();
                 return false;
 
             }else if (!height) {
@@ -101,19 +107,29 @@ advcApp.controller('listMedicalRecordCtrl', ['$scope', '$routeParams',
             }else if (!heightRegEx.test(height)) {
                 $scope.isWeightValid = true;
                 $scope.isHeightValid = false;
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:2000 });
+                alert('La altura del jugador es inválido.');
+                $.noty.stopConsumeAlert();
                 return false;
 
             }else if (!home || !home.trim()) {
                 $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
                     timeout:2000 });
-                alert('Ingrese la direccion del jugador.');
+                alert('Ingrese la dirección del jugador.');
                 $.noty.stopConsumeAlert();
                 $scope.isHeightValid = true;
                 return false;
             }else if (!homeRegEx.test(home)) {
                 $scope.isHeightValid = true;
                 $scope.isHomeValid = false;
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:2000 });
+                alert('La dirección del jugador es inválida.');
+                $.noty.stopConsumeAlert();
                 return false;
             }
             return true;

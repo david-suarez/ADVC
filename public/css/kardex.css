@@ -1,0 +1,351 @@
+.profile {
+    color: #fff;
+    font-family: "OpenSans";
+    font-size: 13px;
+    line-height: 120%;
+    min-height: 100px;
+    min-width: 170px;
+    margin: 0px 170px;
+}
+.profile a {
+    color: #0096ff;
+    cursor: pointer;
+    margin-top: 3px;
+}
+.float-profile-left {
+    float: left;
+}
+.float-profile-right {
+    float: right;
+}
+.person-profile {
+    display: inline-block;
+    margin: 0px;
+    padding: 0px;
+    min-height: 100px;
+    min-width: 350px;
+}
+.photo-circle-header-profile {
+    width: 140px;
+    height: 140px;
+    -webkit-border-radius: 120px;
+    -moz-border-radius: 120px;
+    border-radius: 120px;
+    margin: 40px 40px 20px 40px;
+}
+.card-profile-name {
+    font-size: 15px;
+    margin-top: 5px;
+    margin-left: 20px;
+    width: 240px;
+}
+.short-name {
+    padding-top: 25px;
+}
+.long-name {
+    padding-top: 4px;
+}
+.card-profile-id {
+    font-size: 16px;
+    padding-top: 6px;
+    line-height: 120%;
+}
+.card-profile-edit {
+    font-size: 12px;
+    padding-top: 2px;
+    line-height: 120%;
+}
+.name-prof {
+    width: 400px !important;
+}
+.personal-rfid {
+    display: initial;
+}
+.label-rfid {
+    float: right;
+    font-size: 11px;
+    font-weight: 400;
+    margin-right: 10px;
+}
+.label-loan-rfid {
+    float: left;
+    font-size: 11px;
+    font-weight: 400;
+    margin: 7px 10px 0 0;
+}
+.personal-rfid .hand-cursor-person-profile {
+    margin-top: 4px;
+}
+.card-number-value-profile {
+    font-size: 15px;
+    font-weight: 600;
+}
+.personal-rfid .rfid-update-container .ng-valid input {
+    color: #000 !important;
+}
+.personal-rfid .rfid-update-container {
+    float: right;
+}
+.loan-card-rfid {
+    margin-top: 45px;
+}
+.loan-card-rfid .card-edit-name {
+    right: 0px;
+}
+.loan-card-rfid .personal-rfid {
+    margin-top: 0px;
+}
+.loan-card-rfid .label-rfid {
+    line-height: 120%;
+}
+.loan-card-rfid .search-box .dropdown-menu {
+    width: 180px !important;
+    padding: 0 !important;
+}
+.loan-card-rfid .search-box .dropdown-menu::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 0px !important;
+    -moz-border-radius: 0px !important;
+    background-color: rgba(0,0,0,0.3) !important;
+    border-radius: 0px !important;
+}
+.loan-card-rfid .search-box .dropdown-menu .option {
+    padding-left: 0px;
+    height: 26px;
+    margin: auto;
+}
+.loan-card-rfid .search-box {
+    display: inline;
+}
+.loan-card-rfid .search-box.give-loan-card .loan-caret {
+    margin: 12px;
+}
+.loan-card-rfid .search-box.give-loan-card {
+    width: 205px;
+}
+.loan-card-rfid .combobox-button-visitor-rfid {
+    right: 98px;
+}
+.loan-card-rfid .cancel-button-loan-rfid {
+    right: -7px;
+}
+.loan-card-rfid .cancel-button-loan-rfid img {
+    width: 13px;
+    height: 13px;
+}
+.loan-card-rfid .return-loan {
+    right: 1px;
+    height: 27px;
+    margin-top: 1px;
+}
+.loan-card-rfid .combobox-input-visitor-rfid {
+    width: 190px;
+}
+.loan-card-rfid .loan-card-input,
+.loan-card-rfid .loan-card-input2,
+.loan-card-rfid .search-box input.ng-valid.ng-dirty,
+.loan-card-rfid .combobox-input:disabled,
+.combobox-input,
+.visitor .combobox-input-visitor-rfid,
+.visitor .search-box input.ng-valid.ng-dirty,
+.visitor .combobox-input:disabled {
+    background-color: #777;
+    border: 1px solid #777;
+    border-radius: 3px !important;
+    color: #f0f0f0 !important;
+    height: 30px;
+    padding-left: 10px;
+    width: 180px;
+}
+.loan-card-rfid .loan-card-input:focus,
+.loan-card-rfid .loan-card-input2:focus,
+.loan-card-rfid .search-box input.ng-valid.ng-dirty:focus,
+.loan-card-rfid .combobox-input:disabled:focus,
+.combobox-input:focus,
+.visitor .combobox-input-visitor-rfid:focus,
+.visitor .search-box input.ng-valid.ng-dirty:focus,
+.visitor .combobox-input:disabled:focus {
+    border: 1.5px solid #66afe9 !important;
+    outline: 0;
+}
+.loan-card-rfid .loan-card-input:hover,
+.loan-card-rfid .loan-card-input:focus {
+    background-image: none !important;
+    text-decoration: none;
+    outline: 0 none;
+    width: 180px;
+}
+.loan-card-rfid .dropdown-menu>.active>a,
+.loan-card-rfid .dropdown-menu>.active>a:hover,
+.loan-card-rfid .dropdown-menu>.active>a:focus,
+.visitor .dropdown-menu>.active>a,
+.visitor .dropdown-menu>.active>a:hover,
+.visitor .dropdown-menu>.active>a:focus {
+    background-image: -webkit-gradient(linear, left 0, left 100%, from(#ebebeb), to(#ebebeb));
+    background-image: -webkit-linear-gradient(top, #ebebeb 0, #ebebeb 100%);
+    background-image: -moz-linear-gradient(top, #ebebeb 0, #ebebeb 100%);
+    background-image: linear-gradient(to bottom, #ebebeb 0, #ebebeb 100%);
+    background-repeat: repeat-x;
+    color: #262626;
+}
+.loan-card-rfid .loan-card {
+    font-size: 12px;
+    line-height: 120%;
+}
+.visitor .card-profile-id {
+    padding-top: 0px;
+}
+.visitor-label-rfid {
+    margin: 36px 10px;
+    font-size: 11px;
+    font-weight: 400;
+    float: left;
+}
+.visitor .personal-rfid {
+    margin-top: 30px;
+    width: 250px;
+    float: right;
+}
+.visitor .rfid-visitor-profile {
+    float: right;
+    width: 100%;
+    height: 100%;
+}
+.visitor .visitor-profile {
+    float: left;
+    width: 100%;
+    height: 100%;
+}
+.visitor .visitor-combo-size {
+    width: 180px !important;
+}
+.combobox-button-visitor-rfid {
+    border: none;
+    position: absolute;
+    right: 1px;
+    top: 0;
+    width: 30px;
+    margin-top: 1px;
+    height: 28px !important;
+}
+.visitor .search-box .dropdown-menu {
+    width: 175px;
+    max-height: 255px;
+    padding: 0 !important;
+}
+.filled-dropdown {
+    margin-top: -5px !important;
+}
+.visitor .search-box .dropdown-menu .option {
+    padding-left: 0px;
+    height: 26px;
+    margin: auto;
+}
+.update-person-modal-header {
+    background-color: #444;
+    color: #fff;
+    font-size: 15px;
+    height: 40px;
+    padding: 10px 20px 10px 10px;
+    text-align: left;
+}
+.edit-person-header {
+    background-color: #789;
+    color: #fff;
+    font-size: 15px;
+    height: 40px;
+    padding: 10px 20px 10px 10px;
+    text-align: left;
+}
+.add-title-person {
+    background-color: #555;
+    float: left;
+    font-size: 18px;
+    padding-top: 13px;
+    padding-left: 20px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+.modal-dialog-person-profile {
+    width: 220px !important;
+    height: 330px !important;
+    top: 250px;
+    padding: 0px;
+}
+.modal-body-person-profile {
+    padding: 0px;
+}
+.photo-circle-modal-person-profile {
+    height: 70px;
+    margin-left: 75px;
+    width: 66px;
+}
+.button-modal-person-profile {
+    width: 178px !important;
+    border-radius: 3px !important;
+}
+.hand-cursor-person-profile {
+    cursor: pointer;
+}
+.card-profile-id-fixed {
+    padding-top: 0px;
+}
+.button-add-rfid {
+    width: 40px;
+    height: 30px;
+    background-color: #0082ff;
+    font-size: 12px;
+    font-family: 'OpenSans-Semibold';
+    margin-top: -48px;
+    margin-left: 149px;
+    border-top-right-radius: 3px !important;
+    border-bottom-right-radius: 3px !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+#card-header,
+.card-header {
+    background-color: #444;
+    padding: 15px 0 10px 20px;
+    width: 100%;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+#card-header .card-header-title,
+.card-header .card-header-title {
+    color: #fff;
+    font-size: 18px;
+    display: inline-block;
+}
+#card-header .close-button,
+.card-header .close-button {
+    width: 20px;
+    height: 20px;
+    float: right;
+}
+#card-header .close-button img,
+.card-header .close-button img {
+    opacity: 0.5;
+    margin: -15px -20px 0 0;
+    -webkit-transition: opacity 0.3s ease-in-out;
+    -moz-transition: opacity 0.3s ease-in-out;
+    -o-transition: opacity 0.3s ease-in-out;
+}
+#card-header .close-button img:hover,
+.card-header .close-button img:hover {
+    opacity: 1;
+}
+
+.header-prof{
+    height: 220px;
+    padding: 0px 30px;
+}
+
+.birth-prof{
+    height: 130px;
+    padding: 0px 30px;
+}
+
+.identity-prof{
+    height: 80px;
+    padding: 0px 30px;
+}

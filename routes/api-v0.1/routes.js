@@ -38,8 +38,10 @@ exports.RouteLogout = BASE_ROUTE_LOGOUT;
 
 var PLAYER_ROUTE = API + BASE_PLAYER_ROUTE;
 
-exports.Player_Route = PLAYER_ROUTE + '/:player_id';
-exports.Players_Route = PLAYER_ROUTE;
+exports.PlayerRoute = PLAYER_ROUTE + '/:playerId';
+exports.PlayersRoute = PLAYER_ROUTE;
+exports.PlayersUploadRoute = PLAYER_ROUTE + '/fileupload';
+exports.PlayersDeleteRoute = PLAYER_ROUTE + '/:playerId/filedelete';
 /*
  Api for Teams
  @example define routes for teams
@@ -76,11 +78,11 @@ var KADEX_ROUTE = API + BASE_KARDEX_ROUTE;
 exports.Kardex_Route = KADEX_ROUTE;
 
 /*
- Api for Publications
- @example define routes for kardex
- /api/v0.1/publications
- /api/v0.1/publications/:publication_id
-*/
+ Api for Medical record
+ @example define routes for medical record
+ /api/v0.1/medicals
+ /api/v0.1/medicals/:medicalId
+ */
 
 var MEDICAL_ROUTE = API + BASE_MEDICAL_ROUTE;
 
@@ -88,10 +90,10 @@ exports.MedicalRecordsRoute = MEDICAL_ROUTE;
 exports.MedicalRecordRoute = MEDICAL_ROUTE + '/:medicalId';
 
 /*
- Api for Kardex
- @example define routes for kardex
- /api/v0.1/kardex
- /api/v0.1/kardex/:kadex_id
+ Api for Championships
+ @example define routes for championship
+ /api/v0.1/championships
+ /api/v0.1/championships/:championshipId
  */
 
 var CHAMPIONSHIP_ROUTE = API + BASE_CHAMPIONSHIP_ROUTE;
@@ -100,13 +102,11 @@ exports.ChampionshipsRoute = CHAMPIONSHIP_ROUTE;
 exports.ChampionshipRoute = CHAMPIONSHIP_ROUTE + '/:championshipId';
 
 /*
- Api for Kardex
+ Api for Publications
  @example define routes for kardex
- /api/v0.1/kardex
- /api/v0.1/kardex/:kadex_id
+ /api/v0.1/publications
+ /api/v0.1/publications/:publication_id
  */
-
-
 
 var PUB_ROUTE = API + BASE_PUB_ROUTE;
 

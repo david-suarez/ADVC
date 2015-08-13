@@ -52,7 +52,8 @@ var TeamRoute = (function(){
                             data[index].championship ?
                                 data[index].championship._id : '',
                         nameChampionship: data[index].championship ?
-                            data[index].championship.name : ''
+                            data[index].championship.name : '',
+                        color: data[index].color
                     })
                 }
                 response.status(200).json({data: dataResult});

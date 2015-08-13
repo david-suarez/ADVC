@@ -53,7 +53,8 @@ app.use(cookieParser());
 app.use(expressSession({
     secret: 'keyboard cat',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: { maxAge: 3600000}
 }));
 
 app.use(passport.initialize());

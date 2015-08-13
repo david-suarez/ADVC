@@ -98,6 +98,7 @@
                         <style>
                             .custom-label{ font-size: 14px; padding-left: 5px; padding-right: 5px; }
                             .custom-add-container{ text-align: center; }
+                            .custom-margin-icon-hab{ margin-top: 5px; }
                         </style>
                         <div class="advc-card-w220-h80-layout" ng-if="isFirstTeamSelected">
                             <div class="highligh-font-container-animated pointer" data-toggle="modal" data-target="#create-player">
@@ -121,9 +122,10 @@
                         </div>
 
                         <div ng-repeat="player in filteredPlayers = (players | filter:currentSelectedTeam.id)">
-                            <div class="advc-card-w220-h80-layout highlight-parent" >
+                            <div class="advc-card-w220-h80-layout highlight-parent" ng-class="{'advc-bg-color-gray': !isEnableToPlay(player)}">
                                 <div class="advc-highlight-mouse-over-card-animated" ng-dblclick="goToKardex(player)">
-                                    <div class="float-right icon-close-30px animated-opacity pointer custom-margin-icon-close"  ng-show="!isFirstTeamSelected" tooltip="Remover del equipo."></div>
+                                    <div class="float-right icon-close-30px animated-opacity pointer custom-margin-icon-close"  ng-show="!isFirstTeamSelected" tooltip-placement="right" tooltip="Remover del equipo."></div>
+                                    <div allow="Player.Edit"><div class="float-right pointer custom-margin-icon-hab icon-done-20px" ng-class="{'advc-color11': isEnableToPlay(player)}" tooltip-placement="right" tooltip="{{player.enableTooltip}}" ng-click="enablePlayer(player, $index)"></div></div>
                                 </div>
                                 <div class="highlighted-container">
                                     <div class="left-header">

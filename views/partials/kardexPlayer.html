@@ -7,7 +7,7 @@
     <div ng-controller="listPlayersCtrl" class="profile">
         <div id="div-employee-profile-card" class="advc-rounded-card-pub-comp-profile highlight-parent float-left">
             <div>
-                <!--<div allow="Player.Edit">-->
+                <div allow="Player.Edit">
                     <div id="div-cancel-edit-player"
                          ng-click="cancelEditCurrentPlayer()"
                          class="float-right opaque-icon animated"
@@ -15,8 +15,8 @@
                          tooltip="Cancelar Edicion" ng-show="isEditing">
                         <span class="glyphicon glyphicon-remove cursor-hand"></span>
                     </div>
-                <!--</div>-->
-                <!--<div allow="Player.Edit">-->
+                </div>
+                <div allow="Player.Edit">
                     <div id="div-save-edit-player"
                          ng-click="updateCurrentPlayer()"
                          class="float-right opaque-icon animated"
@@ -24,14 +24,14 @@
                          tooltip="Guardar Edicion" ng-show="isEditing">
                         <span class="glyphicon glyphicon-floppy-disk cursor-hand"></span>
                     </div>
-                <!--</div>-->
-                <!--<div allow="Player.Edit">-->
+                </div>
+                <div allow="Player.Edit">
                     <div id="div-edit-player"
                          ng-click="editCurrentPlayer()"
                          class="icon-edit_button-40px float-right opaque-icon animated cursor-hand"
                          style="margin: 5px 15px 0 0;" tooltip="Editar Jugador" ng-show="!isEditing">
                     </div>
-                <!--</div>-->
+                </div>
 
                 <div id="div-save-back-prev-page"
                      ng-click="backPrevPage()"

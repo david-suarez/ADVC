@@ -23,7 +23,7 @@ advcApp.config(["$routeProvider",
             }
         ).when("/mainBoard",
             {
-                templateUrl: 'partials/boardView',
+                templateUrl: 'partials/boardView'
             }
         ).when("/listUser",
             {
@@ -93,19 +93,36 @@ advcApp.run([
                     var isUser = SessionService.get('idUSer');
                     $rbac.checkAccess(isUser).then(function(){
                         var nextPage = "";
+                        var currentPage = "";
                         if (next.originalPath != null) {
                             var indexName = next.originalPath.lastIndexOf("/")
                                 + 1;
                             nextPage = next.originalPath.slice(indexName,
                                 next.originalPath.length);
+                            currentPage = current.originalPath.slice(indexName,
+                                next.originalPath.length);
                             nextPage = nextPage.charAt(0).toUpperCase() +
                                 nextPage.slice(1);
+                            if(!$rbac.allow('ListClubs')
+                                && currentPage !== 'mainBoard') {
+                                $rbac.reset();
+                                SessionService.unsetAll('logged');
+                                $rootScope.$emit('userAuthenticated', false);
+                                $.noty.consumeAlert({layout: 'topCenter',
+                                    type: 'warning', dismissQueue: true ,
+                                    timeout:2000 });
+                                alert('Su sesión expiró. Ingrese sus ' +
+                                    'credenciales nuevamente en la pagina' +
+                                    ' de autenticación');
+                                $.noty.stopConsumeAlert();
+                            }
                             if (!$rbac.allow(nextPage)) {
                                 $location.path('/mainBoard');
                             }
                         }
                     });
                 } else {
+                    $rbac.reset();
                     $rbac.checkAccess(null).then(function() {
                         var nextPage = "";
                         if (next.originalPath != null) {

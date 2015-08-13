@@ -162,7 +162,7 @@
                             <div class="modal-body">
                                 <form role="form">
                                     <div class="btn-group">
-                                        <button class="btn" ng-class="{'btn-primary':isCurrentStep($index)}" ng-click="setCurrentStep($index)" ng-repeat="step in steps">{{step.name}}</button>
+                                        <button class="btn" ng-class="{'btn-primary':isCurrentStep($index)}" ng-click="setCurrentStep($index)" ng-repeat="step in steps" ng-disabled="isSavingRecord">{{step.name}}</button>
                                     </div>
                                     <div ng-show="getCurrentStep() == 'one'" class="wave">
                                         <div class="row">
@@ -330,8 +330,8 @@
                             </div>
                             <div class="modal-footer">
                                 <a class="btn btn-default" ng-click="handlePrevious()" ng-show="!isFirstStep()">Atras</a>
-                                <a class="btn btn-info" class="close" data-dismiss="modal" ng-click="handleCancel()">Cancelar</a>
-                                <a class="btn btn-primary" ng-click="handleNext()">{{getNextLabel()}}</a>
+                                <a class="btn btn-info" class="close" data-dismiss="modal" ng-click="handleCancel()" ng-disabled="isSavingRecord">Cancelar</a>
+                                <a class="btn btn-primary" ng-click="handleNext()" ng-disabled="isSavingRecord">{{getNextLabel()}}</a>
                             </div>
                         </div>
                     </div>

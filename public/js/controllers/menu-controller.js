@@ -4,11 +4,7 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$route', '$routeParams',
     function($scope, $http, $route, $routeParams, $location, $rootScope,
              loginService, SessionService, $rbac, $window){
         $scope.userIsAuthenticated = false;
-        if(SessionService.get('logged')) {
-            $scope.userIsAuthenticated = true;
-            $scope.loggedUser = SessionService.get('user');
-            $scope.userId = SessionService.get('userId');
-        }
+        var isLogged = SessionService.get('logged');
 
         $scope.items = [
             {
@@ -48,6 +44,12 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$route', '$routeParams',
             $scope.loggedUser = SessionService.get('user');
             $scope.userId = SessionService.get('userId');
         });
+
+        if(isLogged) {
+            $scope.userIsAuthenticated = true;
+            $scope.loggedUser = SessionService.get('user');
+            $scope.userId = SessionService.get('userId');
+        }
 
         $scope.getCurrentItem = function(currentUrl) {
             var item, _i, _len, _ref1;

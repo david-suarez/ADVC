@@ -597,5 +597,48 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
                 $.noty.stopConsumeAlert();
             });
         };
+
+        $scope.isEnableToPlay = function(player){
+            if(player.status === 'Habilitado'){
+                player.enableTooltip = 'Habilitado';
+                return true;
+            } else {
+                player.enableTooltip = 'Habilitar';
+                return false;
+            }
+        };
+
+        $scope.enablePlayer = function(player, index){
+            if(player.status === 'Habilitado'){
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:2000 });
+                alert('El jugador ya esta habilitado.');
+                $.noty.stopConsumeAlert();
+                return;
+            }
+            var playerId = player._id;
+            var data = {
+                status: 'Habilitado'
+            };
+            listPlayersSrv.update({playerId: playerId}, {newDataPlayer: data},
+                function(dataResult){
+                    $scope.filteredPlayers[index] = dataResult;
+                    $.noty.consumeAlert({layout: 'topCenter',
+                        type: 'success', dismissQueue: true ,
+                        timeout:2000 });
+                    alert('El jugador fué habilitado exitosamente.');
+                    $.noty.stopConsumeAlert();
+                },
+                function(error){
+                    $.noty.consumeAlert({layout: 'topCenter',
+                        type: 'error', dismissQueue: true ,
+                        timeout:2000 });
+                    alert('Hubo un problema en el servidor. Por favor intente' +
+                        ' mas tarde');
+                    $.noty.stopConsumeAlert();
+                }
+            )
+        }
     }
 ]);

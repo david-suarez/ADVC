@@ -1,6 +1,6 @@
 'use strict';
 advcApp.service('SessionService', ["$http", function($http) {
-    var userlogged = sessionStorage.getItem('logged');
+
     return {
         //get a variable with 'key' key
         get: function(key) {
@@ -20,6 +20,7 @@ advcApp.service('SessionService', ["$http", function($http) {
         },
         //get is a user is authenticated to the app
         isAuthenticated: function() {
+            var userlogged = sessionStorage.getItem('logged');
             return userlogged;
         },
         //call server /logout route 

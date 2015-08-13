@@ -122,7 +122,13 @@ advcApp.run([
                         }
                     });
                 } else {
-                    $rbac.reset();
+                    if(!$rbac.allow('ListClubs')){
+                        $rbac.reset();
+                        SessionService.unsetAll('logged');
+                        SessionService.logoutServer();
+                        $rootScope.$emit('userAuthenticated', false);
+                        $window.location.reload();
+                    }
                     $rbac.checkAccess(null).then(function() {
                         var nextPage = "";
                         if (next.originalPath != null) {

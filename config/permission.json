@@ -12,6 +12,7 @@
     "Club.CUD": true,
     "Team.CUD": true,
     "Champ.CUD": true,
+    "Player.Edit": true,
     "Index": true,
     "ListUser": true,
     "ListClubs": true,
@@ -42,6 +43,7 @@
     "Club.CUD": true,
     "Team.CUD": true,
     "Champ.CUD": true,
+    "Player.Edit": true,
     "Index": true,
     "ListUser": true,
     "ListClubs": true,
@@ -70,6 +72,7 @@
     "Club.CUD": false,
     "Team.CUD": false,
     "Champ.CUD": false,
+    "Player.Edit": true,
     "Index": true,
     "ListUser": false,
     "ListClubs": true,
@@ -92,6 +95,7 @@
     "Menu.ListTransfers.Execute":true,
     "Club.CUD": false,
     "Team.CUD": true,
+    "Player.Edit": false,
     "Index": true,
     "ListUser": false,
     "ListClubs": true,
@@ -119,6 +123,7 @@
     "Menu.Change.Execute":true,
     "Club.CUD": false,
     "Team.CUD": false,
+    "Player.Edit": false,
     "Index": true,
     "ListUser": false,
     "ListClubs": false,
@@ -129,5 +134,10 @@
     "ClubInfo": false,
     "ListChampionship": false,
     "Kardex": false
+  },
+  "Annonimus": {
+    "Menu.MainBoard.Execute": true,
+    "Index": true,
+    "Login": true
   }
 }

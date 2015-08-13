@@ -38,7 +38,7 @@ exports.RouteLogout = BASE_ROUTE_LOGOUT;
 
 var PLAYER_ROUTE = API + BASE_PLAYER_ROUTE;
 
-exports.PlayerRoute = PLAYER_ROUTE + '/:player_id';
+exports.PlayerRoute = PLAYER_ROUTE + '/:playerId';
 exports.PlayersRoute = PLAYER_ROUTE;
 exports.PlayersUploadRoute = PLAYER_ROUTE + '/fileupload';
 exports.PlayersDeleteRoute = PLAYER_ROUTE + '/:playerId/filedelete';

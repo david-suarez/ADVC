@@ -18,7 +18,7 @@ var RBACRoute = (function () {
     RBACRoute.prototype.getAccessPermissions = function (request, response){
         var permissions, user;
         permissions = void 0;
-        user = request.user ? request.user.role : '';
+        user = request.user ? request.user.role : 'Annonimus';
         if (user) {
             permissions = Permissions[user];
         }

@@ -7,7 +7,8 @@ advcApp = angular.module(
         'ngResource',
         'rbac',
         'ngAnimate',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'ngDragDrop'
     ]
 );
 
@@ -23,7 +24,6 @@ advcApp.config(["$routeProvider",
         ).when("/mainBoard",
             {
                 templateUrl: 'partials/boardView',
-                controller: "boardCtrl"
             }
         ).when("/listUser",
             {
@@ -75,10 +75,10 @@ advcApp.config(["$routeProvider",
                 templateUrl: 'partials/clubInfo',
                 controller: 'clubInfoCtrl'
             }
-        ).when("/listClubs/:clubId/players/:playerId/kardex",
+        ).when("/listClubs/:clubName/:clubId/players/:playerId/kardex",
             {
                 templateUrl: 'partials/kardexPlayer',
-                controller: 'kardexPlayerCtrl'
+                controller: 'listPlayersCtrl'
             }
         ).otherwise(
             {
@@ -97,6 +97,21 @@ advcApp.run([
                 if (SessionService.isAuthenticated()) {
                     var isUser = SessionService.get('idUSer');
                     $rbac.checkAccess(isUser).then(function(){
+                        var nextPage = "";
+                        if (next.originalPath != null) {
+                            var indexName = next.originalPath.lastIndexOf("/")
+                                + 1;
+                            nextPage = next.originalPath.slice(indexName,
+                                next.originalPath.length);
+                            nextPage = nextPage.charAt(0).toUpperCase() +
+                                nextPage.slice(1);
+                            if (!$rbac.allow(nextPage)) {
+                                $location.path('/mainBoard');
+                            }
+                        }
+                    });
+                } else {
+                    $rbac.checkAccess(null).then(function() {
                         var nextPage = "";
                         if (next.originalPath != null) {
                             var indexName = next.originalPath.lastIndexOf("/")

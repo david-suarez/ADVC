@@ -45,8 +45,11 @@ var PlayerSchema = new Schema({
     },
     'lastname': {
         'type': String,
-        'default': "",
-        'required': true
+        'default': ""
+    },
+    'secondlastname': {
+        'type': String,
+        'default': ""
     },
     'cityOfBirth': {
         'type': String,
@@ -59,6 +62,10 @@ var PlayerSchema = new Schema({
         'required': true
     },
     'ci': {
+        'type': Number,
+        'default': ""
+    },
+    'ciExtension': {
         'type': String,
         'default': ""
     },

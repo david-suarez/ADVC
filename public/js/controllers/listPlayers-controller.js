@@ -6,7 +6,10 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
         $scope.filteredPlayers = {};
         $scope.defaultImage = 'img/default-avatar.png';
         $scope.ciRequired = false;
-
+        $scope.currentPlayer = {};
+        $scope.oldDataCurrentPlayer = {};
+        $scope.wizard = {};
+        var playerId = $routeParams.playerId;
         /*
          Refreshes the local variables in angular.
          */
@@ -16,15 +19,29 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
                 return $scope.$apply();
             }
         };
+        if(!playerId){
+            listPlayersSrv.get({ club: $scope.currentClubId },
+                function(result){
+                    $scope.filteredPlayers = result.data;
+                },
+                function(error){
+                    console.log(error);
+                }
+            );
+        } else{
+            listPlayersSrv.get({playerId: playerId},
+                function(playerResult){
+                    $scope.currentPlayer = playerResult;
+                    $scope.oldDataCurrentPlayer = angular.copy(playerResult);
+                    $scope.wizard.age =
+                        $scope.calculateAge($scope.currentPlayer.dateOfBirth);
+                },
+                function(error){
+                    console.log(error)
+                }
+            );
+        }
 
-        listPlayersSrv.get({ club: $scope.currentClubId },
-            function(result){
-                $scope.filteredPlayers = result.data;
-            },
-            function(error){
-                console.log(error);
-            }
-        );
 
         var createIsReady = false;
         $scope.formPlayerName = 'Formulario de creación de jugadores';
@@ -413,8 +430,10 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
             data = {
                 name: $scope.wizard.name,
                 lastname: $scope.wizard.lastname,
+                secondlastname: $scope.wizard.secondlastname,
                 dateOfBirth: $scope.wizard.dateOfBirth,
-                ci: $scope.wizard.ci + '' + $scope.wizard.ext,
+                ci: $scope.wizard.ci,
+                ciExtension: $scope.wizard.ext,
                 branch: $scope.wizard.branch,
                 nationality: $scope.wizard.nationality,
                 cityOfBirth: $scope.wizard.cityOfBirth,
@@ -479,7 +498,9 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
         };
 
         $scope.dateOfBirthChange = function(){
-            var age = $scope.calculateAge($scope.wizard.dateOfBirth);
+            var dateOfBirth = $scope.wizard.dateOfBirth ?
+                $scope.wizard.dateOfBirth : $scope.currentPlayer.dateOfBirth;
+            var age = $scope.calculateAge(dateOfBirth);
             if(age > 11){
                 $scope.ciRequired = true;
             }else if(age < 4){
@@ -507,9 +528,51 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
 
         $scope.goToKardex = function(player) {
             var url;
-            url = '/listClubs/'+ player.club._id +'/players/' + player._id +
-                '/kardex';
+            var clubName = $routeParams.clubName;
+            url = '/listClubs/'+ clubName + '/'+ player.club + '/players/' +
+                player._id + '/kardex';
             return $location.path(url);
+        };
+
+        $scope.backPrevPage = function() {
+            var url;
+            var clubName = $routeParams.clubName;
+            var clubId = $routeParams.clubId;
+            url = '/listClubs/'+ clubName + '/'+ clubId + '/clubInfo';
+            return $location.path(url);
+        };
+
+        $scope.editCurrentPlayer = function(){
+            $scope.isEditing = true;
+        };
+
+        $scope.cancelEditCurrentPlayer = function(){
+            $scope.currentPlayer = angular.copy($scope.oldDataCurrentPlayer);
+            $scope.isEditing = false;
+        };
+
+        $scope.updateCurrentPlayer = function(){
+            var playerId = $scope.currentPlayer._id;
+            var data = $scope.currentPlayer;
+            listPlayersSrv.update({playerId: playerId}, {newDataPlayer: data},
+            function(dataResult){
+                $scope.oldDataCurrentPlayer = dataResult;
+                $scope.isEditing = false;
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'success', dismissQueue: true ,
+                    timeout:2000 });
+                alert('Los cambios se guardaron correctamente.');
+                $.noty.stopConsumeAlert();
+            },
+            function(error){
+                console.log(error);
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:2000 });
+                alert('Hubo un error al guardar la publicacion. ' +
+                    'Por favor intente mas tarde');
+                $.noty.stopConsumeAlert();
+            });
         };
     }
 ]);

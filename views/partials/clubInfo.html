@@ -121,7 +121,7 @@
                         </div>
 
                         <div ng-repeat="player in filteredPlayers = (players | filter:currentSelectedTeam.id)">
-                            <div class="advc-card-w220-h80-layout highlight-parent">
+                            <div class="advc-card-w220-h80-layout highlight-parent" >
                                 <div class="advc-highlight-mouse-over-card-animated" ng-dblclick="goToKardex(player)">
                                     <div class="float-right icon-close-30px animated-opacity pointer custom-margin-icon-close"  ng-show="!isFirstTeamSelected" tooltip="Remover del equipo."></div>
                                 </div>
@@ -270,10 +270,6 @@
                                                 </div>
                                             </div>
                                             <div class="col-xs-6">
-                                                <div class="form-group">
-                                                    <label>Lugar</label>
-                                                    <input class="form-control" type="number" tabindex="5" ng-model="wizard.place">
-                                                </div>
                                                 <div class="form-group">
                                                     <label>Partida</label>
                                                     <input class="form-control" type="number" tabindex="7" ng-model="wizard.part">

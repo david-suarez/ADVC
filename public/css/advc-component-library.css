@@ -32,6 +32,9 @@
 [class*="-h400"] {
     height: 410px;
 }
+[class*="-profile"] {
+    height: 1150px;
+}
 [class*="-h50"] {
     height: 50px;
 }

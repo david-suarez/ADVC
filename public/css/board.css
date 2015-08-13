@@ -20,7 +20,7 @@ section.main-board .main-body {
 }
 
 .container-board-players {
-    overflow: auto;
+    overflow: hidden;
     /*position absolute*/
     top: 55px;
     bottom: 0;
@@ -29,9 +29,10 @@ section.main-board .main-body {
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     width: 100%;
+    background-color: #dedede;
 }
 .container-whit-margin {
-    margin-top: 110px;
+    padding-top: 40px;
 }
 .container-board {
     margin-left: auto;

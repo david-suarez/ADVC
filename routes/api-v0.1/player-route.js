@@ -21,15 +21,21 @@ var PlayerRoute = (function() {
     }
 
     PlayerRoute.prototype.getPlayer = function(request, response){
-        var player_id = request.params.player_id;
-        PlayerModel.findById(player_id, function(error, data) {
-            if(error){
-                response.status(500).json(error.message);
+        var playerId = request.params.playerId;
+        var populateQuery = [
+            {path:'club', select:'_id name'},
+            {path:'team', select:'_id category division name'}
+        ];
+        PlayerModel.findById(playerId).populate(populateQuery)
+            .exec(function(error, data) {
+                if(error){
+                    response.status(500).json(error.message);
+                }
+                else{
+                    response.status(200).json(data);
+                }
             }
-            else{
-                response.status(200).json(data);
-            }
-        });
+        );
     };
 
     PlayerRoute.prototype.getPlayers = function(request, response){
@@ -64,8 +70,8 @@ var PlayerRoute = (function() {
     };
 
     PlayerRoute.prototype.removePlayer = function(request, response) {
-        var player_id = request.params.player_id;
-        PlayerModel.remove({_id: player_id}, function(err, doc){
+        var playerId = request.params.playerId;
+        PlayerModel.remove({_id: playerId}, function(err, doc){
             if (err){
                 response.status(500).json(err.message);
             } else {
@@ -75,10 +81,10 @@ var PlayerRoute = (function() {
     };
 
     PlayerRoute.prototype.updatePlayer = function(request, response) {
-        var player_id = request.params.player_id;
+        var playerId = request.params.playerId;
         var newDataPlayer = request.body.newDataPlayer;
-        if(player_id !== undefined && newDataPlayer !== undefined) {
-            PlayerModel.findById(player_id, function(error, player) {
+        if(playerId !== undefined && newDataPlayer !== undefined) {
+            PlayerModel.findById(playerId, function(error, player) {
                 if(error){
                     response.status(500).json(error.message);
                 }

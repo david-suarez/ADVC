@@ -9,6 +9,7 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
         $scope.Clubs = [];
         $scope.format = 'dd/MM/yyyy';
         $scope.formName = '';
+        var allClubs = [];
         var userRole = SessionService.get('userRole');
         var userId = SessionService.get('userId');
         //var filterclub = {};
@@ -19,6 +20,14 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
             $scope.createMode = true;
             $scope.editMode = false;
             $scope.formName = 'Formulario de Transferencias';
+            for(var index in allClubs){
+                if(allClubs[index].delegate){
+                    if(allClubs[index].delegate._id === userId){
+                        $scope.newTransfer.newClub = allClubs[index];
+                        break;
+                    }
+                }
+            }
         };
 
         var restartValidationFields = function(){
@@ -43,6 +52,7 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
 
         listClubsSrv.get({},
             function(result){
+                allClubs = angular.copy(result.data);
                 $scope.Clubs = result.data;
                 for(var index in $scope.Clubs){
                     if($scope.Clubs[index].delegate){
@@ -96,7 +106,8 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
                 originClub: $scope.newTransfer.originClub ?
                             $scope.newTransfer.originClub._id : null,
                 newClub: $scope.newTransfer.newClub,
-                delegate: userId,
+                delegate: $scope.newTransfer.newClub.delegate ?
+                    $scope.newTransfer.newClub.delegate._id : null,
                 requestDate: currentDate,
                 year : currentDate.getFullYear()
             };
@@ -179,9 +190,14 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
         $scope.formEditTransfer = function(transfer, indexRecord){
             var index = 0;
             var indexClub = 0;
+            var indexNextClub = 0;
 
             for(indexClub; indexClub < $scope.Clubs.length; indexClub++){
                 if($scope.Clubs[indexClub]._id === transfer.originClub._id)
+                    break;
+            }
+            for(indexNextClub; indexClub < allClubs.length; indexNextClub++){
+                if(allClubs[indexNextClub]._id === transfer.newClub._id)
                     break;
             }
             for(index; index < $scope.Players.length; index++){
@@ -195,6 +211,7 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
             $scope.newTransfer = {
                 originClub: $scope.Clubs[indexClub],
                 player: $scope.Players[index],
+                newClub: allClubs[indexNextClub],
                 index: indexRecord,
                 _id: transfer._id
             };
@@ -208,8 +225,8 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
             listTransfersSrv.update({transfersId: transfersId},
                 {transfer: newDataTransfer},
                 function (data) {
-                    var newDataPlayer = data.newDataPlayer;
-                    data.delete('newDataPlayer');
+                    var newDataPlayer = angular.copy(data.newDataPlayer);
+                    delete data.newDataPlayer;
                     $scope.Transfers[indexRecord] = data;
                     for(var index = 0; index < $scope.Players.length; index++){
                         if(newDataPlayer._id === $scope.Players[index]._id){

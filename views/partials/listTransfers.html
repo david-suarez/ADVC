@@ -31,7 +31,7 @@
                             <label>Club Destino</label>
                             <label  for="inputNewClub" class="sr-only">Club Destino</label>
                             <div allow="No.Change.Dest.Club" style="display: inline;">
-                                <input type="text" class="form-control" id="inputNewClub" ng-model="newClub.name" disabled>
+                                <input type="text" class="form-control" id="inputNewClub" ng-model="newTransfer.newClub.name" disabled>
                             </div>
                             <div allow="Change.Dest.Club">
                                 <select ng-model="newTransfer.newClub" ng-options="clubDest.name for clubDest in Clubs track by clubDest._id"></select>

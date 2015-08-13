@@ -65,15 +65,10 @@ advcApp.config(["$routeProvider",
                 templateUrl: 'partials/changePassword',
                 controller: "changePasswordCtrl"
             }
-        ).when("/clubInfo",
-            {
-                templateUrl: 'partials/clubInfo',
-                controller: "clubInfoCtrl"
-            }
         ).when("/listClubs/:clubName/:clubId/clubInfo",
             {
                 templateUrl: 'partials/clubInfo',
-                controller: 'clubInfoCtrl'
+                controller: 'listTeamsCtrl'
             }
         ).when("/listClubs/:clubName/:clubId/players/:playerId/kardex",
             {

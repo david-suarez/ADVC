@@ -194,19 +194,31 @@ advcApp.controller('mainCtrl', [
 
         $scope.fileIsValid = function(file) {
             if (!file) {
-                $.noty.consumeAlert({layout: 'topCenter', type: 'warning', dismissQueue: true , timeout:2000 });
+                $.noty.consumeAlert({layout: 'topCenter', type: 'warning',
+                    dismissQueue: true , timeout:2000 });
                 alert('El formato de archivo que escogio es erroneo');
                 $.noty.stopConsumeAlert();
                 return false;
             }
             if (file && file.type !== "image/jpeg"
-                && file.type !== "image/png" && file.type !== "application/pdf") {
-                $.noty.consumeAlert({layout: 'topCenter', type: 'warning', dismissQueue: true , timeout:2000 });
+                && file.type !== "image/png"
+                && file.type !== "application/pdf") {
+                $.noty.consumeAlert({layout: 'topCenter', type: 'warning',
+                    dismissQueue: true , timeout:2000 });
                 alert('El formato de archivo que escogio es erroneo');
                 $.noty.stopConsumeAlert();
                 $("#fileElement").val('');
                 return false;
             }
+            if((file.size/1000) > 8000){
+                $.noty.consumeAlert({layout: 'topCenter', type: 'warning',
+                    dismissQueue: true , timeout:2000 });
+                alert('El tamaño del archivo no debe ser mayor a 8 Megabytes.');
+                $.noty.stopConsumeAlert();
+                $("#fileElement").val('');
+                return false;
+            }
+
             if(file.type === "application/pdf")
                 $scope.newPublication.type = 'secondary';
             else
@@ -257,17 +269,18 @@ advcApp.controller('mainCtrl', [
                 'de forma permanente?');
             if(resp){
                 var pubId = $scope.newPublication.id;
+                var fileName = $scope.newPublication.file;
                 deleteFileSrv.delete({publicationId: pubId},
-                    {fileName: $scope.file},
+                    {fileName: fileName},
                     function(data){
                         var index = $scope.newPublication.index;
                         var type = $scope.newPublication.type;
                         if(type === 'main' &&
                             $scope.mainPublications[index].file ===
-                            $scope.file) {
+                            $scope.newPublication.file) {
                             $scope.mainPublications[index] = data;
                         } else if($scope.downPublications[index].file ===
-                            $scope.file){
+                            $scope.newPublication.file){
                             $scope.downPublications.splice(index, 1);
                             $scope.mainPublications.unshift(data);
                         }
@@ -277,7 +290,7 @@ advcApp.controller('mainCtrl', [
                         alert('Se elimino el archivo correctamente');
                         $.noty.stopConsumeAlert();
                         $scope.newPublication.fileName = '';
-                        $scope.file = '';
+                        $scope.newPublication.file = '';
                         $scope.newPublication.type = 'main';
                     },
                     function(error){
@@ -292,9 +305,8 @@ advcApp.controller('mainCtrl', [
         };
 
         $scope.updatePublication = function(){
-            var file;
-            if(typeof($scope.file) === 'object') {
-                file = $scope.file[0];
+            var file = $scope.file ? $scope.file[0] : null;
+            if(file) {
                 return $scope.uploadFile(file, $scope.updateCallback);
             } else {
                 return $scope.updateCallback();

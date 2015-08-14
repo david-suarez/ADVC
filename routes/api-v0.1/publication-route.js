@@ -134,27 +134,36 @@ var PublicationRoute = (function () {
         var publicationId = request.params.publicationId;
         var fileName = request.body.fileName;
         var pathFile = './public/uploads/' + fileName;
-        fs.unlink(pathFile, function (error) {
-            if (error) response.status(500).json(error.message);
-            PublicationModel.findById(publicationId, function(error, pub) {
-                if(error){
-                    response.status(500).json(error.message);
-                }
-                else {
-                    pub.file = '';
-                    pub.fileName = '';
-                    pub.type = 'main';
-                    pub.save(function(err, publicationUpdated){
-                        if(err){
-                            response.status(500).json(err.message);
-                        }
-                        else {
-                            response.status(200).json(publicationUpdated);
-                        }
-                    });
-                }
-            });
+
+        if(fs.existsSync(pathFile)){
+            fs.unlinkSync(pathFile);
+        }
+
+        PublicationModel.findById(publicationId, function(errorModel,
+                                                          pub) {
+            if(errorModel){
+                console.log('MODEL FIND');
+                console.log(errorModel);
+                response.status(500).json(errorModel.message);
+            }
+            else {
+                console.log(pub);
+                pub.file = '';
+                pub.fileName = '';
+                pub.type = 'main';
+                pub.save(function(err, publicationUpdated){
+                    if(err){
+                        console.log('MODEL SAVE');
+                        console.log(err);
+                        response.status(500).json(err.message);
+                    }
+                    else {
+                        response.status(200).json(publicationUpdated);
+                    }
+                });
+            }
         });
+
     };
     return PublicationRoute;
 })();

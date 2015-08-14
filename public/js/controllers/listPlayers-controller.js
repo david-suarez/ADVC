@@ -390,6 +390,13 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
                 $.noty.stopConsumeAlert();
                 $("#fileElement").val('');
                 return false;
+            } else if((file.size/1000) > 8000){
+                $.noty.consumeAlert({layout: 'topCenter', type: 'warning',
+                    dismissQueue: true , timeout:2000 });
+                alert('El tamaño del archivo no debe ser mayor a 8 Megabytes.');
+                $.noty.stopConsumeAlert();
+                $("#fileElement").val('');
+                return false;
             } else {
                 $scope.tmpImage = window.URL.createObjectURL(file);
                 return true;

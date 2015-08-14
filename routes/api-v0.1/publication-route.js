@@ -142,19 +142,14 @@ var PublicationRoute = (function () {
         PublicationModel.findById(publicationId, function(errorModel,
                                                           pub) {
             if(errorModel){
-                console.log('MODEL FIND');
-                console.log(errorModel);
                 response.status(500).json(errorModel.message);
             }
             else {
-                console.log(pub);
                 pub.file = '';
                 pub.fileName = '';
                 pub.type = 'main';
                 pub.save(function(err, publicationUpdated){
                     if(err){
-                        console.log('MODEL SAVE');
-                        console.log(err);
                         response.status(500).json(err.message);
                     }
                     else {

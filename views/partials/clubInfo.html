@@ -196,8 +196,20 @@
                                  ng-class="{'advc-bg-color-gray': !isEnableToPlay(player)}">
 
                                 <div class="advc-highlight-mouse-over-card-animated" ng-dblclick="goToKardex(player)">
-                                    <div class="float-right icon-close-30px animated-opacity pointer custom-margin-icon-close"  ng-show="!isFirstTeamSelected" tooltip-placement="right" tooltip="Remover del equipo."></div>
-                                    <div allow="Player.Edit"><div class="float-right pointer custom-margin-icon-hab icon-done-20px" ng-class="{'advc-color11': isEnableToPlay(player)}" tooltip-placement="right" tooltip="{{player.enableTooltip}}" ng-click="enablePlayer(player, $index)"></div></div>
+                                    <div class="float-right icon-close-30px animated-opacity pointer custom-margin-icon-close"
+                                         ng-show="!isFirstTeamSelected"
+                                         tooltip-placement="right"
+                                         ng-click="removePlayerOfTeam(player, $index)"
+                                         tooltip="Remover del equipo.">
+                                    </div>
+                                    <div allow="Player.Edit">
+                                        <div class="float-right pointer custom-margin-icon-hab icon-done-20px"
+                                             ng-class="{'advc-color11': isEnableToPlay(player)}"
+                                             tooltip-placement="right"
+                                             tooltip="{{player.enableTooltip}}"
+                                             ng-show="isFirstTeamSelected">
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="highlighted-container">
                                     <div class="left-header">
@@ -428,33 +440,33 @@
                                 <label>Nombre(*)</label>
                                 <label for="inputName" class="sr-only">Nombre</label>
                                 <input type="text" id="inputName" class="form-control" ng-class="{'has-error':!isNameValid}" placeholder="Nombre"
-                                       required="True" autofocus="1" ng-model="newTeam.name">
+                                       required="True" autofocus="1" ng-model="newTeam.name" ng-disabled="!permitEdit">
                                 <span style="color: red;" ng-if="!isNameValid">* El nombre tiene caracteres no permitidos</span>
                             </div>
                             <div class="form-group">
                                 <label>Rama(*)</label>
-                                <select ng-options="branch for branch in branchValues" ng-model="newTeam.branch"></select>
+                                <select ng-options="branch for branch in branchValues" ng-model="newTeam.branch" ng-disabled="!permitEdit"></select>
                             </div>
 
                             <div class="form-group">
                                 <label>Categoria(*)</label>
-                                <select ng-options="cat for cat in categoryValues" ng-model="newTeam.category"></select>
+                                <select ng-options="cat for cat in categoryValues" ng-model="newTeam.category" ng-disabled="!permitEdit"></select>
                             </div>
 
                             <div class="form-group">
                                 <label>Division(*)</label>
-                                <select ng-if="newTeam.category == 'Mayores'" ng-options="major for major in majorCategoryValues" ng-model="newTeam.major"></select>
-                                <select ng-if="newTeam.category == 'Menores'" ng-options="minor for minor in minorCategoryValues" ng-model="newTeam.minor"></select>
+                                <select ng-if="newTeam.category == 'Mayores'" ng-options="major for major in majorCategoryValues" ng-model="newTeam.major" ng-disabled="!permitEdit"></select>
+                                <select ng-if="newTeam.category == 'Menores'" ng-options="minor for minor in minorCategoryValues" ng-model="newTeam.minor" ng-disabled="!permitEdit"></select>
                             </div>
                             <div class="form-group">
                                 <label>Campeonato(*)</label>
-                                <select ng-model="newTeam.championship" ng-options="championship._id as championship.name for championship in Championships"/>
+                                <select ng-model="newTeam.championship" ng-options="championship._id as championship.name for championship in Championships" ng-disabled="!permitEdit"/>
                             </div>
                         </form>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="createTeam()" ng-if="createMode">Crear Equipo</button>
-                        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="editTeam()" ng-if="editMode">Actualizar Equipo</button>
+                        <button class="btn btn-lg btn-primary btn-block" type="submit" ng-click="editTeam()" ng-if="editMode" ng-disabled="!permitEdit">Actualizar Equipo</button>
                         <button class="btn btn-lg btn-info btn-block" type="submit" data-dismiss="modal" ng-click="closeModal()">Cancelar</button>
                     </div>
                 </div>

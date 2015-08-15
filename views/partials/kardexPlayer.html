@@ -7,39 +7,51 @@
     <div ng-controller="listPlayersCtrl" class="profile">
         <div id="div-employee-profile-card" class="advc-rounded-card-pub-comp-profile highlight-parent float-left">
             <div>
-                <div allow="Player.Edit">
-                    <div id="div-cancel-edit-player"
-                         ng-click="cancelEditCurrentPlayer()"
-                         class="float-right opaque-icon animated"
-                         style="font-size:22px; margin: 12px 15px 0 0;"
-                         tooltip="Cancelar Edicion" ng-show="isEditing">
-                        <span class="glyphicon glyphicon-remove cursor-hand"></span>
+                <div  ng-if="isEditing">
+                    <div allow="Player.Edit">
+                        <div id="div-cancel-edit-player"
+                             ng-click="cancelEditCurrentPlayer()"
+                             class="float-right opaque-icon animated"
+                             style="font-size:22px; margin: 12px 15px 0 0;"
+                             tooltip="Cancelar Edicion">
+                            <span class="glyphicon glyphicon-remove cursor-hand"></span>
+                        </div>
+                    </div>
+                    <div allow="Player.Edit">
+                        <div id="div-save-edit-player"
+                             ng-click="updateCurrentPlayer()"
+                             class="float-right opaque-icon animated"
+                             style="font-size:22px; margin: 12px 15px 0 0;"
+                             tooltip="Guardar Edicion">
+                            <span class="glyphicon glyphicon-floppy-disk cursor-hand"></span>
+                        </div>
                     </div>
                 </div>
-                <div allow="Player.Edit">
-                    <div id="div-save-edit-player"
-                         ng-click="updateCurrentPlayer()"
+                <div  ng-if="!isEditing">
+                    <div id="div-save-back-prev-page"
+                         ng-click="backPrevPage()"
                          class="float-right opaque-icon animated"
                          style="font-size:22px; margin: 12px 15px 0 0;"
-                         tooltip="Guardar Edicion" ng-show="isEditing">
-                        <span class="glyphicon glyphicon-floppy-disk cursor-hand"></span>
+                         tooltip="Volver">
+                        <span class="glyphicon glyphicon-eject cursor-hand"></span>
                     </div>
-                </div>
-                <div allow="Player.Edit">
-                    <div id="div-edit-player"
-                         ng-click="editCurrentPlayer()"
-                         class="icon-edit_button-40px float-right opaque-icon animated cursor-hand"
-                         style="margin: 5px 15px 0 0;" tooltip="Editar Jugador" ng-show="!isEditing">
+                    <div allow="Player.Edit">
+                        <div id="div-edit-player"
+                             ng-click="editCurrentPlayer()"
+                             class="icon-edit_button-40px float-right opaque-icon animated cursor-hand"
+                             style="margin: 5px 0px 0 0;" tooltip="Editar Jugador">
+                        </div>
                     </div>
+                    <div allow="Player.Edit">
+                        <div class="float-right pointer custom-margin-icon-hab icon-done-40px"
+                             ng-class="{'advc-color11': isEnableToPlay(currentPlayer)}"
+                             tooltip-placement="up" tooltip="{{currentPlayer.enableTooltip}}"
+                             ng-click="enablePlayer(currentPlayer)" style="margin-top: 3px" >
+                        </div>
+                    </div>
+
                 </div>
 
-                <div id="div-save-back-prev-page"
-                     ng-click="backPrevPage()"
-                     class="float-right opaque-icon animated"
-                     style="font-size:22px; margin: 12px 15px 0 0;"
-                     tooltip="Volver">
-                    <span class="glyphicon glyphicon-eject cursor-hand"></span>
-                </div>
 
             </div>
             <h2 style="text-align: center">Kardex individual de jugadores</h2>

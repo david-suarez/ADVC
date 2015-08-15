@@ -11,6 +11,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
         $scope.Championships = [];
         $scope.createMode = false;
         $scope.editMode = false;
+        $scope.permitEdit = true;
 
         listPlayersSrv.get({ club: currentClubId },
             function(players){
@@ -187,8 +188,10 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                                 break;
                             }
                         }
-                        $scope.Teams[teamIndex]= team;
-                        $scope.currentSelectedTeam = team;
+                        $scope.currentSelectedTeam = null;
+                        $scope.setLocalAttributesClearance(team);
+                        $scope.selectedTeam(team, teamIndex);
+                        $scope.Teams[teamIndex] = team;
                         $('#create-team').modal('hide'); //hide modal
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
@@ -315,9 +318,36 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             }
         };
 
-        $scope.formEditTeam = function(team, index){
+        var _isValidInscriptionDate = function(){
+            var currentDate = new Date();
+            currentDate.setHours(23);
+            currentDate.setMinutes(59);
+            currentDate.setSeconds(59);
+            var finalInscriptionDate = new Date(
+                $scope.currentSelectedTeam.finalInscriptionDate);
             $scope.createMode = false;
             $scope.editMode = true;
+            if(currentDate > finalInscriptionDate){
+                $scope.permitEdit = false;
+                return false;
+
+            } else {
+                $scope.permitEdit = true;
+                return true;
+            }
+
+        };
+
+        $scope.formEditTeam = function(team, index){
+            if(!_isValidInscriptionDate()){
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:4000 });
+                alert('No es posible editar el equipo, debido a que la fecha' +
+                    ' de inscripcion para el campeonato al que esta inscrito ' +
+                    'han terminado');
+                $.noty.stopConsumeAlert();
+            }
             $scope.newTeam = {
                 name: team.name,
                 major: team.category === 'Mayores' ? team.division : null,
@@ -350,14 +380,12 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                     $scope.currentSelectedTeam);
                 team.selected = true;
                 $scope.isFirstTeamSelected = false;
-                console.log($scope.currentSelectedTeam);
                 $scope.$broadcast('updateTeam', $scope.currentSelectedTeam);
             } else {
                 $scope.currentSelectedTeam.selected = false;
                 $scope.$broadcast('cleanSelectedPlayers',
                     $scope.currentSelectedTeam);
                 $scope.currentSelectedTeam = team;
-                console.log($scope.currentSelectedTeam);
                 team.selected = true;
                 $scope.isFirstTeamSelected = false;
                 $scope.$broadcast('updateTeam', $scope.currentSelectedTeam);
@@ -581,8 +609,91 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
         $scope.onOver = function(event, ui, team) {
             return team.isOver = true;
         };
+
         $scope.onOut = function(event, ui, team) {
             return team.isOver = false;
         };
+
+        var _isReinforcement = function(dateOfBirhtPlayer){
+            var agePlayer = $scope.calculateAge(dateOfBirhtPlayer);
+            if($scope.currentSelectedTeam.category === 'Mayores' &&
+                agePlayer < 20){
+                return true;
+            }else if($scope.currentSelectedTeam.division === 'Sub-23' &&
+                agePlayer < 20){
+                return true;
+            }
+            return false
+        };
+
+        $scope.removePlayerOfTeam = function(player, index){
+            var teamId = $scope.currentSelectedTeam.id;
+            var playerId = player._id;
+            if(!_isValidInscriptionDate()){
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:5000 });
+                alert('No es posible remover al jugador, debido a que la ' +
+                    'fecha de inscripciones para el campeonato al que esta ' +
+                    'inscrito han terminado');
+                $.noty.stopConsumeAlert();
+                return;
+            }
+            var indexPlayer = $scope.currentSelectedTeam.players
+                .indexOf(playerId);
+            $scope.currentSelectedTeam.players.splice(indexPlayer, 1);
+            var indexTeam = player.team.indexOf(teamId);
+            player.team.splice(indexTeam, 1);
+            var reinforce = _isReinforcement(player.dateOfBirth);
+            var newDataTeam = {
+                players: $scope.currentSelectedTeam.players,
+                reinforcement: reinforce ? player.reinforcement - 1
+                    : player.reinforcement
+            };
+            var newDataPlayer = {
+                team:  player.team,
+                majorCategory:
+                    $scope.currentSelectedTeam.category === 'Mayores' ? false :
+                        player.majorCategory
+            };
+            listTeamSrv.update({teamId: teamId}, {newDataTeam: newDataTeam},
+                function(dataResult){
+                    listPlayersSrv.update({playerId: playerId},
+                        {newDataPlayer: newDataPlayer},
+                        function(resultPlayer){
+                            $.noty.consumeAlert({layout: 'topCenter',
+                                type: 'success', dismissQueue: true ,
+                                timeout:2000 });
+                            alert("El Jugador '" + resultPlayer.name + " " +
+                                resultPlayer.lastname + "' fue removido " +
+                                "exitosamente del equipo '" +
+                                $scope.currentSelectedTeam.name + "'." );
+                            $.noty.stopConsumeAlert();
+                        },
+                        function(error){
+                            $.noty.consumeAlert({layout: 'topCenter',
+                                type: 'error', dismissQueue: true ,
+                                timeout:2000 });
+                            alert('Hubo un problema en el servidor. Por favor ' +
+                                'intente mas tarde');
+                            $.noty.stopConsumeAlert();
+                            $scope.currentSelectedTeam.players.push(player._id);
+                            $scope.assignPlayerToTeam(player,
+                                $scope.currentSelectedTeam);
+                            player.team.push($scope.currentSelectedTeam.id);
+                        }
+                    );
+                },
+                function(error){
+                    $.noty.consumeAlert({layout: 'topCenter',
+                        type: 'error', dismissQueue: true ,
+                        timeout:2000 });
+                    alert('Hubo un problema en el servidor. Por favor intente' +
+                        ' mas tarde');
+                    $.noty.stopConsumeAlert();
+                    $scope.currentSelectedTeam.players.push(player);
+                })
+        }
+
     }
 ]);

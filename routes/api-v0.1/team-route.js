@@ -53,6 +53,8 @@ var TeamRoute = (function(){
                                 data[index].championship._id : '',
                         nameChampionship: data[index].championship ?
                             data[index].championship.name : '',
+                        finalInscriptionDate: data[index].championship ?
+                            data[index].championship.final_inscription_date : '',
                         players: data[index].players
                     })
                 }

@@ -99,12 +99,18 @@ advcApp.run([
                                 + 1;
                             nextPage = next.originalPath.slice(indexName,
                                 next.originalPath.length);
-                            currentPage = current.originalPath.slice(indexName,
-                                next.originalPath.length);
+                            if(current){
+                                var index = current.loadedTemplateUrl
+                                        .lastIndexOf("/") + 1;
+                                currentPage = current.loadedTemplateUrl.slice(
+                                    index,
+                                    current.loadedTemplateUrl.length);
+                            }
+
                             nextPage = nextPage.charAt(0).toUpperCase() +
                                 nextPage.slice(1);
                             if(!$rbac.allow('ListClubs')
-                                && currentPage !== 'mainBoard') {
+                                && currentPage !== 'boardBoard') {
                                 $rbac.reset();
                                 SessionService.unsetAll('logged');
                                 $rootScope.$emit('userAuthenticated', false);

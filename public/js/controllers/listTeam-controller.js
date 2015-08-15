@@ -188,6 +188,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                             }
                         }
                         $scope.Teams[teamIndex]= team;
+                        $scope.currentSelectedTeam = team;
                         $('#create-team').modal('hide'); //hide modal
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
@@ -282,16 +283,35 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             restartValidationFields();
         };
 
-        $scope.formDeleteTeam = function(teamId, index){
+        $scope.formDeleteTeam = function(team, index){
             var r = confirm("¿Quiere confirmar la eliminación del equipo?");
+            var teamId = team.id;
+            var players = team.players;
             if (r === true) {
-                listTeamSrv.delete({teamId: teamId}, function(data){
-                        $scope.Teams.splice(index,1);
-                    },
-                    function(error){
-                        console.log(error);
-                    }
-                );
+                if(players.length === 0){
+                    listTeamSrv.delete({teamId: teamId}, function(data){
+                            $scope.Teams.splice(index,1);
+                            $scope.selectedFirstTeam();
+                            $.noty.consumeAlert({layout: 'topCenter',
+                                type: 'success', dismissQueue: true ,
+                                timeout:2000 });
+                            alert('Equipo eliminado exitosamente.');
+                            $.noty.stopConsumeAlert();
+                        },
+                        function(error){
+                            console.log(error);
+                        }
+                    );
+                }else {
+                    $.noty.consumeAlert({layout: 'topCenter',
+                        type: 'warning', dismissQueue: true ,
+                        timeout:4000 });
+                    alert('El equipo aun tiene jugadores asignados. Por favor' +
+                        ' elimine a los judagores de este equipo para poder' +
+                        ' eliminarlo.');
+                    $.noty.stopConsumeAlert();
+                }
+
             }
         };
 
@@ -312,6 +332,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
 
         $scope.setLocalAttributesClearance = function(team) {
             team.selected = false;
+            team.isOver = false;
             if (!team.players) {
                 team.players = [];
             }
@@ -321,8 +342,9 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
         };
 
         $scope.currentSelectedTeam = null;
-        $scope.selectedTeam = function(team) {
+        $scope.selectedTeam = function(team, index) {
             if(!$scope.currentSelectedTeam){
+                team.index = index;
                 $scope.currentSelectedTeam = team;
                 $scope.$broadcast('cleanSelectedPlayers',
                     $scope.currentSelectedTeam);
@@ -340,7 +362,6 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                 $scope.isFirstTeamSelected = false;
                 $scope.$broadcast('updateTeam', $scope.currentSelectedTeam);
             }
-
         };
 
         $scope.selectedFirstTeam = function(){
@@ -357,6 +378,211 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                 $scope.$broadcast('updateTeam', $scope.currentSelectedTeam);
             }
 
-        }
+        };
+
+        var _isValidPlayerAssignation = function(team, player){
+            var agePlayer = $scope.calculateAge(player.dateOfBirth);
+            var response = true;
+            var message = "";
+            if(team.branch !== player.branch){
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:2000 });
+                alert('No es posible asignar al jugador(a), por que la rama ' +
+                    'en la que participan es diferente.');
+                $.noty.stopConsumeAlert();
+                return false;
+            }
+            if(team.category === 'Mayores' && player.majorCategory){
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:2000 });
+                alert('El jugador ya pertenece a otro equipo de la categoria ' +
+                    'mayor. La asignación que desea haces no es posible.');
+                $.noty.stopConsumeAlert();
+                return false;
+            } else{
+                switch (team.division){
+                    case 'Pre Mini':
+                        if(agePlayer > 10){
+                            response = false;
+                            message = "El Jugador no pertenece a la categoria " +
+                                "'Pre Mini', puesto que cumple " + agePlayer +
+                                " años este año."
+                        }
+                        break;
+                    case 'Mini':
+                        if(agePlayer > 12){
+                            response = false;
+                            message = "El Jugador no pertenece a la categoria " +
+                                "'Mini', puesto que cumple " + agePlayer +
+                                " años este año."
+                        }
+                        break;
+                    case 'Infantil':
+                        if(agePlayer > 14){
+                            response = false;
+                            message = "El Jugador no pertenece a la categoria " +
+                                "'Infantil', puesto que cumple " + agePlayer +
+                                " años este año."
+                        }
+                        break;
+                    case 'Cadetes':
+                        if(agePlayer > 16){
+                            response = false;
+                            message = "El Jugador no pertenece a la categoria " +
+                                "'Cadetes', puesto que cumple " + agePlayer +
+                                " años este año."
+                        }
+                        break;
+                    case 'Juvenil':
+                        if(agePlayer > 19){
+                            response = false;
+                            message = "El Jugador no pertenece a la categoria " +
+                                "'Juvenil', puesto que cumple " + agePlayer +
+                                " años este año."
+                        }
+                        break;
+                    case 'Sub-23':
+                        if(agePlayer > 23){
+                            if(team.reinforcement > 2 && agePlayer < 20){
+                                response = false;
+                                message = "El Jugador no puede ser agregado " +
+                                    "al equipo Sub-23 por que este ya cuenta " +
+                                    "con dos refuerzos de divisiones menores."
+                            } else {
+                                message = "El Jugador no pertenece a la " +
+                                    "categoria 'Sub-23', puesto que cumple "
+                                    + agePlayer + " años este año."
+                            }
+                            if(!message)
+                                team.reinforceBool = true
+                        }
+                        break;
+                }
+            }
+            if(message){
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:4000 });
+                alert(message);
+                $.noty.stopConsumeAlert();
+            }else if(team.category === "Mayores" && agePlayer < 20){
+                team.reinforceBool = true
+            }
+            return response;
+        };
+
+        $scope.calculateAge = function(dateOfBirth){
+            var today = new Date();
+            var todayYear = today.getYear();
+            var maxMonth = 11;
+            var maxDate = 31;
+
+
+            var birthDate = new Date(dateOfBirth);
+
+            var date = birthDate.getDate();
+            var month = birthDate.getMonth();
+            var year = birthDate.getYear();
+            var age = (todayYear + 1900) - year;
+
+            if ( maxMonth < (month - 1)){
+                age--;
+            }
+            if (((month - 1) == maxMonth) && (maxDate < date)){
+                age--;
+            }
+            if (age >= 1900){
+                age -= 1900;
+            }
+            return age;
+        };
+
+        $scope.assignPlayerToTeam = function(player, team){
+            var teamId = team.id;
+            var playerId = player._id;
+            if(!_isValidPlayerAssignation(team, player)){
+                return;
+            }
+            if(team.players.indexOf(playerId) !== -1){
+                $.noty.consumeAlert({layout: 'topCenter',
+                    type: 'warning', dismissQueue: true ,
+                    timeout:2000 });
+                alert('El jugador ya es parte de este equipo.');
+                $.noty.stopConsumeAlert();
+                return;
+            }
+            team.players.push(playerId);
+            player.team.push(teamId);
+            var newDataTeam = {
+                players: team.players,
+                reinforceBool: player.reinforceBool ? true : false
+            };
+            var newDataPlayer = {
+                team:  player.team,
+                majorCategory: team.category === 'Mayores' ? true: false
+            };
+            listTeamSrv.update({teamId: teamId}, {newDataTeam: newDataTeam},
+                function(dataResult){
+                    listPlayersSrv.update({playerId: playerId},
+                        {newDataPlayer: newDataPlayer},
+                        function(resultPlayer){
+                            $.noty.consumeAlert({layout: 'topCenter',
+                                type: 'success', dismissQueue: true ,
+                                timeout:2000 });
+                            alert("El Jugador '" + resultPlayer.name + " " +
+                                resultPlayer.lastname + "' fue agreagado " +
+                                "exitosamente al equipo '" + team.name +
+                                "'." );
+                            $.noty.stopConsumeAlert();
+                        },
+                        function(error){
+                            $.noty.consumeAlert({layout: 'topCenter',
+                                type: 'error', dismissQueue: true ,
+                                timeout:2000 });
+                            alert('Hubo un problema en el servidor. Por favor ' +
+                                'intente mas tarde');
+                            $.noty.stopConsumeAlert();
+                            team.players.pop();
+                            player.team.pop();
+                        }
+                    );
+                }, function(error){
+                    team.players.pop();
+                    player.team.pop();
+                    $.noty.consumeAlert({layout: 'topCenter',
+                        type: 'error', dismissQueue: true ,
+                        timeout:2000 });
+                    alert('Hubo un problema en el servidor. Por favor intente' +
+                        ' mas tarde');
+                    $.noty.stopConsumeAlert();
+                });
+        };
+
+        $scope.dragObject = function(event, ui, player) {
+            $scope.draggingInProcess = true;
+            $scope.currentDragPlayer = player;
+        };
+
+        $scope.dragFinishObject = function(event, ui) {
+            return $scope.draggingInProcess = false;
+        };
+
+        $scope.dropCallback = function(event, ui, team) {
+            var dragObject;
+            if ($scope.currentDragPlayer != null) {
+                dragObject = $scope.currentDragPlayer;
+                $scope.assignPlayerToTeam(dragObject, team);
+            }
+            return team.isOver = false;
+        };
+
+        $scope.onOver = function(event, ui, team) {
+            return team.isOver = true;
+        };
+        $scope.onOut = function(event, ui, team) {
+            return team.isOver = false;
+        };
     }
 ]);

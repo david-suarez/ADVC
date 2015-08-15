@@ -41,7 +41,7 @@ var PlayerRoute = (function() {
     PlayerRoute.prototype.getPlayers = function(request, response){
         var self = this;
         var filter = request.query;
-        var query = PlayerModel.find(filter);
+        var query = PlayerModel.find(filter).sort({status: -1});
         query.exec(function(error, data) {
             if (error) {
                 response.status(500).json(error.message);

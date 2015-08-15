@@ -22,6 +22,12 @@
 [class*="-w220"] {
     width: 220px;
 }
+[class*="-w100"] {
+    min-width: 100px !important;
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    width: 100px;
+}
 [class*="-pub-half"] {
     width: 50%;
 }
@@ -263,6 +269,16 @@
 }
 [class*="-highlight-mouse-over-rounded-card-button"] {
     width: 226px;
+    height: 56px;
+    position: absolute;
+    border-radius: 6px;
+    margin: -3px;
+    border: #0082ff 3px solid;
+    opacity: 0;
+    cursor: pointer;
+}
+[class*="-highlight-mouse-over-rounded-card-edit"] {
+    width: 106px;
     height: 56px;
     position: absolute;
     border-radius: 6px;
@@ -534,4 +550,9 @@
 }
 .advc-row {
     margin: 0 15px !important;
+}
+
+.opacity-drop{
+    opacity: 0.75;
+    background-color: #39c;
 }

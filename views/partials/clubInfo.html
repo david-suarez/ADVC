@@ -15,14 +15,49 @@
                     .custom-label{ font-size: 14px; padding-left: 5px; }
                 </style>
                 <div class="panel_content">
-                    <div class="advc-rounded-card-w220-h50 highlight-parent float-left space-top-10px">
-                        <div class="advc-highlight-mouse-over-rounded-card-button-animated" data-toggle="modal" data-target="#create-team" ng-click="formCreateTeam()"></div>
+                    <div class="advc-rounded-card-w220-h50 highlight-parent float-left space-top-10px" ng-if="isFirstTeamSelected">
+                        <div class="advc-highlight-mouse-over-rounded-card-button-animated"
+                             data-toggle="modal"
+                             data-target="#create-team"
+                             ng-click="formCreateTeam()"></div>
                         <div class="highlighted-rounded-container">
                             <div class="left-body advc-font-semibold custom-label">
                                 <div class="advc-vertical-align-container" >
                                     <div class="advc-valign-middle ">
                                         <div class="custom-text-overflow" ng-class="{'task-words':clearance.onProgress[clearance.type]}">
                                             Crear equipo
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="advc-rounded-card-w100-h50 highlight-parent float-left space-top-10px advc-bg-color-j" ng-if="!isFirstTeamSelected">
+                        <div class="advc-highlight-mouse-over-rounded-card-edit-animated"
+                             data-toggle="modal"
+                             data-target="#create-team"
+                             ng-click="formEditTeam(currentSelectedTeam, currentSelectedTeam.index)"></div>
+                        <div class="highlighted-rounded-container">
+                            <div class="left-body advc-font-semibold custom-label">
+                                <div class="advc-vertical-align-container" >
+                                    <div class="advc-valign-middle ">
+                                        <div class="custom-text-overflow" ng-class="{'task-words':clearance.onProgress[clearance.type]}">
+                                            <i class="glyphicon glyphicon-pencil"></i> Editar
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="advc-rounded-card-w100-h50 highlight-parent float-left space-top-10px advc-bg-color-k advc-color-white" ng-if="!isFirstTeamSelected">
+                        <div class="advc-highlight-mouse-over-rounded-card-edit-animated"
+                             ng-click="formDeleteTeam(currentSelectedTeam, currentSelectedTeam.index)"></div>
+                        <div class="highlighted-rounded-container">
+                            <div class="left-body advc-font-semibold custom-label">
+                                <div class="advc-vertical-align-container" >
+                                    <div class="advc-valign-middle ">
+                                        <div class="custom-text-overflow" ng-class="{'task-words':clearance.onProgress[clearance.type]}">
+                                            <i class="glyphicon glyphicon-trash"></i>  Eliminar
                                         </div>
                                     </div>
                                 </div>
@@ -52,12 +87,15 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-click="selectedTeam(team)"
+                    <div ng-click="selectedTeam(team, $index)"
                          class="advc-rounded-card-w220-h80 highlight-parent float-left space-top-10px"
-                         ng-repeat="team in Teams">
+                         ng-repeat="team in Teams" ng-show="isFirstTeamSelected && !team.selected">
                         <div ng-model="team.selected"
-                             class="advc-highlight-mouse-over-rounded-card-animated"  ng-class="{'selected-highlight': team.selected}"
-                             over-clearance = "{{team.isOver}}"></div>
+                             data-drop="true"
+                             data-jqyoui-options="{accept: '.accept-d'}"
+                             jqyoui-droppable="{index: {{$index}}, onDrop:'dropCallback(team)', onOver:'onOver(team)', onOut:'onOut(team)',multiple:true}"
+                             class="advc-highlight-mouse-over-rounded-card-animated"  ng-class="{'selected-highlight': team.selected, 'opacity-drop': team.isOver}"
+                             ></div>
                         <div class="highlighted-rounded-container" ng-class="{'advc-bg-{{team.color.code}}': team.selected}">
                             <div class="left-body advc-font-semibold custom-label"
                                  ng-class="{'advc-{{team.color.code}}': !team.selected}">
@@ -120,9 +158,43 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="advc-rounded-card-w220-h80 highlight-parent float-left space-top-10px"
+                             ng-show="!isFirstTeamSelected && currentSelectedTeam.selected" style="margin-left: 20px;">
+                            <div class="highlighted-rounded-container advc-bg-color1">
+                                <div class="left-body advc-font-semibold custom-label">
+                                    <div class="advc-vertical-align-container" >
+                                        <div class="advc-valign-middle advc-color-white">
+                                            <div class="custom-texCvSchemat-overflow">
+                                                {{currentSelectedTeam.name}}
+                                            </div>
+                                            <div class="custom-text-overflow division">
+                                                {{currentSelectedTeam.division}}
+                                            </div>
+                                            <br>
+                                            <div class="custom-text-overflow branch" >
+                                                {{currentSelectedTeam.branch}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="right-counter-circumference base-class-animation"
+                                     ng-class="{'circunference':currentSelectedTeam.onProgress[currentSelectedTeam.type],
+                                  'low-opacity-black-bg':currentSelectedTeam.selected,
+                                  'advc-bg-{{currentSelectedTeam.color.code}}': !currentSelectedTeam.selected}">
+                                    <div class="advc-horizontal-align-container">
+                                        {{currentSelectedTeam.players.length}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div ng-repeat="player in filteredPlayers = (players | filter:currentSelectedTeam.id)">
-                            <div class="advc-card-w220-h80-layout highlight-parent" ng-class="{'advc-bg-color-gray': !isEnableToPlay(player)}">
+                            <div class="advc-card-w220-h80-layout highlight-parent accept-d"
+                                 data-drag="isFirstTeamSelected"
+                                 data-jqyoui-options="{revert: 'invalid', helper: 'clone',opacity: 1, cursor: 'move', cursorAt: { top: 40, left: 110 }, distance: 20, appendTo: 'body',containment: '.table' }"
+                                 jqyoui-draggable="{index: {{$index}}, placeholder:true,opacity: 0.5, animate:true, onStart: 'dragObject(player)', onStop: 'dragFinishObject(player)'}"
+                                 ng-class="{'advc-bg-color-gray': !isEnableToPlay(player)}">
+
                                 <div class="advc-highlight-mouse-over-card-animated" ng-dblclick="goToKardex(player)">
                                     <div class="float-right icon-close-30px animated-opacity pointer custom-margin-icon-close"  ng-show="!isFirstTeamSelected" tooltip-placement="right" tooltip="Remover del equipo."></div>
                                     <div allow="Player.Edit"><div class="float-right pointer custom-margin-icon-hab icon-done-20px" ng-class="{'advc-color11': isEnableToPlay(player)}" tooltip-placement="right" tooltip="{{player.enableTooltip}}" ng-click="enablePlayer(player, $index)"></div></div>

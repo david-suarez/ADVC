@@ -139,8 +139,7 @@ var PlayerSchema = new Schema({
         ]
     },
     'majorCategory': {
-        'type': mongoose.Schema.Types.ObjectId,
-        'ref': 'Team'
+        'type': Boolean
     },
     'asoOrigin': {
         'type': String,

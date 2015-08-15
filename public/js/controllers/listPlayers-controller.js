@@ -615,27 +615,29 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
             }
         };
 
-        $scope.enablePlayer = function(player, index){
-            if(player.status === 'Habilitado'){
-                $.noty.consumeAlert({layout: 'topCenter',
-                    type: 'warning', dismissQueue: true ,
-                    timeout:2000 });
-                alert('El jugador ya esta habilitado.');
-                $.noty.stopConsumeAlert();
-                return;
-            }
-            var playerId = player._id;
+        $scope.enablePlayer = function(player){
             var data = {
                 status: 'Habilitado'
             };
+            if(player.status === 'Habilitado'){
+                var resp = confirm('¿Desea deshabilitar al jugador?');
+                if(resp){
+                    data.status = 'No habilitado';
+                }else{
+                    return;
+                }
+            }
+            var playerId = player._id;
+
             listPlayersSrv.update({playerId: playerId}, {newDataPlayer: data},
                 function(dataResult){
-                    $scope.filteredPlayers[index] = dataResult;
                     $.noty.consumeAlert({layout: 'topCenter',
                         type: 'success', dismissQueue: true ,
                         timeout:2000 });
-                    alert('El jugador fué habilitado exitosamente.');
+                    alert('Se realizó la habilitación/deshabilitación ' +
+                        'exitosamente.');
                     $.noty.stopConsumeAlert();
+                    $scope.currentPlayer.status = dataResult.status;
                 },
                 function(error){
                     $.noty.consumeAlert({layout: 'topCenter',

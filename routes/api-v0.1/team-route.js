@@ -53,7 +53,9 @@ var TeamRoute = (function(){
                                 data[index].championship._id : '',
                         nameChampionship: data[index].championship ?
                             data[index].championship.name : '',
-                        color: data[index].color
+                        finalInscriptionDate: data[index].championship ?
+                            data[index].championship.final_inscription_date : '',
+                        players: data[index].players
                     })
                 }
                 response.status(200).json({data: dataResult});
@@ -114,6 +116,10 @@ var TeamRoute = (function(){
                             team[key] = newDataTeam[key];
                         }
                     }
+                    if(typeof(newDataTeam['players']) !== 'undifined' &&
+                        newDataTeam['reinforceBool']){
+                        team.reinforcement += 1;
+                    }
                     team.save(function(err, data){
                         if(err){
                             if (err.code)
@@ -129,7 +135,8 @@ var TeamRoute = (function(){
                                 branch: data.branch,
                                 category: data.category,
                                 club: data.club,
-                                championship: data.championship
+                                championship: data.championship,
+                                players: data.players
                             };
                             response.status(200).json({ data: teamU });
                         }

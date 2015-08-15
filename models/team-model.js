@@ -61,6 +61,10 @@ var TeamSchema = new Schema({
     sequence: {
         type: Number,
         default: 0
+    },
+    reinforcement: {
+        type: Number,
+        default: 0
     }
 });
 

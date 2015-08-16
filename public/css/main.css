@@ -170,9 +170,10 @@ body {
 }
 .h1-title {
     font-family: "Roboto";
+    padding-left: 20px;
     font-size: 20px;
-    line-height: 20px;
+    line-height: 40px;
     height: 20px;
     text-align: left;
-    color: #337ab7;
+    color: #175890;
 }

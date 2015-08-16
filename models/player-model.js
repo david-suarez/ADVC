@@ -4,32 +4,32 @@ var Schema = mongoose.Schema;
 var Q = require('q');
 
 var CvSchema = new Schema({
-    "year": {
-        "type":Number,
-        "default":""
+    year: {
+        type: Number,
+        default: ""
     },
-    "clubName":{
-        "type":String,
-        "default":""
+    clubName: {
+        type: String,
+        default: ""
     },
-    "association":{
-        "type":String,
-        "default":""
+    association: {
+        type: String,
+        default: ""
     },
-    "category":{
-        "type":String,
-        "default":""
+    category: {
+        type: String,
+        default: ""
     },
-    "sede":{
-        "type":String,
-        "default":""
+    sede: {
+        type: String,
+        default: ""
     },
-    "type":{
-        'type': String,
-        'index': true,
-        'required': true,
-        'default': "Club",
-        'enum': [
+    type:{
+        type: String,
+        index: true,
+        required: true,
+        default: "Club",
+        enum: [
             "Club",
             "Selección Departamental",
             "Selección Nacional"
@@ -38,119 +38,128 @@ var CvSchema = new Schema({
 });
 
 var PlayerSchema = new Schema({
-    'name': {
-        'type': String,
-        'default': "",
-        'required': true
+    name: {
+        type: String,
+        default: "",
+        required: true
     },
-    'lastname': {
-        'type': String,
-        'default': ""
+    lastname: {
+        type: String,
+        default: ""
     },
-    'secondlastname': {
-        'type': String,
-        'default': ""
+    secondlastname: {
+        type: String,
+        default: ""
     },
-    'cityOfBirth': {
-        'type': String,
-        'default': "",
-        'required': true
+    cityOfBirth: {
+        type: String,
+        default: "",
+        required: true
     },
-    'nationality': {
-        'type': String,
-        'default': "",
-        'required': true
+    nationality: {
+        type: String,
+        default: "",
+        required: true
     },
-    'ci': {
-        'type': Number,
-        'default': ""
+    ci: {
+        type: Number,
+        default: ""
     },
-    'ciExtension': {
-        'type': String,
-        'default': ""
+    ciExtension: {
+        type: String,
+        default: ""
     },
-    'dateOfBirth': {
-        'type': Date,
-        'default': "",
-        'required': true
+    dateOfBirth: {
+        type: Date,
+        default: "",
+        required: true
     },
-    'bookBirthCert':{
-        'type': String,
-        'default': ""
+    bookBirthCert: {
+        type: String,
+        default: ""
     },
-    'departureBirthCert':{
-        'type': String,
-        'default': ""
+    departureBirthCert: {
+        type: String,
+        default: ""
     },
-    'branch': {
-        'type': String,
-        'index': true,
-        'required': true,
-        'enum': [
+    branch: {
+        type: String,
+        index: true,
+        required: true,
+        enum: [
             "Femenino",
             "Masculino"
         ]
     },
-    'image': {
-        'type': String,
-        'default': ""
+    image: {
+        type: String,
+        default: ""
     },
-    'phoneNumber': {
-        'type': Number,
-        'default': ""
+    phoneNumber: {
+        type: Number,
+        default: ""
     },
-    'address': {
-        'type': String,
-        'default': ""
+    address: {
+        type: String,
+        default: ""
     },
-    'zone': {
-        'type': String,
-        'default': ""
+    zone: {
+        type: String,
+        default: ""
     },
-    'postcode': {
-        'type': String,
-        'default': ""
+    postcode: {
+        type: String,
+        default: ""
     },
-    'officeBirthCert':{
-        'type': String,
-        'default': ""
+    officeBirthCert:{
+        type: String,
+        default: ""
     },
-    'team': [
+    team: [
         {
-            'type': mongoose.Schema.Types.ObjectId,
-            'ref': 'Team'
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Team'
         }
     ],
-    'cvPlayer':{
-        "type": [CvSchema]
+    cvPlayer:{
+        type: [CvSchema]
     },
-    'club': {
-        'type': mongoose.Schema.Types.ObjectId,
-        'ref': 'Club'
+    club: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Club'
     },
-    'status': {
-        'type': String,
-        'index': true,
-        'default': "No habilitado",
-        'enum': [
+    status: {
+        type: String,
+        index: true,
+        default: "No habilitado",
+        enum: [
             "No habilitado",
             "Habilitado",
             "Libre"
         ]
     },
-    'majorCategory': {
-        'type': Boolean
+    majorCategory: {
+        type: Boolean
     },
-    'asoOrigin': {
-        'type': String,
-        'required': true
+    asoOrigin: {
+        type: String,
+        required: true
+    },
+    record: {
+        type: Number,
+        default: 0
+    },
+    transfer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Transfer'
     }
 });
 
-PlayerSchema.methods.changeClub = function(clubId) {
+PlayerSchema.methods.changeClub = function(clubId, transferId) {
     var deferred;
     deferred = Q.defer();
     this.club = clubId;
+    this.transfer = transferId;
     this.save(function(error, player) {
         if (error) {
             return deferred.reject(error);

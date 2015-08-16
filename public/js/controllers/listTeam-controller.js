@@ -1,8 +1,8 @@
 advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
-    '$location', 'listTeamSrv', 'listChampionshipSrv', 'listPlayersSrv',
-    'configSrv',
-    function($scope, $rootScope, $routeParams, $location, listTeamSrv,
-             listChampionshipSrv, listPlayersSrv, configSrv) {
+    '$location', '$filter', '$q', 'listTeamSrv', 'listChampionshipSrv',
+    'listPlayersSrv', 'reportSrv',
+    function($scope, $rootScope, $routeParams, $location, $filter, $q,
+             listTeamSrv, listChampionshipSrv, listPlayersSrv, reportSrv) {
         var currentClubId = $routeParams.clubId;
         $scope.currentClubName = $routeParams.clubName;
 
@@ -13,7 +13,6 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
         $scope.createMode = false;
         $scope.editMode = false;
         $scope.permitEdit = true;
-        var imageConfig = null;
 
         listPlayersSrv.get({ club: currentClubId },
             function(players){
@@ -23,53 +22,6 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                 console.log(error);
             }
         );
-
-        $scope.colors = [
-            {
-                "name": 'Color',
-                "color0": "#444"
-            },
-            {
-                "name": 'Color',
-                "color1"  : "#3366CC"
-            },
-            {
-                "name": 'Color',
-                "color2"  : "#FF6600"
-            },
-            {
-                "name": 'Color',
-                "color3"  : "#996633"
-            },
-            {
-                "name": 'Color',
-                "color4"  : "#009999"
-            },
-            {
-                "name": 'Color',
-                "color5"  : "#AA33AA"
-            },
-            {
-                "name": 'Color',
-                "color6"  : "#9933FF"
-            },
-            {
-                "name": 'Color',
-                "color7"  : "#999900"
-            },
-            {
-                "name": 'Color',
-                "color8"  : "#FF3399"
-            },
-            {
-                "name": 'Color',
-                "color9"  : "#3399CC"
-            },
-            {
-                "name": 'Color',
-                "color10": "#888"
-            }
-        ];
 
         listChampionshipSrv.get({},
             function(result){
@@ -90,7 +42,55 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             'Menores'
         ];
 
-         $scope.majorCategoryValues = [
+        $scope.divisions = [
+            {
+                name: 'Primera Honor',
+                cagetory: 'Mayores'
+            },
+            {
+                name: 'Primera Ascenso',
+                cagetory: 'Mayores'
+            },
+            {
+                name: 'Segunda Ascenso',
+                cagetory: 'Mayores'
+            },
+            {
+                name: 'Tercera Ascenso',
+                cagetory: 'Mayores'
+            },
+            {
+                name: 'Maxi Voleibol',
+                cagetory: 'Mayores'
+            },
+            {
+                name: 'Pre Mini',
+                cagetory: 'Menores'
+            },
+            {
+                name: 'Mini',
+                cagetory: 'Menores'
+            },
+            {
+                name: 'Infantil',
+                cagetory: 'Menores'
+            },
+            {
+                name: 'Cadetes',
+                cagetory: 'Menores'
+            },
+            {
+                name: 'Juvenil',
+                cagetory: 'Menores'
+            },
+            {
+                name: 'Sub-23',
+                cagetory: 'Menores'
+            }
+        ];
+
+
+        $scope.majorCategoryValues = [
             "Primera Honor",
             "Primera Ascenso",
             "Segunda Ascenso",
@@ -117,8 +117,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             var newTeam = {
                 name: $scope.newTeam.name,
                 championship: $scope.newTeam.championship,
-                division: $scope.newTeam.category === 'Mayores' ?
-                    $scope.newTeam.major : $scope.newTeam.minor,
+                division: $scope.newTeam.division.name,
                 branch: $scope.newTeam.branch,
                 category: $scope.newTeam.category,
                 club: currentClubId
@@ -139,7 +138,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                             }
                         }
                         $scope.setLocalAttributesClearance(team);
-                        $scope.Teams.unshift(team);
+                        $scope.Teams.push(team);
                         $('#create-team').modal('hide'); //hide modal
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
@@ -171,8 +170,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             var newTeam = {
                 name: $scope.newTeam.name,
                 championship: $scope.newTeam.championship,
-                division: $scope.newTeam.category === 'Mayores' ?
-                    $scope.newTeam.major : $scope.newTeam.minor,
+                division: $scope.newTeam.division.name,
                 branch: $scope.newTeam.branch,
                 category: $scope.newTeam.category
             };
@@ -280,6 +278,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
         $scope.formCreateTeam = function () {
             restartValidationFields();
             $scope.createMode = true;
+            $scope.permitEdit = true;
             $scope.editMode = false;
         };
 
@@ -350,10 +349,10 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                     'han terminado');
                 $.noty.stopConsumeAlert();
             }
+
             $scope.newTeam = {
                 name: team.name,
-                major: team.category === 'Mayores' ? team.division : null,
-                minor: team.category === 'Menores' ? team.division : null,
+                division: team.division,
                 branch: team.branch,
                 category: team.category,
                 championship: team.idChampionship,
@@ -365,11 +364,19 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
         $scope.setLocalAttributesClearance = function(team) {
             team.selected = false;
             team.isOver = false;
-            if (!team.players) {
+            if(!team.players) {
                 team.players = [];
             }
-            if (!team.color) {
+            if(!team.color) {
                 team.color = {code: 'color1'}
+            }
+            if(team.division){
+                for(var index = 0; index < $scope.divisions.length; index++){
+                    if($scope.divisions[index].name === team.division){
+                        team.division = $scope.divisions[index];
+                        break
+                    }
+                }
             }
         };
 
@@ -695,285 +702,119 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                     $.noty.stopConsumeAlert();
                     $scope.currentSelectedTeam.players.push(player);
                 })
-        }
+        };
 
-        $scope.tableToJason = function(team, $index){
+        var _tableToJsonMajor = function(players){
             var data = [];
-            var headers = [];
             var cont = 0;
 
-            data.push({Nro:'Nro', 'Nombre Completo':'Apellidos y Nombres', 'Fecha de Nacimiento':'Fecha de Nac.',
-                'Club Origen':'Club Origen', 'Registro':'Registro Asociación'});
-            for(var i = 0; i < $scope.Teams.length; i++){
-                var tableRow = $scope.Teams[i];
+            data.push({
+                'Nro':'Nro',
+                'Nombre Completo':'Apellidos y Nombres',
+                'Fecha de Nacimiento':'Fecha de Nac.',
+                'Club Origen':'Club Origen',
+                'Registro':'Registro Asociación'
+            });
+
+            for(var i = 0; i < players.length; i++){
+                var tableRow = players[i];
+                var lastname = tableRow.lastname ? tableRow.lastname : '';
+                var secondlastname = tableRow.secondlastname ?
+                    tableRow.secondlastname : '';
                 cont = cont + 1;
                 var number = String(cont);
                 var rowData = {};
 
                 rowData['Nro'] = number;
-                rowData['Nombre Completo'] = tableRow.name;
-                rowData['Fecha de Nacimiento'] = tableRow.nameChampionship;
-                rowData['Club Origen'] = tableRow.branch;
-                rowData['Registro'] = tableRow.branch;
+                rowData['Nombre Completo'] = tableRow.name + ' ' + lastname
+                    + ' ' + secondlastname;
+                rowData['Fecha de Nacimiento'] = _obtainFormatDate(
+                    tableRow.dateOfBirth);
+                rowData['Club Origen'] = tableRow.transfer ?
+                    tableRow.transfer.originClub.name : $scope.currentClubName;
+                rowData['Registro'] = '' + tableRow.record;
 
                 data.push(rowData);
             }
             return data;
         };
-        configSrv.getData(function(data){
-            imageConfig = data.Icon.Image;
-        });
 
-        $scope.generateReport = function(team, $index){
-            var table = $scope.tableToJason(team, $index);
-            var imgData = imageConfig;
-            var club = team.club;
-            var teams = team.name;
-            var category = team.category;
-            var division = team.division;
-            var branch = team.branch;
-            var nameChampionship = team.nameChampionship;
-            var today = new Date();
-            var todayYear = today.getFullYear();
-
-            var doc = new jsPDF({},'pt','legal',true);
-            doc.addImage(imgData, 'JPEG', 70, 10, 70, 70);
-
-            doc.setFont("helvetica");
-            doc.setFontSize(22); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(195, 53, 'Asociación Departamental');
-            doc.text(195, 78, 'de Voleibol Cochabamba');
-
-            doc.setFont("helvetica");
-            doc.setFontSize(18); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(260, 110, 'Formulario:02');
-
-            doc.setFont("helvetica");
-            doc.setFontSize(16); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(70, 130, 'Nombre Club:' +" "+ club);
-
-            doc.setFont("helvetica");
-            doc.setFontSize(16); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(70, 160, 'Categoría:' +" "+ category);
-
-            doc.setFont("helvetica");
-            doc.setFontSize(16); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(350, 160, 'División:' +" "+ division);
-
-            doc.setFont("helvetica");
-            doc.setFontSize(16); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(70, 190, 'Rama:' +" "+ branch);
-
-            doc.setFont("helvetica");
-            doc.setFontSize(16); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(240, 190, 'Campeonato:' +" "+ nameChampionship);
-
-            doc.setFont("helvetica");
-            doc.setFontSize(16); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(450, 190, 'Gestión:' +" "+ todayYear);
-
-            doc.setFont("helvetica");
-            doc.setFontSize(16); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(280, 225, 'RELACIÓN');
-            doc.text(230, 255, 'NOMINAL DE JUGADORES');
-
-            //doc.setFontType("bold");
-            doc.setFontSize(10); //aumenta tamanio de la letra
-            doc.cellInitialize();
-            $.each(table, function(i,row){
-                $.each(row,function(j,cell){
-                    if(j=="Nombre Completo"){
-                        doc.cell(70,285,190,29,cell,i);
-                        doc.setFont("helvetica");
-                        doc.setFillColor(250,0,0);
-
-                    }else if(j=="Fecha de Nacimiento"){
-                        doc.cell(70,285,90,29,cell,i);
-                        doc.setFont("helvetica");
-                        doc.setFillColor(250,0,0);
-
-                    }else if(j=="Club Origen"){
-                        doc.cell(70,285,80,29,cell,i);
-                        doc.setFont("helvetica");
-                        doc.setFillColor(250,0,0);
-
-                    }else if(j=="Registro"){
-                        doc.cell(70,285,105,29,cell,i);
-                        doc.setFont("helvetica");
-                        doc.setFillColor(250,0,0);
-
-                    }else{
-                        doc.cell(70,285,27,29,cell,i);
-                        doc.setFillColor(221,221,221);
+        $scope.generateReport = function(){
+            var teamId = $scope.currentSelectedTeam.id;
+            var category = $scope.currentSelectedTeam.category;
+            var filteredPlayers = $scope.players.filter(
+                function(player){
+                    if(player.team.indexOf(teamId) !== -1){
+                        return player;
                     }
+                }
+            );
+            if(category === 'Menores'){
+                _generateReportMinor($scope.currentSelectedTeam,
+                    filteredPlayers)
+            }else {
+                _generateReportMajor($scope.currentSelectedTeam,
+                    filteredPlayers)
+            }
+        };
 
-                });
+        var _obtainFormatDate = function(date){
+            if(date) {
+                var requestDate = new Date(date);
+                return requestDate.toLocaleDateString();
+            }
+            return '';
+        };
 
-            });
-            //doc.save('Reporte Equipos Mayores.pdf');
-            doc.output("dataurlnewwindow");
-        }
+        var _generateReportMajor = function(team, players){
+            var table = _tableToJsonMajor(players);
+            reportSrv.generateReportMajorCategory(table, team);
+        };
 
-        $scope.tableToJason2 = function(team, $index){
+        var _tableToJsonMinor = function(players){
             var data = [];
-            var headers = [];
             var cont = 0;
 
-                data.push({Nro:'Nro', 'Nombre Completo':'Apellidos y Nombres', 'Fecha Nac.':'Fecha Nac.','O.R.C':'O.R.C','Libro Nro':'Libro N.','Part.':'Part.',
-                'F. de Part.':'F. de Part.', 'Club Origen':'Club Origen', 'Registro':'Reg. Aso.'});
-            for(var i = 0; i < $scope.Teams.length; i++){
-                var tableRow = $scope.Teams[i];
+                data.push({
+                    Nro: 'Nro',
+                    'Nombre Completo': 'Apellidos y Nombres',
+                    'Fecha Nac.': 'Fecha Nac.',
+                    'O.R.C': 'O.R.C',
+                    'Libro Nro': 'Libro N.',
+                    'Part.':'Part.',
+                    'F. de Part.': 'F. de Part.',
+                    'Club Origen':'Club Origen',
+                    'Registro':'Reg. Aso.'
+                });
+            for(var i = 0; i < players.length; i++){
+                var tableRow = players[i];
                 var rowData = {};
                 cont = cont + 1;
                 var number = String(cont);
+                var lastname = tableRow.lastname ? tableRow.lastname : '';
+                var secondlastname = tableRow.secondlastname ?
+                    tableRow.secondlastname : '';
 
                 rowData['Nro'] = number;
-                rowData['Nombre Completo'] = 'Julieta Fernanda Salvatierra Castillo';
-                rowData['Fecha Nac.'] = '03-03-2015';
-                rowData['O.R.C'] = '1000';
-                rowData['Libro Nro'] = '1444';
-                rowData['Part.'] = '1234';
-                rowData['F. de Part.'] = '03/03/2015';
-                rowData['Club Origen'] = 'Atlantic Sigma';
-                rowData['Registro'] = '14000';
+                rowData['Nombre Completo'] = tableRow.name + ' ' + lastname +
+                    ' ' + secondlastname;
+                rowData['Fecha Nac.'] = _obtainFormatDate(tableRow.dateOfBirth);
+                rowData['O.R.C'] = tableRow.officeBirthCert;
+                rowData['Libro Nro'] = tableRow.bookBirthCert;
+                rowData['Part.'] = tableRow.departureBirthCert;
+                rowData['F. de Part.'] = "";
+                rowData['Club Origen'] = tableRow.transfer ?
+                    tableRow.transfer.originClub.name : $scope.currentClubName;
+                rowData['Registro'] = '' + tableRow.record;
 
                 data.push(rowData);
-            };
+            }
             return data;
         };
-        $scope.generateReport2 = function(team, $index){
-            var table = $scope.tableToJason2(team, $index);
-            var imgData = imageConfig;
-            var club = team.club;
-            var teams = team.name;
-            var category = team.category;
-            var division = team.division;
-            var branch = team.branch;
-            var nameChampionship = team.nameChampionship;
-            var today = new Date();
-            var todayYear = today.getFullYear();
 
-            var doc = new jsPDF({},'pt','legal',true);
-            doc.addImage(imgData, 'JPEG', 35, 10, 70, 70);
-
-            doc.setFont("helvetica");
-            doc.setFontSize(22); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(195, 53, 'Asociación Departamental');
-            doc.text(195, 78, 'de Voleibol Cochabamba');
-
-            doc.setFont("helvetica");
-            doc.setFontSize(18); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(250, 110, 'Formulario:02');
-
-            doc.setFont("helvetica");
-            doc.setFontSize(16); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(35, 155, 'Nombre Club:' +" "+ club);
-
-            doc.setFont("helvetica");
-            doc.setFontSize(16); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(35, 190, 'Categoría:' +" "+ category);
-
-            doc.setFont("helvetica");
-            doc.setFontSize(16); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(250, 190, 'División:' +" "+ division);
-
-            doc.setFont("helvetica");
-            doc.setFontSize(16); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(450, 190, 'Rama:' +" "+ branch);
-
-            doc.setFont("helvetica");
-            doc.setFontSize(16); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(250, 155, 'Campeonato:' +" "+ nameChampionship);
-
-            doc.setFont("helvetica");
-            doc.setFontSize(16); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(450, 155, 'Gestión:' +" "+ todayYear);
-
-            doc.setFont("helvetica");
-            doc.setFontSize(16); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(285, 225, 'RELACIÓN');
-            doc.text(225, 255, 'NOMINAL DE JUGADORES');
-
-
-            doc.setFontSize(10); //aumenta tamanio de la letra
-            doc.rect(237, 270, 222, 15);
-            doc.text(285, 280, 'Certificado de Nacimiento');
-            doc.cellInitialize();
-
-            $.each(table, function(i,row){
-                $.each(row,function(j,cell){
-                    if(j=="Nombre Completo"){
-                        doc.cell(35,285,180,20,cell,i);
-                        doc.setFont("helvetica");
-                        doc.setFillColor(250,0,0);
-
-                    }else if(j=="Fecha Nac."){
-                        doc.cell(35,285,60,20,cell,i);
-                        doc.setFont("helvetica");
-                        doc.setFillColor(250,0,0);
-
-                    }else if(j=="Club Origen"){
-                        doc.cell(35,285,80,20,cell,i);
-                        doc.setFont("helvetica");
-                        doc.setFillColor(250,0,0);
-
-                    }else if(j=="Registro"){
-                        doc.cell(35,285,50,20,cell,i);
-                        doc.setFont("helvetica");
-                        doc.setFillColor(250,0,0);
-
-                    }else if(j=="Certificado de Nacimiento"){
-                        doc.cell(35,285,200,20,cell,i);
-                        doc.setFont("helvetica");
-                        doc.setFillColor(250,0,0);
-
-                    }else if(j=="O.R.C"){
-                        doc.cell(35,285,35,20,cell,i);
-                        doc.setFont("helvetica");
-                        doc.setFillColor(250,0,0);
-
-                    }else if(j=="Libro Nro"){
-                        doc.cell(35,285,42,20,cell,i);
-                        doc.setFont("helvetica");
-                        doc.setFillColor(250,0,0);
-
-                    }else if(j=="Part."){
-                        doc.cell(35,285,30,20,cell,i);
-                        doc.setFont("helvetica");
-                        doc.setFillColor(250,0,0);
-
-                    }else if(j=="F. de Part."){
-                        doc.cell(35,285,55,20,cell,i);
-                        doc.setFont("helvetica");
-                        doc.setFillColor(250,0,0);
-
-                    }else{
-                        doc.cell(35,285,22,20,cell,i);
-                        doc.setFillColor(221,221,221);
-                    }
-                });
-
-            });
-            //doc.save('Reporte Equipos Menores.pdf');
-            doc.output("dataurlnewwindow");
+        var _generateReportMinor = function(team, players){
+            var table = _tableToJsonMinor(players);
+            reportSrv.generateReportMinorCategory(table, team);
         }
     }
 ]);

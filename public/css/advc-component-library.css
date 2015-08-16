@@ -556,3 +556,8 @@
     opacity: 0.75;
     background-color: #39c;
 }
+
+.top-menu{
+    background-color: #DEDEDE;
+    height: 46px;
+}

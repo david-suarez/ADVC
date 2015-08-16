@@ -8,6 +8,7 @@ advcApp.controller('mainCtrl', [
         $scope.userCanCreatePub = false;
         $scope.createMode = false;
         $scope.editMode = false;
+        $scope.noImagePath = 'img/imagenNoDisponible.png';
         if(SessionService.get('logged')) {
             $scope.userCanCreatePub = true;
         }

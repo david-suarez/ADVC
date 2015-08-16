@@ -3,42 +3,46 @@ var Schema = mongoose.Schema;
 var Q = require('q');
 
 var TransfersSchema = new Schema({
-    'player': {
-        'type': mongoose.Schema.Types.ObjectId,
-        'ref': 'Player'
+    player: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Player'
     },
-    'originClub': {
-        'type': mongoose.Schema.Types.ObjectId,
-        'ref': 'Club'
+    originClub: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Club'
     },
-    'newClub': {
-        'type': mongoose.Schema.Types.ObjectId,
-        'ref': 'Club'
+    newClub: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Club'
     },
-    'delegate': {
-        'type': mongoose.Schema.Types.ObjectId,
-        'ref': 'User'
+    delegate: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
-    'requestDate': {
-        'type':Date,
-        'default':""
+    requestDate: {
+        type:Date,
+        default:""
     },
-    'year': {
-        'type': Number,
-        'required' : true
+    year: {
+        type: Number,
+        required : true
     },
-    'numInvoce': {
-        'type': Number,
-        'default': null
+    numInvoce: {
+        type: Number,
+        default: null
     },
-    'status': {
-        'type': String,
-        'index': true,
-        'default': "No transferido",
-        'enum': [
+    status: {
+        type: String,
+        index: true,
+        default: "No transferido",
+        enum: [
             "Transferido",
             "No transferido"
             ]
+    },
+    division: {
+        type: String,
+        required: true
     }
 });
 

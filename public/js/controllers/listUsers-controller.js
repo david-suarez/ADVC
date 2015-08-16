@@ -1,6 +1,7 @@
 advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
-    '$location', 'listUsersSrv', 'SessionService','configSrv',
-    function($scope, $routeParams, $location, listUsersSrv, SessionService, configSrv) {
+    '$location', 'listUsersSrv', 'SessionService', 'reportSrv',
+    function($scope, $routeParams, $location, listUsersSrv, SessionService,
+             reportSrv) {
         $scope.Users = {};
         $scope.newUser = {};
         $scope.userId = {};
@@ -243,12 +244,16 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
 
         };
 
-        $scope.tableToJason = function(){
+        $scope.tableToJson = function(){
             var data = [];
-            var headers = [];
             var cont = 0;
 
-            data.push({Nro:'Nro','Nombre Completo':'Nombre Completo', 'Nombre de Usuario':'Nombre de usuario', 'Rol de Usuario':'Rol de usuario'});
+            data.push({
+                'Nro': 'Nro',
+                'Nombre Completo': 'Nombre Completo',
+                'Nombre de Usuario': 'Nombre de usuario',
+                'Rol de Usuario': 'Rol de usuario'
+            });
             for(var i = 0; i < $scope.Users.length; i++){
                 var tableRow = $scope.Users[i];
                 cont = cont + 1;
@@ -264,57 +269,10 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
             }
             return data;
         };
-        configSrv.getData(function(data){
-            imageConfig = data.Icon.Image;
-        });
 
         $scope.generateReport = function(){
-            var table = $scope.tableToJason();
-            var imgData = imageConfig;
-            var doc = new jsPDF({},'pt','legal',true);
-            doc.addImage(imgData, 'JPEG', 50, 10, 70, 70);
-
-            doc.setFont("helvetica");
-            doc.setFontSize(22); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(195, 53, 'Asociación Departamental');
-            doc.text(195, 78, 'de Voleibol Cochabamba');
-
-            doc.setFont("helvetica");
-            doc.setFontSize(16); //aumenta tamanio de la letra
-            doc.setFontType("bold");
-            doc.text(250, 135, 'LISTA DE USUARIOS');
-
-            doc.setFontType("bold");
-            doc.setFontSize(14); //aumenta tamanio de la letra
-            doc.cellInitialize();
-                $.each(table, function(i,row){
-                    $.each(row,function(j,cell){
-                        if(j=="Nombre de Usuario"){
-                            doc.cell(50,155,140,29,cell,i);
-                            doc.setFont("helvetica");
-                            doc.setFillColor(250,0,0);
-
-                        }else if(j=="Nombre Completo"){
-                            doc.cell(50,155,210,29,cell,i);
-                            doc.setFont("helvetica");
-                            doc.setFillColor(250,0,0);
-
-                        }else if(j=="Rol de Usuario"){
-                            doc.cell(50,155,143,29,cell,i);
-                            doc.setFont("helvetica");
-                            doc.setFillColor(250,0,0);
-
-                        }else{
-                            doc.cell(50,155,35,29,cell,i);
-                            doc.setFillColor(221,221,221);
-                        }
-
-                    });
-
-                });
-         //doc.save('Lista Usuarios.pdf');
-         doc.output("dataurlnewwindow");
+            var table = $scope.tableToJson();
+            reportSrv.generateReportOfUsers(table);
         }
 
     }

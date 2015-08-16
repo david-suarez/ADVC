@@ -260,9 +260,11 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
                 if($scope.Players[index]._id === transfer.player._id)
                     break;
             }
-            for(indexDivision; indexDivision < $scope.divisions.length; indexDivision++){
-                if($scope.divisions[index].name === transfer.division)
-                    break;
+            if(transfer.division){
+                for(indexDivision; indexDivision < $scope.divisions.length; indexDivision++){
+                    if($scope.divisions[index].name === transfer.division)
+                        break;
+                }
             }
 
             $scope.createMode = false;
@@ -272,11 +274,13 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
                 originClub: $scope.Clubs[indexClub],
                 player: $scope.Players[index],
                 newClub: allClubs[indexNextClub],
-                division: $scope.divisions[indexDivision],
+                division: transfer.division ?
+                    $scope.divisions[indexDivision] : '',
                 index: indexRecord,
                 _id: transfer._id
             };
-            $scope.cat = $scope.divisions[indexDivision].category;
+            $scope.cat = transfer.division ?
+                $scope.divisions[indexDivision].category : ''
         };
 
         $scope.editStatusTransfer = function(id, indexRecord){

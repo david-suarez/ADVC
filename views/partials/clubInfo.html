@@ -6,8 +6,22 @@
                 <div class="h1-title float-left">
                     {{currentClubName}}
                 </div>
+                <a href="#/listClubs" style="color: #000;">
+                    <div id="div-save-back-prev-page"
+                         class="float-right opaque-icon animated"
+                         style="font-size:22px; margin: 12px 15px 0 0;"
+                         ng-show="isFirstTeamSelected"
+                         tooltip-placement="left"
+                         tooltip="Volver">
+                        <span class="glyphicon glyphicon-eject cursor-hand"></span>
+                    </div>
+                </a>
                 <div class="float-right" style="margin-right: 20px;">
                     <button id="report" class="btn btn-lg btn-info btn-block" ng-click="generateReport()" ng-show="!isFirstTeamSelected">Generar Reporte</button>
+                </div>
+                <div class="float-right" style="margin: 10px 10px;">
+                    <label>Buscar: </label>
+                    <input placeholder="Jugador(a)" id="inputSearchPlayer" ng-model="searchPlayer">
                 </div>
             </div>
         </div>
@@ -17,6 +31,10 @@
                 <style>
                     .custom-label{ font-size: 14px; padding-left: 5px; }
                 </style>
+                <div class="float-right" style="margin: 10px 10px;">
+                    <label>Buscar: </label>
+                    <input placeholder="Equipo" style="width: 150px;" id="inputSearchTeam" ng-model="searchTeam">
+                </div>
                 <div class="panel_content">
                     <div class="advc-rounded-card-w220-h50 highlight-parent float-left space-top-10px" ng-if="isFirstTeamSelected">
                         <div class="advc-highlight-mouse-over-rounded-card-button-animated"
@@ -92,7 +110,7 @@
                     </div>
                     <div ng-click="selectedTeam(team, $index)"
                          class="advc-rounded-card-w220-h80 highlight-parent float-left space-top-10px"
-                         ng-repeat="team in Teams" ng-show="isFirstTeamSelected && !team.selected">
+                         ng-repeat="team in Teams | filter:searchTeam" ng-show="isFirstTeamSelected && !team.selected">
                         <div ng-model="team.selected"
                              data-drop="true"
                              data-jqyoui-options="{accept: '.accept-d'}"
@@ -191,7 +209,7 @@
                             </div>
                         </div>
 
-                        <div ng-repeat="player in filteredPlayers = (players | filter:currentSelectedTeam.id)">
+                        <div ng-repeat="player in filteredPlayers = (players | filter:currentSelectedTeam.id) | filter:searchPlayer">
                             <div class="advc-card-w220-h80-layout highlight-parent accept-d"
                                  data-drag="isFirstTeamSelected"
                                  data-jqyoui-options="{revert: 'invalid', helper: 'clone',opacity: 1, cursor: 'move', cursorAt: { top: 40, left: 110 }, distance: 20, appendTo: 'body',containment: '.table' }"

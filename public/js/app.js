@@ -109,18 +109,22 @@ advcApp.run([
 
                             nextPage = nextPage.charAt(0).toUpperCase() +
                                 nextPage.slice(1);
-                            if(!$rbac.allow('ListClubs')
-                                && currentPage !== 'boardBoard') {
-                                $rbac.reset();
-                                SessionService.unsetAll('logged');
-                                $rootScope.$emit('userAuthenticated', false);
-                                $.noty.consumeAlert({layout: 'topCenter',
-                                    type: 'warning', dismissQueue: true ,
-                                    timeout:2000 });
-                                alert('Su sesión expiró. Ingrese sus ' +
-                                    'credenciales nuevamente en la pagina' +
-                                    ' de autenticación');
-                                $.noty.stopConsumeAlert();
+                            if(!$rbac.allow('ListClubs')) {
+                                var logout = true;
+                                if($rbac.allow('MedicalPermission'))
+                                    logout = false;
+                                if(logout){
+                                    $rbac.reset();
+                                    SessionService.unsetAll('logged');
+                                    $rootScope.$emit('userAuthenticated', false);
+                                    $.noty.consumeAlert({layout: 'topCenter',
+                                        type: 'warning', dismissQueue: true ,
+                                        timeout:2000 });
+                                    alert('Su sesión expiró. Ingrese sus ' +
+                                        'credenciales nuevamente en la pagina' +
+                                        ' de autenticación');
+                                    $.noty.stopConsumeAlert();
+                                }
                             }
                             if (!$rbac.allow(nextPage)) {
                                 $location.path('/mainBoard');
@@ -128,7 +132,8 @@ advcApp.run([
                         }
                     });
                 } else {
-                    if(!$rbac.allow('ListClubs')){
+                    if(!$rbac.allow('ListClubs') ||
+                        !$rbac.allow('ListMedicalRecord')){
                         $rbac.reset();
                         SessionService.unsetAll('logged');
                         SessionService.logoutServer();

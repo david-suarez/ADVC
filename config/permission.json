@@ -133,7 +133,8 @@
     "ListChampionship": false,
     "ClubInfo": false,
     "ListChampionship": false,
-    "Kardex": false
+    "Kardex": false,
+    "MedicalPermission": true
   },
   "Annonimus": {
     "Menu.MainBoard.Execute": true,

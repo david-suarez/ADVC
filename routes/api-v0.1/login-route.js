@@ -43,35 +43,6 @@ var LoginRoute = (function(){
                 }
             });
         });
-        //var newUser;
-        //var newPassword;
-        //newUser = request.body.user_name;
-        //newPassword = request.body.password;
-        //request.session.save(function (err) {
-        //    if (err) {
-        //        return next(err);
-        //    }
-        //    res.redirect('/');
-        //});
-        //
-        //UserModel.findOne({user_name: newUser, password: newPassword},function(error,user){
-        //    if (error) {
-        //        response.json('500', error.message);
-        //    } else {
-        //        if (user != undefined)
-        //        {
-        //            var data = {
-        //                _id: user._id,
-        //                fullName: user.name + ' ' + user.lastname
-        //            };
-        //            console.log(request.user);
-        //            response.status(200).json({success:true, user: data});
-        //        }
-        //        else {
-        //            response.status(404).json({success:false});
-        //        }
-        //    }
-        //});
     };
 
     LoginRoute.prototype.logoutUser = function(request, response){

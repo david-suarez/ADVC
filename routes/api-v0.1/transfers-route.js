@@ -43,7 +43,10 @@ var TransfersRoute = (function (){
                         transfer.player = {
                             _id: data[index].player._id,
                             name: data[index].player.name,
-                            lastname: data[index].player.lastname
+                            lastname: data[index].player.lastname,
+                            secondlastname: data[index].player.secondlastname,
+                            dateOfBirth: data[index].player.dateOfBirth,
+                            cityOfBirth: data[index].player.cityOfBirth
                         };
                     }
                     if(data[index].originClub){
@@ -59,6 +62,7 @@ var TransfersRoute = (function (){
                         };
                     }
                     transfer.year = data[index].year;
+                    transfer.division = data[index].division;
                     transfer.requestDate = data[index].requestDate;
                     transfer.status = data[index].status;
                     transfer._id = data[index]._id;
@@ -73,6 +77,7 @@ var TransfersRoute = (function (){
     TransfersRoute.prototype.saveTransfers = function(request, response){
         var newTransfer;
         newTransfer = request.body.transfer;
+        console.log(newTransfer);
         if(newTransfer !== undefined) {
             TransfersModel.create(newTransfer, function (error, data) {
                 if (error) {
@@ -98,6 +103,7 @@ var TransfersRoute = (function (){
                                         _id: transfer.newClub._id,
                                         name: transfer.newClub.name
                                     },
+                                    division: transfer.division,
                                     year: transfer.year,
                                     requestDate: transfer.requestDate,
                                     status: transfer.status
@@ -126,12 +132,9 @@ var TransfersRoute = (function (){
                 }
                 else{
                     for(var key in newTransferData){
-                        if(typeof(transfer[key]) !== 'undefined'){
-                            transfer[key] = newTransferData[key];
-                        }
+                        transfer[key] = newTransferData[key];
                     }
                     if(typeof(transfer['status']) !== 'undefined'){
-                        console.log(transfer['status']);
                         if(transfer['status'] === 'Transferido'){
                             newClubAssigned.change = true;
                             newClubAssigned.clubId = transfer['newClub'];
@@ -140,6 +143,7 @@ var TransfersRoute = (function (){
                     }
                     transfer.save(function(err, recordUpdated){
                         if(err){
+                            console.log(err);
                             if (err.code)
                                 response.status(err.code).json(err.message);
                             else
@@ -167,6 +171,7 @@ var TransfersRoute = (function (){
                                                 _id: populateTransfer.newClub._id,
                                                 name: populateTransfer.newClub.name
                                             },
+                                            division: populateTransfer.division,
                                             year: populateTransfer.year,
                                             requestDate: populateTransfer.requestDate,
                                             status: populateTransfer.status
@@ -196,8 +201,9 @@ var TransfersRoute = (function (){
                                                          newClubAssigned){
         var playerId = newClubAssigned.playerId;
         var clubId = newClubAssigned.clubId;
+        var transferId = resultData._id;
         PlayerModel.findById(playerId, function(error, player){
-            player.changeClub(clubId)
+            player.changeClub(clubId, transferId)
                 .then(function(player){
                     console.log('--------------------------------');
                     console.log('Change club to player ' +

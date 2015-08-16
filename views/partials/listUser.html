@@ -67,10 +67,13 @@
         </div>
     </div>
     <div class="col-md-2"><button class="btn btn-lg btn-primary btn-block" data-toggle="modal" data-target="#create-user" ng-click="formCreateUser()">Crear usuario</button></div>
-    <div class="col-md-5">
+    <div class="col-md-2"><button id="report" class="btn btn-lg btn-info btn-block" ng-click="generateReport()">Generar Reporte</button></div>
+    <br>
+    <br>
+    <div style="width: 50%; margin-left: 200px;">
         <h2 class="form-signin-heading">Lista de usuarios</h2>
         <label>Buscar <input id="inputSearch" ng-model="searchText" placeholder="buscar"></label>
-        <div class="row advc-row">
+        <div id="tableUsers" class="row advc-row">
             <table id="searchTextResults" class="table table-bordered">
                 <tr>
                     <td>
@@ -91,13 +94,13 @@
                 </tr>
                 <tbody ng-repeat="user in Users | filter:searchText track by $index">
                     <tr>
-                        <td class="col-md-3" style="">
-                            {{$index + 1 }}.- {{user.name}} {{user.lastname}}
+                        <td col-md-3>
+                            {{user.name}} {{user.lastname}}
                         </td>
-                        <td class="col-md-3" style="">
+                        <td col-md-1>
                             {{user.username}}
                         </td>
-                        <td class="col-md-3" style="">
+                        <td col-md-3>
                             {{user.role}}
                         </td>
                         <td class="col-md-1" style="">

@@ -10,7 +10,7 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
         $scope.oldDataCurrentPlayer = {};
         $scope.wizard = {};
         $scope.isSavingRecord = false;
-        var playerId = $routeParams.playerId;
+        var currentPlayerId = $routeParams.playerId;
         /*
          Refreshes the local variables in angular.
          */
@@ -20,7 +20,7 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
                 return $scope.$apply();
             }
         };
-        if(!playerId){
+        if(!currentPlayerId){
             listPlayersSrv.get({ club: $scope.currentClubId },
                 function(result){
                     $scope.filteredPlayers = result.data;
@@ -30,7 +30,7 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
                 }
             );
         } else{
-            listPlayersSrv.get({playerId: playerId},
+            listPlayersSrv.get({playerId: currentPlayerId},
                 function(playerResult){
                     $scope.currentPlayer = playerResult;
                     $scope.oldDataCurrentPlayer = angular.copy(playerResult);
@@ -42,7 +42,6 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
                 }
             );
         }
-
 
         var createIsReady = false;
         $scope.formPlayerName = 'Formulario de creación de jugadores';
@@ -610,7 +609,8 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
                 player.enableTooltip = 'Habilitado';
                 return true;
             } else {
-                player.enableTooltip = 'Habilitar';
+                player.enableTooltip = currentPlayerId ? 'Habilitar' :
+                    'No habilitado';
                 return false;
             }
         };

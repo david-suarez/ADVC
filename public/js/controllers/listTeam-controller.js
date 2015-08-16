@@ -1,7 +1,8 @@
 advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
-    '$location', 'listTeamSrv', 'listChampionshipSrv', 'listPlayersSrv',
-    function($scope, $rootScope, $routeParams, $location, listTeamSrv,
-             listChampionshipSrv, listPlayersSrv) {
+    '$location', '$filter', '$q', 'listTeamSrv', 'listChampionshipSrv',
+    'listPlayersSrv', 'reportSrv',
+    function($scope, $rootScope, $routeParams, $location, $filter, $q,
+             listTeamSrv, listChampionshipSrv, listPlayersSrv, reportSrv) {
         var currentClubId = $routeParams.clubId;
         $scope.currentClubName = $routeParams.clubName;
 
@@ -22,53 +23,6 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             }
         );
 
-        $scope.colors = [
-            {
-                "name": 'Color',
-                "color0": "#444"
-            },
-            {
-                "name": 'Color',
-                "color1"  : "#3366CC"
-            },
-            {
-                "name": 'Color',
-                "color2"  : "#FF6600"
-            },
-            {
-                "name": 'Color',
-                "color3"  : "#996633"
-            },
-            {
-                "name": 'Color',
-                "color4"  : "#009999"
-            },
-            {
-                "name": 'Color',
-                "color5"  : "#AA33AA"
-            },
-            {
-                "name": 'Color',
-                "color6"  : "#9933FF"
-            },
-            {
-                "name": 'Color',
-                "color7"  : "#999900"
-            },
-            {
-                "name": 'Color',
-                "color8"  : "#FF3399"
-            },
-            {
-                "name": 'Color',
-                "color9"  : "#3399CC"
-            },
-            {
-                "name": 'Color',
-                "color10": "#888"
-            }
-        ];
-
         listChampionshipSrv.get({},
             function(result){
                 $scope.Championships = result.data;
@@ -88,7 +42,55 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             'Menores'
         ];
 
-         $scope.majorCategoryValues = [
+        $scope.divisions = [
+            {
+                name: 'Primera Honor',
+                cagetory: 'Mayores'
+            },
+            {
+                name: 'Primera Ascenso',
+                cagetory: 'Mayores'
+            },
+            {
+                name: 'Segunda Ascenso',
+                cagetory: 'Mayores'
+            },
+            {
+                name: 'Tercera Ascenso',
+                cagetory: 'Mayores'
+            },
+            {
+                name: 'Maxi Voleibol',
+                cagetory: 'Mayores'
+            },
+            {
+                name: 'Pre Mini',
+                cagetory: 'Menores'
+            },
+            {
+                name: 'Mini',
+                cagetory: 'Menores'
+            },
+            {
+                name: 'Infantil',
+                cagetory: 'Menores'
+            },
+            {
+                name: 'Cadetes',
+                cagetory: 'Menores'
+            },
+            {
+                name: 'Juvenil',
+                cagetory: 'Menores'
+            },
+            {
+                name: 'Sub-23',
+                cagetory: 'Menores'
+            }
+        ];
+
+
+        $scope.majorCategoryValues = [
             "Primera Honor",
             "Primera Ascenso",
             "Segunda Ascenso",
@@ -115,8 +117,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             var newTeam = {
                 name: $scope.newTeam.name,
                 championship: $scope.newTeam.championship,
-                division: $scope.newTeam.category === 'Mayores' ?
-                    $scope.newTeam.major : $scope.newTeam.minor,
+                division: $scope.newTeam.division.name,
                 branch: $scope.newTeam.branch,
                 category: $scope.newTeam.category,
                 club: currentClubId
@@ -137,7 +138,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                             }
                         }
                         $scope.setLocalAttributesClearance(team);
-                        $scope.Teams.unshift(team);
+                        $scope.Teams.push(team);
                         $('#create-team').modal('hide'); //hide modal
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
@@ -169,8 +170,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             var newTeam = {
                 name: $scope.newTeam.name,
                 championship: $scope.newTeam.championship,
-                division: $scope.newTeam.category === 'Mayores' ?
-                    $scope.newTeam.major : $scope.newTeam.minor,
+                division: $scope.newTeam.division.name,
                 branch: $scope.newTeam.branch,
                 category: $scope.newTeam.category
             };
@@ -278,6 +278,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
         $scope.formCreateTeam = function () {
             restartValidationFields();
             $scope.createMode = true;
+            $scope.permitEdit = true;
             $scope.editMode = false;
         };
 
@@ -348,10 +349,10 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                     'han terminado');
                 $.noty.stopConsumeAlert();
             }
+
             $scope.newTeam = {
                 name: team.name,
-                major: team.category === 'Mayores' ? team.division : null,
-                minor: team.category === 'Menores' ? team.division : null,
+                division: team.division,
                 branch: team.branch,
                 category: team.category,
                 championship: team.idChampionship,
@@ -363,11 +364,19 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
         $scope.setLocalAttributesClearance = function(team) {
             team.selected = false;
             team.isOver = false;
-            if (!team.players) {
+            if(!team.players) {
                 team.players = [];
             }
-            if (!team.color) {
+            if(!team.color) {
                 team.color = {code: 'color1'}
+            }
+            if(team.division){
+                for(var index = 0; index < $scope.divisions.length; index++){
+                    if($scope.divisions[index].name === team.division){
+                        team.division = $scope.divisions[index];
+                        break
+                    }
+                }
             }
         };
 
@@ -693,7 +702,119 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                     $.noty.stopConsumeAlert();
                     $scope.currentSelectedTeam.players.push(player);
                 })
-        }
+        };
 
+        var _tableToJsonMajor = function(players){
+            var data = [];
+            var cont = 0;
+
+            data.push({
+                'Nro':'Nro',
+                'Nombre Completo':'Apellidos y Nombres',
+                'Fecha de Nacimiento':'Fecha de Nac.',
+                'Club Origen':'Club Origen',
+                'Registro':'Registro Asociación'
+            });
+
+            for(var i = 0; i < players.length; i++){
+                var tableRow = players[i];
+                var lastname = tableRow.lastname ? tableRow.lastname : '';
+                var secondlastname = tableRow.secondlastname ?
+                    tableRow.secondlastname : '';
+                cont = cont + 1;
+                var number = String(cont);
+                var rowData = {};
+
+                rowData['Nro'] = number;
+                rowData['Nombre Completo'] = tableRow.name + ' ' + lastname
+                    + ' ' + secondlastname;
+                rowData['Fecha de Nacimiento'] = _obtainFormatDate(
+                    tableRow.dateOfBirth);
+                rowData['Club Origen'] = tableRow.transfer ?
+                    tableRow.transfer.originClub.name : $scope.currentClubName;
+                rowData['Registro'] = '' + tableRow.record;
+
+                data.push(rowData);
+            }
+            return data;
+        };
+
+        $scope.generateReport = function(){
+            var teamId = $scope.currentSelectedTeam.id;
+            var category = $scope.currentSelectedTeam.category;
+            var filteredPlayers = $scope.players.filter(
+                function(player){
+                    if(player.team.indexOf(teamId) !== -1){
+                        return player;
+                    }
+                }
+            );
+            if(category === 'Menores'){
+                _generateReportMinor($scope.currentSelectedTeam,
+                    filteredPlayers)
+            }else {
+                _generateReportMajor($scope.currentSelectedTeam,
+                    filteredPlayers)
+            }
+        };
+
+        var _obtainFormatDate = function(date){
+            if(date) {
+                var requestDate = new Date(date);
+                return requestDate.toLocaleDateString();
+            }
+            return '';
+        };
+
+        var _generateReportMajor = function(team, players){
+            var table = _tableToJsonMajor(players);
+            reportSrv.generateReportMajorCategory(table, team);
+        };
+
+        var _tableToJsonMinor = function(players){
+            var data = [];
+            var cont = 0;
+
+                data.push({
+                    Nro: 'Nro',
+                    'Nombre Completo': 'Apellidos y Nombres',
+                    'Fecha Nac.': 'Fecha Nac.',
+                    'O.R.C': 'O.R.C',
+                    'Libro Nro': 'Libro N.',
+                    'Part.':'Part.',
+                    'F. de Part.': 'F. de Part.',
+                    'Club Origen':'Club Origen',
+                    'Registro':'Reg. Aso.'
+                });
+            for(var i = 0; i < players.length; i++){
+                var tableRow = players[i];
+                var rowData = {};
+                cont = cont + 1;
+                var number = String(cont);
+                var lastname = tableRow.lastname ? tableRow.lastname : '';
+                var secondlastname = tableRow.secondlastname ?
+                    tableRow.secondlastname : '';
+
+                rowData['Nro'] = number;
+                rowData['Nombre Completo'] = tableRow.name + ' ' + lastname +
+                    ' ' + secondlastname;
+                rowData['Fecha Nac.'] = _obtainFormatDate(tableRow.dateOfBirth);
+                rowData['O.R.C'] = tableRow.officeBirthCert;
+                rowData['Libro Nro'] = tableRow.bookBirthCert;
+                rowData['Part.'] = tableRow.departureBirthCert;
+                rowData['F. de Part.'] = "";
+                rowData['Club Origen'] = tableRow.transfer ?
+                    tableRow.transfer.originClub.name : $scope.currentClubName;
+                rowData['Registro'] = '' + tableRow.record;
+
+                data.push(rowData);
+            }
+            return data;
+        };
+
+        var _generateReportMinor = function(team, players){
+            var table = _tableToJsonMinor(players);
+            reportSrv.generateReportMinorCategory(table, team);
+        }
     }
 ]);

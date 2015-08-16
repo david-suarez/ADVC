@@ -1,11 +1,13 @@
 advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
-    '$location', 'listUsersSrv', 'SessionService',
-    function($scope, $routeParams, $location, listUsersSrv, SessionService) {
+    '$location', 'listUsersSrv', 'SessionService', 'reportSrv',
+    function($scope, $routeParams, $location, listUsersSrv, SessionService,
+             reportSrv) {
         $scope.Users = {};
         $scope.newUser = {};
         $scope.userId = {};
         $scope.createMode = false;
         $scope.editMode = false;
+        var imageConfig = null;
         var restartValidationFields = function(){
             $scope.isNameValid = true;
             $scope.isLastNameValid = true;
@@ -240,7 +242,39 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
                 $.noty.stopConsumeAlert();
             }
 
+        };
+
+        $scope.tableToJson = function(){
+            var data = [];
+            var cont = 0;
+
+            data.push({
+                'Nro': 'Nro',
+                'Nombre Completo': 'Nombre Completo',
+                'Nombre de Usuario': 'Nombre de usuario',
+                'Rol de Usuario': 'Rol de usuario'
+            });
+            for(var i = 0; i < $scope.Users.length; i++){
+                var tableRow = $scope.Users[i];
+                cont = cont + 1;
+                var number = String(cont);
+                var rowData = {};
+
+                rowData['Nro'] = number;
+                rowData['Nombre Completo'] = tableRow.name +" "+tableRow.lastname;
+                rowData['Nombre de Usuario'] = tableRow.username;
+                rowData['Rol de Usuario'] = tableRow.role;
+
+                data.push(rowData);
+            }
+            return data;
+        };
+
+        $scope.generateReport = function(){
+            var table = $scope.tableToJson();
+            reportSrv.generateReportOfUsers(table);
         }
+
     }
 
 ]);

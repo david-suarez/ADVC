@@ -28,6 +28,15 @@
                                 </b></th>
                         </div>
                         <div class="form-group">
+                            <label for="inputCategory">Categoria</label>
+                            <select id="inputCategory" ng-model="cat"  ng-options="catg for catg in category"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputDivision">Division</label>
+                            <select id="inputDivision" ng-model="newTransfer.division" ng-disabled="!cat" ng-options="division.name for division in divisions | filter:cat"></select>
+                        </div>
+
+                        <div class="form-group">
                             <label>Club Destino</label>
                             <label  for="inputNewClub" class="sr-only">Club Destino</label>
                             <div allow="No.Change.Dest.Club" style="display: inline;">
@@ -66,10 +75,12 @@
                     <th>Jugador</th>
                     <th>Club Origen</th>
                     <th>Club Destino</th>
+                    <th>Division</th>
                     <th>Fecha</th>
                     <th>Estado</th>
                     <th>Editar</th>
                     <th allow="AcceptTransfers">Transferir</th>
+                    <th>Imprimir</th>
                 </tr>
                 </thead>
                 <tbody ng-repeat="transfer in Transfers | filter:searchText">
@@ -77,6 +88,7 @@
                     <td>{{transfer.player.name}} {{transfer.player.lastname}}</td>
                     <td>{{transfer.originClub.name}}</td>
                     <td>{{transfer.newClub.name}}</td>
+                    <td>{{transfer.division}}</td>
                     <td>{{obtainFormatDate(transfer.requestDate)}}</td>
                     <td>{{transfer.status}}</td>
                     <td><button type="button" class="btn btn-warning" ng-click="formEditTransfer(transfer, $index)" data-toggle="modal"
@@ -84,6 +96,9 @@
                     <td allow="AcceptTransfers">
                         <button type="button" class="btn btn-primary" ng-click="transferPLayer(transfer._id, $index)" ng-disabled="transfer.status == 'Transferido'">
                         Transferir</button></td>
+                    <td>
+                        <button type="button" class="btn btn-info" ng-click="generateReport(transfer, $index)">
+                        Imprimir</button></td>
                 </tr>
                 </tbody>
             </table>

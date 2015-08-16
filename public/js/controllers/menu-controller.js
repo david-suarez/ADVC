@@ -37,7 +37,6 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$route', '$routeParams',
                 href: '/changePassword',
                 allow: "Menu.Change.Execute"
             }
-
         ];
         $rootScope.$on('userAuthenticated', function(event, booleanData) {
             $scope.userIsAuthenticated = booleanData;

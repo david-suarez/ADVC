@@ -24,7 +24,8 @@ var PlayerRoute = (function() {
         var playerId = request.params.playerId;
         var populateQuery = [
             {path:'club', select:'_id name'},
-            {path:'team', select:'_id category division name'}
+            {path:'team', select:'_id category division name'},
+            {path:'transfer', select:'_id originClub'}
         ];
         PlayerModel.findById(playerId).populate(populateQuery)
             .exec(function(error, data) {
@@ -41,12 +42,28 @@ var PlayerRoute = (function() {
     PlayerRoute.prototype.getPlayers = function(request, response){
         var self = this;
         var filter = request.query;
-        var query = PlayerModel.find(filter).sort({status: -1});
+        var populateQuery = [
+            {path:'transfer', select:'_id originClub'},
+        ];
+        var query = PlayerModel
+            .find(filter)
+            .sort({status: -1})
+            .populate(populateQuery);
         query.exec(function(error, data) {
             if (error) {
                 response.status(500).json(error.message);
             } else {
-                response.status(200).json({data: data});
+                var options = {
+                    path: 'transfer.originClub',
+                    model: 'Club',
+                    select: 'name'
+                };
+                PlayerModel.populate(data, options, function(err, players){
+                    if(!err)
+                        response.status(200).json({data: players});
+                    else
+                        response.status(500).json(error.message);
+                });
             }
         });
     };
@@ -90,9 +107,7 @@ var PlayerRoute = (function() {
                 }
                 else{
                     for (var key in newDataPlayer) {
-                        if(typeof(player[key]) !== 'undefined'){
-                            player[key] = newDataPlayer[key];
-                        }
+                        player[key] = newDataPlayer[key];
                     }
                     player.save(function(err, playerUpdated){
                         if(err){

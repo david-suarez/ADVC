@@ -178,9 +178,13 @@ var _validateMinorTeam = function(team){
         if(error){
             deferred.reject(error);
         } else if(teams.length) {
-            duplicateError = new Error('duplicate team');
-            duplicateError.code = 409;
-            deferred.reject(duplicateError);
+            if(teams[0].players.length === team.players.length){
+                duplicateError = new Error('duplicate team');
+                duplicateError.code = 409;
+                deferred.reject(duplicateError);
+            }else{
+                deferred.resolve(true);
+            }
         } else{
             deferred.resolve(true);
         }

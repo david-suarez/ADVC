@@ -1,7 +1,8 @@
 advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
     '$location', 'listClubsSrv','listUsersSrv', 'SessionService',
+    'reportSrv',
     function($scope, $routeParams, $location, listClubsSrv, listUsersSrv,
-             SessionService) {
+             SessionService, reportSrv) {
         $scope.Clubs = {};
         $scope.newClub = {};
         $scope.formName = '';
@@ -207,7 +208,6 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
         };
 
         $scope.formTeams = function(club){
-            //var path = '/listClubs/' + club.name +'/'+ club._id + '/listTeams';
             var path = '/listClubs/'+ club.name +'/'+ club._id + '/clubInfo';
             $location.path(path);
         };
@@ -232,6 +232,36 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
             $event.preventDefault();
             $event.stopPropagation();
             $scope.opened = true;
+        };
+
+        $scope.tableToJson = function(){
+            var data = [];
+            var headers = [];
+            var cont = 0;
+
+            data.push({Nro:'Nro','Nombre Club':'Nombre Club',
+                'Fundacion':'Fundación', 'Delegado':'Delegado'});
+            for(var i = 0; i < $scope.Clubs.length; i++){
+                var tableRow = $scope.Clubs[i];
+                cont = cont + 1;
+                var number = String(cont);
+                var rowData = {};
+
+                rowData['Nro'] = number;
+                rowData['Nombre Club'] = tableRow.name;
+                rowData['Fundacion'] = $scope.obtainFormatDate(
+                    tableRow.foundation);
+                rowData['Delegado'] = tableRow.delegate.name + " " +
+                    tableRow.delegate.lastname;
+
+                data.push(rowData);
+            }
+            return data;
+        };
+
+        $scope.generateReport = function(){
+            var table = $scope.tableToJson();
+            reportSrv.generateReportOfClubs(table);
         };
     }
 ]);

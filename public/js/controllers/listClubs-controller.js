@@ -236,7 +236,6 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
 
         $scope.tableToJson = function(){
             var data = [];
-            var headers = [];
             var cont = 0;
 
             data.push({Nro:'Nro','Nombre Club':'Nombre Club',
@@ -246,14 +245,16 @@ advcApp.controller('listClubsCtrl', ['$scope', '$routeParams',
                 cont = cont + 1;
                 var number = String(cont);
                 var rowData = {};
-
+                var nameDelegate = '';
+                if(tableRow.delegate){
+                    nameDelegate = tableRow.delegate.name + " " +
+                        tableRow.delegate.lastname
+                }
                 rowData['Nro'] = number;
                 rowData['Nombre Club'] = tableRow.name;
-                rowData['Fundacion'] = $scope.obtainFormatDate(
-                    tableRow.foundation);
-                rowData['Delegado'] = tableRow.delegate.name + " " +
-                    tableRow.delegate.lastname;
-
+                rowData['Fundacion'] = tableRow.foundation ?
+                    $scope.obtainFormatDate(tableRow.foundation) : '';
+                rowData['Delegado'] = nameDelegate;
                 data.push(rowData);
             }
             return data;

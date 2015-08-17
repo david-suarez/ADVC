@@ -337,7 +337,6 @@ advcApp.factory('reportSrv', ['configSrv', function(configSrv){
                 player.name ;
             var place = player.cityOfBirth;
             var dateBirth = player.dateOfBirth;
-            var Obs = 'Aqui Observaciones';
             var today = new Date();
             var todayYear = today.getFullYear();
 
@@ -410,7 +409,6 @@ advcApp.factory('reportSrv', ['configSrv', function(configSrv){
             doc.rect(75, 800, 460, 85);
             doc.text(95, 815, 'OBSERVACIONES V B Y APROBACION COMISIÓN');
             doc.text(95, 835, 'DE ORGANIZACIÓN DEPORTIVA:');
-            doc.text(95, 855, Obs);
             doc.cellInitialize();
 
             $.each(table, function(i,row){

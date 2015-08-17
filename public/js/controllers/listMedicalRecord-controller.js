@@ -78,7 +78,7 @@ advcApp.controller('listMedicalRecordCtrl', ['$scope', '$routeParams',
             var home= $scope.newMedicalRecord.home;
             var weightRegEx = /^[0-9]+([\.][0-9]*)?$/;
             var heightRegEx = /^[0-9]+([\.][0-9]*)?$/;
-            var homeRegEx = /[a-zA-Z1-9À-ÖØ-öø-ÿ]+\.?(( |\-)[a-zA-Z1-9À-ÖØ-öø-ÿ]+\.?)* (((#|[nN][oO]?º?\.?) ?)?\d{1,4}(( ?[a-zA-Z0-9\-]+)+)?)/;
+            var homeRegEx =  /^[a-zA-Z0-9_]{3,16}$/;
 
             if (!weight){
                 $.noty.consumeAlert({layout: 'topCenter',

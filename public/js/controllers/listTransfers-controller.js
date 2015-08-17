@@ -262,7 +262,7 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
             }
             if(transfer.division){
                 for(indexDivision; indexDivision < $scope.divisions.length; indexDivision++){
-                    if($scope.divisions[index].name === transfer.division)
+                    if($scope.divisions[indexDivision].name === transfer.division)
                         break;
                 }
             }

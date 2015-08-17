@@ -106,7 +106,7 @@ advcApp.factory('reportSrv', ['configSrv', function(configSrv){
             var club = team.club;
             var teams = team.name;
             var category = team.category;
-            var division = team.division;
+            var division = team.division ? team.division.name : '';
             var branch = team.branch;
             var nameChampionship = team.nameChampionship;
             var today = new Date();
@@ -204,7 +204,7 @@ advcApp.factory('reportSrv', ['configSrv', function(configSrv){
             var club = team.club;
             var teams = team.name;
             var category = team.category;
-            var division = team.division;
+            var division = team.division ? team.division.name : '';
             var branch = team.branch;
             var nameChampionship = team.nameChampionship;
             var today = new Date();

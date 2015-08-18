@@ -25,12 +25,7 @@ advcApp.service('SessionService', ["$http", function($http) {
         },
         //call server /logout route 
         logoutServer: function() {
-            $http({method: 'GET', url: '/logout'}).
-                success(function(data, status, headers, config) {
-                }).
-                error(function(data, status, headers, config) {
-                    alert('Ocurrio un error en la función de deslogueo.')
-                });
+            $http.get('/logout');
         }
 
     };

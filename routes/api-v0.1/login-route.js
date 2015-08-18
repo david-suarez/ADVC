@@ -47,12 +47,7 @@ var LoginRoute = (function(){
 
     LoginRoute.prototype.logoutUser = function(request, response){
         request.logout();
-        request.session.save(function (err) {
-            if (err) {
-                response.status(500).json({ success: false });
-            }
-            response.status(200).json({ success: true });
-        });
+        res.redirect('/mainBoard');
     };
 
     return LoginRoute;

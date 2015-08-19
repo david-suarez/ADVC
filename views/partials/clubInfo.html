@@ -213,7 +213,7 @@
                             <div class="advc-card-w220-h80-layout highlight-parent accept-d"
                                  data-drag="isFirstTeamSelected"
                                  data-jqyoui-options="{revert: 'invalid', helper: 'clone',opacity: 1, cursor: 'move', cursorAt: { top: 40, left: 110 }, distance: 20, appendTo: 'body',containment: '.table' }"
-                                 jqyoui-draggable="{index: {{$index}}, placeholder:true,opacity: 0.5, animate:true, onStart: 'dragObject(player)', onStop: 'dragFinishObject(player)'}"
+                                 jqyoui-draggable="{index: {{$index}}, placeholder:true,opacity: 0.5, animate:true, onStart: 'dragObject(player, $index)', onStop: 'dragFinishObject(player)'}"
                                  ng-class="{'advc-bg-color-gray': !isEnableToPlay(player)}">
 
                                 <div class="advc-highlight-mouse-over-card-animated" ng-dblclick="goToKardex(player)">

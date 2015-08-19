@@ -13,6 +13,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
         $scope.createMode = false;
         $scope.editMode = false;
         $scope.permitEdit = true;
+        var currentIndexDragPlayer = -1;
 
         listPlayersSrv.get({ club: currentClubId },
             function(players){
@@ -340,6 +341,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
         };
 
         $scope.formEditTeam = function(team, index){
+            restartValidationFields();
             if(!_isValidInscriptionDate()){
                 $.noty.consumeAlert({layout: 'topCenter',
                     type: 'warning', dismissQueue: true ,
@@ -435,7 +437,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                     type: 'warning', dismissQueue: true ,
                     timeout:2000 });
                 alert('El jugador ya pertenece a otro equipo de la categoria ' +
-                    'mayor. La asignación que desea haces no es posible.');
+                    'mayor. La asignación que desea hacer no es posible.');
                 $.noty.stopConsumeAlert();
                 return false;
             } else{
@@ -558,7 +560,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             };
             var newDataPlayer = {
                 team:  player.team,
-                majorCategory: team.category === 'Mayores' ? true: false
+                majorCategory: team.category === 'Mayores' ? true : false
             };
             listTeamSrv.update({teamId: teamId}, {newDataTeam: newDataTeam},
                 function(dataResult){
@@ -573,6 +575,9 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                                 "exitosamente al equipo '" + team.name +
                                 "'." );
                             $.noty.stopConsumeAlert();
+                            $rootScope.$emit('assignPlayer', resultPlayer,
+                                currentIndexDragPlayer);
+
                         },
                         function(error){
                             $.noty.consumeAlert({layout: 'topCenter',
@@ -597,9 +602,10 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                 });
         };
 
-        $scope.dragObject = function(event, ui, player) {
+        $scope.dragObject = function(event, ui, player, index) {
             $scope.draggingInProcess = true;
             $scope.currentDragPlayer = player;
+            currentIndexDragPlayer = index;
         };
 
         $scope.dragFinishObject = function(event, ui) {
@@ -678,6 +684,13 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                                 "exitosamente del equipo '" +
                                 $scope.currentSelectedTeam.name + "'." );
                             $.noty.stopConsumeAlert();
+                            var index = 0;
+                            for(index ; index < $scope.players.length; index++){
+                                if($scope.players[index]._id ===
+                                    resultPlayer._id){
+                                    $scope.players[index] = resultPlayer;
+                                }
+                            }
                         },
                         function(error){
                             $.noty.consumeAlert({layout: 'topCenter',

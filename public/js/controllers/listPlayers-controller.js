@@ -1,7 +1,7 @@
-advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
+advcApp.controller('listPlayersCtrl', ['$scope', '$rootScope', '$routeParams',
     '$location', 'listPlayersSrv', '$modal', 'fileUploadSrv',
-    function($scope, $routeParams, $location, listPlayersSrv, $modal,
-             fileUploadSrv) {
+    function($scope, $rootScope, $routeParams, $location, listPlayersSrv,
+             $modal, fileUploadSrv) {
         $scope.currentClubId = $routeParams.clubId;
         $scope.filteredPlayers = {};
         $scope.defaultImage = 'img/default-avatar.png';
@@ -121,6 +121,12 @@ advcApp.controller('listPlayersCtrl', ['$scope', '$routeParams',
         $scope.handlePrevious = function () {
             $scope.step -= ($scope.isFirstStep()) ? 0 : 1;
         };
+
+        $rootScope.$on('assignPlayer', function(event, playerData, index){
+            if($scope.filteredPlayers[index]){
+                $scope.filteredPlayers[index] = playerData;
+            }
+        });
 
         var addressIsValid = function(){
             var address = $scope.wizard.address;

@@ -561,3 +561,16 @@
     background-color: #DEDEDE;
     height: 46px;
 }
+
+.menu-item{
+    color: #848484;
+    padding-top: 0px;
+}
+
+.menu-item>a:hover,
+.selected-menu-item {
+    /*padding-top: 10px;*/
+    color: white !important;
+    border-bottom: 5px solid #327AE0;
+    background: rgba(0, 0, 0, 0.0);
+}

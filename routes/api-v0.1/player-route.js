@@ -106,7 +106,22 @@ var PlayerRoute = (function() {
                     response.status(500).json(error.message);
                 }
                 else{
+                    var lenghtTeam = player.team.length;
                     for (var key in newDataPlayer) {
+                        if(key === 'majorCategory' &&
+                            typeof(player.majorCategory) !== 'undefined'){
+                            if(lenghtTeam > newDataPlayer.team.length){
+                                player.majorCategory = newDataPlayer[key];
+                                continue;
+                            }
+                            else{
+                                player.majorCategory = true;
+                                continue;
+                            }
+                        } else if(key === 'majorCategory'){
+                            player.majorCategory = newDataPlayer[key];
+                            continue;
+                        }
                         player[key] = newDataPlayer[key];
                     }
                     player.save(function(err, playerUpdated){

@@ -86,6 +86,7 @@ advcApp.controller('mainCtrl', [
                 reference: $scope.newPublication.reference,
                 type: $scope.newPublication.type,
                 file: idFile,
+                date: new Date(),
                 fileName: fileName
             };
             if ($scope.fieldsAreValid(data)) {

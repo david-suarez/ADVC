@@ -11,7 +11,7 @@ advcApp.controller('configCtrl', ['$scope', '$routeParams',
             $scope.seguro=data;
         });
         response.error(function(data, status, headers, config) {
-            alert("Ha fallado la petición. Estado HTTP:"+status);
+            alert("Ha fallado la peticiÃ³n. Estado HTTP:"+status);
         });
 
     }]);

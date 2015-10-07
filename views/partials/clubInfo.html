@@ -223,7 +223,7 @@
                                          ng-click="removePlayerOfTeam(player, $index)"
                                          tooltip="Remover del equipo.">
                                     </div>
-                                    <div allow="Player.Edit">
+                                    <div>
                                         <div class="float-right pointer custom-margin-icon-hab icon-done-20px"
                                              ng-class="{'advc-color11': isEnableToPlay(player)}"
                                              tooltip-placement="right"
@@ -300,24 +300,27 @@
                                             </div>
                                             <div class="col-xs-6">
                                                 <div class="form-group">
-                                                    <label class="control-label" for="firstName" >Nombres</label>
+                                                    <label class="control-label" for="firstName" >Nombres(*)</label>
                                                     <div>
                                                         <input class="form-control" type="text" class="input-xlarge" id="firstName" ng-model="wizard.name">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="control-label" for="lastName">Apellidos Paterno</label>
+                                                    <label class="control-label" for="lastName">Apellidos Paterno(**)</label>
                                                     <div>
                                                         <input class="form-control" type="text" class="input-xlarge" id="lastName" ng-model="wizard.lastname">
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label class="control-label" for="secondLastName">Apellidos Materno</label>
+                                                    <label class="control-label" for="secondLastName">Apellidos Materno(**)</label>
                                                     <div>
                                                         <input class="form-control" type="text" class="input-xlarge" id="secondLastName" ng-model="wizard.secondlastname">
                                                     </div>
                                                 </div>
+                                                <p>(*) Campos Requeridos</p>
+                                                <p>(**) Al menos el jugador deberá tener un apellido</p>
                                             </div>
+
                                         </div>
                                     </div>
                                     <div ng-show="getCurrentStep() == 'two'" class="wave">
@@ -326,7 +329,8 @@
                                                 <div class="form-group" id='datetimepicker'>
                                                     <label>Fecha de nacimiento(*)</label>
                                                     <p class="input-group">
-                                                        <input type="text" placeholder="dd/mm/yyyy" id="inputDate" class="form-control" datepicker-popup="{{format}}" is-open="opened" mindate="minDate" max-date="{{today}}"
+                                                        <input type="text" placeholder="dd/m<p>(*) Campos Requeridos</p>
+                                            <p>(**) Al menos el jugador deberá tener un apellido</p>m/yyyy" id="inputDate" class="form-control" datepicker-popup="{{format}}" is-open="opened" mindate="minDate" max-date="{{today}}"
                                                                datepicker-options="dateOptions" ng-required="true"
                                                                close-text="Close" ng-model="wizard.dateOfBirth" ng-change="dateOfBirthChange()" ng-click="open($event)" disabled>
                                                         <span class="input-group-btn">
@@ -480,7 +484,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Campeonato(*)</label>
-                                <select ng-model="newTeam.championship" ng-options="championship._id as championship.name for championship in Championships" ng-disabled="!permitEdit"/>
+                                <select ng-model="newTeam.championship" ng-options="championship._id as championship.name for championship in Championships| filter:championship.permitInscription" ng-disabled="!permitEdit"/>
                             </div>
                         </form>
                     </div>

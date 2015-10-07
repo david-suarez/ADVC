@@ -59,8 +59,12 @@
     cursor: pointer;
 }
 .menu .right-menu .loggedName {
-    margin-top: -20px;
+    margin-top: -50px;
     color: white;
+}
+.menu .right-menu .loggedRole {
+    margin-top: -20px;
+    color: lightgrey;
 }
 .menu .right-menu .language-choices {
     font-size: 10px;

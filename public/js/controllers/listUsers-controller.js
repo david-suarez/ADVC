@@ -137,7 +137,21 @@ advcApp.controller('listUsersCtrl', ['$scope', '$routeParams',
                             $scope.newUser = {};
                         },
                         function(error){
-                            console.log(error);
+                            if(error.status === 400){
+                                $.noty.consumeAlert({layout: 'topCenter',
+                                    type: 'warning', dismissQueue: true ,
+                                    timeout:2000 });
+                                alert("El nombre de usuario ya existe intente" +
+                                    " con uno diferente.");
+                                $.noty.stopConsumeAlert();
+                            }else if(error.status === 500){
+                                $.noty.consumeAlert({layout: 'topCenter',
+                                    type: 'warning', dismissQueue: true ,
+                                    timeout:2000 });
+                                alert('Hubo un problema en el servidor. ' +
+                                    'Por favor intente mas tarde');
+                                $.noty.stopConsumeAlert();
+                            }
                         }
                     );
                 }

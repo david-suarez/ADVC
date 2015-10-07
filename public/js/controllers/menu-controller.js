@@ -149,6 +149,7 @@ advcApp.controller('menuCtrl', ['$scope', '$http', '$route', '$routeParams',
         if(isLogged) {
             $scope.userIsAuthenticated = true;
             $scope.loggedUser = SessionService.get('user');
+            $scope.loggedRole = SessionService.get('userRole');
             $scope.userId = SessionService.get('userId');
         }
 

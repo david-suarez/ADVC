@@ -27,11 +27,36 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
         listChampionshipSrv.get({},
             function(result){
                 $scope.Championships = result.data;
+                var index = 0;
+                var removeItems = [];
+                for(index; index < $scope.Championships.length; index++){
+                    if(!$scope.validateInscriptionChampionships(
+                        $scope.Championships[index])){
+                        removeItems.push(index);
+                    }
+                }
+                index = 0;
+                removeItems.sort(function(a, b){return b-a});
+                for(index; index < removeItems.length; index++){
+                    var remIndex = removeItems[index];
+                    $scope.Championships.splice(remIndex, 1);
+                }
             },
             function(error){
                 console.log(error);
             }
         );
+
+        $scope.validateInscriptionChampionships = function(championship){
+            var currentDate = new Date();
+            var initialInsDate = new Date(championship.initial_inscription_date);
+            var finalInsDate = new Date(championship.final_inscription_date);
+            if(currentDate >= initialInsDate && currentDate <= finalInsDate){
+                return true;
+            } else {
+                return false;
+            }
+        };
 
         $scope.branchValues = [
             'Femenino',
@@ -138,7 +163,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                                 break;
                             }
                         }
-                        $scope.setLocalAttributesClearance(team);
+                        $scope.setLocalAttributesTeam(team);
                         $scope.Teams.push(team);
                         $('#create-team').modal('hide'); //hide modal
                         $('body').removeClass('modal-open');
@@ -190,7 +215,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
                             }
                         }
                         $scope.currentSelectedTeam = null;
-                        $scope.setLocalAttributesClearance(team);
+                        $scope.setLocalAttributesTeam(team);
                         $scope.selectedTeam(team, teamIndex);
                         $scope.Teams[teamIndex] = team;
                         $('#create-team').modal('hide'); //hide modal
@@ -268,7 +293,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             function(result){
                 $scope.Teams = result.data;
                 for(var index = 0; index < $scope.Teams.length; index++){
-                    $scope.setLocalAttributesClearance($scope.Teams[index]);
+                    $scope.setLocalAttributesTeam($scope.Teams[index]);
                 }
             },
             function(error){
@@ -363,7 +388,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             };
         };
 
-        $scope.setLocalAttributesClearance = function(team) {
+        $scope.setLocalAttributesTeam = function(team) {
             team.selected = false;
             team.isOver = false;
             if(!team.players) {

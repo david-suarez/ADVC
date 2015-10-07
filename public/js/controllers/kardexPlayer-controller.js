@@ -12,7 +12,6 @@ advcApp.controller("kardexPlayerCtrl", ['$scope', '$http', '$routeParams',
         listPlayersSrv.get({_id: playerId},
             function(playerResult){
                 $scope.currentPlayer = playerResult.data[0];
-                console.log($scope.currentPlayer);
             },
             function(error){
                 console.log(error)

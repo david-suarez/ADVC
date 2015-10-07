@@ -29,7 +29,10 @@
                 </div>
 
                 <div id="div-logout-app" ng-if="userIsAuthenticated == true">
-                    <div class="loggedName"> {{loggedUser}} </div>
+                    <div class="loggedName"> {{loggedUser}} <br>
+                        <div style="color: grey">{{loggedRole}}</div>
+                    </div>
+
                     <a id="div-logout-app-a-logout"
                        ng-click="goToLogoutPage()">
                         {{autenticate.logout}}

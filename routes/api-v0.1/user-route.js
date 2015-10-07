@@ -96,7 +96,12 @@ var UserRoute = (function(){
         UserModel.register(new UserModel(newUser), request.body.user.password,
             function(err, account) {
                 if (err) {
-                    response.status(500).json(err.message);
+                    console.log(err);
+                    if(err.name === 'User already exists'){
+                        response.status(400).json(err.message);
+                    }else {
+                        response.status(500).json(err.message);
+                    }
                 } else {
                     response.status(201).json(account);
                 }

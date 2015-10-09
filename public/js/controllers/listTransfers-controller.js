@@ -140,7 +140,7 @@ advcApp.controller('listTransfersCtrl', ['$scope', '$routeParams',
         $scope.obtainFormatDate = function(date){
             if(date) {
                 var requestDate = new Date(date);
-                return requestDate.toLocaleDateString();
+                return requestDate.toLocaleDateString("es-bo");
             }
             return '';
         };

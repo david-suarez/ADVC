@@ -51,7 +51,8 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
             var currentDate = new Date();
             var initialInsDate = new Date(championship.initial_inscription_date);
             var finalInsDate = new Date(championship.final_inscription_date);
-            if(currentDate >= initialInsDate && currentDate <= finalInsDate){
+            finalInsDate.setDate(finalInsDate.getDate() + 1);
+            if(currentDate >= initialInsDate && currentDate < finalInsDate){
                 return true;
             } else {
                 return false;
@@ -799,7 +800,7 @@ advcApp.controller('listTeamsCtrl', ['$scope', '$rootScope', '$routeParams',
         var _obtainFormatDate = function(date){
             if(date) {
                 var requestDate = new Date(date);
-                return requestDate.toLocaleDateString();
+                return requestDate.toLocaleDateString("es-bo");
             }
             return '';
         };

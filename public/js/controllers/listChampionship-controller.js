@@ -242,7 +242,11 @@ advcApp.controller('listChampionshipCtrl', ['$scope', '$routeParams',
         $scope.obtainFormatDate = function(date){
             if(date) {
                 var foundDate = new Date(date);
-                return foundDate.toLocaleDateString();
+                var options = {
+                    weekday: "long", year: "numeric", month: "short",
+                    day: "numeric"
+                };
+                return foundDate.toLocaleDateString("es-bo", options);
             }
             return '';
         };

@@ -81,7 +81,7 @@ advcApp.controller('ModalCtrl', ['$rootScope', '$scope', '$modalInstance', 'list
         $scope.obtainFormatDate = function(date){
             if(date) {
                 var foundDate = new Date(date);
-                return foundDate.toLocaleDateString();
+                return foundDate.toLocaleDateString("es-bo");
             }
             return '';
         };

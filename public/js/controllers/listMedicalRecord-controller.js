@@ -230,7 +230,7 @@ advcApp.controller('listMedicalRecordCtrl', ['$scope', '$routeParams',
         $scope.obtainFormatDate = function(date){
             if(date) {
                 var foundDate = new Date(date);
-                return foundDate.toLocaleDateString();
+                return foundDate.toLocaleDateString("es-bo");
             }
             return '';
         };
